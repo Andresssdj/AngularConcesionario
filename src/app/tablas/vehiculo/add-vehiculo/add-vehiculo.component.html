@@ -1,0 +1,32 @@
+
+<div class="container">
+    <form [formGroup]="vehiculoForm"(ngSubmit)="addVehiculo()">
+      <h3>Crear vehiculo</h3>
+      <input type="hidden" name="id" id="txtId" formControlName="id">
+      <div class="form-group">
+        <label for="name">Modelo</label>
+        <input type="text" class="form-control" name="txtmodelo" formControlName="modelo" id="txtmodelo" >
+      </div>
+      <div class="form-group">
+        <label for="name">Centimetros cubicos</label>
+        <input type="text" class="form-control" name="txtcentimetrosCubivos" formControlName="centimetrosCubicos" id="txtcentimetrosCubivos" aria-label="First name" >
+      </div>
+      <div class="form-group">
+        <label for="name">Placa</label>
+        <input type="text" class="form-control" name="txtplaca" formControlName="placa" id="txtplaca" >
+      </div>
+      <div class="form-group">
+        <label for="name">precio</label>
+        <input type="text" class="form-control" name="txtprecio" formControlName="precio" id="txtprecio" >
+      </div>
+      <div class="form-group">
+        <label for="name">Color</label>
+        <input type="text" class="form-control" name="txtcolor" formControlName="color" id="txtcolor" >
+      </div>
+      <br>
+      <div>
+        <input type="submit" value="Guardar" class="btn btn-success"/>
+      </div>
+    </form>
+  </div>
+  

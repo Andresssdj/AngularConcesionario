@@ -1,0 +1,16 @@
+
+
+<div class="container">
+<form [formGroup]="rolForm"(ngSubmit)="addRol()">
+  <h3>Crear rol</h3>
+  <input type="hidden" name="id" id="txtId" formControlName="id">
+  <div class="form-group">
+    <label for="name">Nombre rol</label>
+    <input type="text" class="form-control" name="txtrol" formControlName="rol" id="txtrol">
+  </div>
+  <br>
+  <div>
+    <input type="submit" value="Guardar" class="btn btn-success"/>
+  </div>
+</form>
+</div>

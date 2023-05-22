@@ -1,0 +1,28 @@
+
+
+<div class="container">
+<form [formGroup]="concesionarioForm"(ngSubmit)="addConcesionario()">
+  <h3>Crear concesionario</h3>
+<input type="hidden" name="id" id="txtId" formControlName="id">
+<div class="form-group">
+  <label for="name">Ciudad</label>
+  <input type="text" class="form-control" name="txtciudad" formControlName="ciudad" id="txtciudad">
+</div>
+<div class="form-group">
+  <label for="name">Direccion</label>
+  <input type="text" class="form-control" name="txtdireccion" formControlName="direccion" id="txtdireccion" >
+</div>
+<div class="form-group">
+  <label for="name">Nombre</label>
+  <input type="text" class="form-control" name="txtnombre" formControlName="nombre" id="txtnombre" >
+</div>
+<div class="form-group">
+  <label for="name">telefono</label>
+  <input type="text" class="form-control" name="txtphone" formControlName="telefono" id="txtphone" >
+</div>
+<br>
+<div>
+  <input type="submit" value="Guardar"   class="btn btn-success"/>
+</div>
+</form>
+</div>

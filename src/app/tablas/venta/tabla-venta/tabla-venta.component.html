@@ -1,0 +1,50 @@
+<div class="container">
+  
+  <div class="table">
+    <table class="table table-bordered">
+      <h3>Lista ventas</h3>
+      <thead class="table-dark">
+          <th>id venta</th>
+          <th>fecha de la venta</th>
+          <th>metodos de pago</th>
+          <th>monto total</th>
+          <th>Acciones</th>
+
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of listVenta">
+       <td>
+        <div *ngIf="condition; else elseBlock">
+          {{item.id_Venta}}
+        </div>
+        <ng-template #elseBlock>
+          <input type="text" [(ngModel)]="venta.id_Venta" />
+        </ng-template>
+       </td>
+       <td>
+         <div *ngIf="condition; else elseBlock">
+          {{item.fechaVenta}}
+        </div>
+        <ng-template #elseBlock><input type="text" [(ngModel)]="venta.fechaVenta" /></ng-template>
+       </td>
+       <td>
+        <div *ngIf="condition; else elseBlock">
+         {{item.metodosDePago}}
+       </div>
+       <ng-template #elseBlock><input type="text" [(ngModel)]="venta.metodosDePago" /></ng-template>
+      </td>
+      <td>
+        <div *ngIf="condition; else elseBlock">
+         {{item.montoTotal}}
+       </div>
+       <ng-template #elseBlock><input type="text" [(ngModel)]="venta.montoTotal" /></ng-template>
+      </td>
+       <td>
+           <!--<a class="btn btn-success" (click)="editar()">Editar</a>-->
+          <a class="btn btn-danger" (click)="delete(item.id_Venta)">Eliminar</a>
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+</div>

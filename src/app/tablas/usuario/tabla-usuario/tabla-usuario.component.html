@@ -1,0 +1,63 @@
+<div class="container">
+<div class="table">
+  <table class="table table-bordered">
+    <h3>Lista Usuarios</h3>
+    <thead class="table-dark">
+        <th>id</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>correo</th>
+        <th>telefono</th>
+        <th>fecha nacimiento</th>
+        <th>Acciones</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of listUser">
+      <td>
+        <div *ngIf="condition; else elseBlock">
+          {{item.id_Usuario}}
+        </div>
+        <ng-template #elseBlock>
+          <input type="text" [(ngModel)]="usuario.id_Usuario" />
+        </ng-template>
+       </td>
+       <td>
+         <div *ngIf="condition; else elseBlock">
+          {{item.nombre}}
+        </div>
+        <ng-template #elseBlock><input type="text" [(ngModel)]="usuario.nombre" /></ng-template>
+       </td>
+       <td>
+        <div *ngIf="condition; else elseBlock">
+         {{item.apellido}}
+       </div>
+       <ng-template #elseBlock><input type="text" [(ngModel)]="usuario.apellido" /></ng-template>
+      </td>
+      <td>
+        <div *ngIf="condition; else elseBlock">
+         {{item.correo}}
+       </div>
+       <ng-template #elseBlock><input type="text" [(ngModel)]="usuario.correo" /></ng-template>
+      </td>
+      <td>
+        <div *ngIf="condition; else elseBlock">
+         {{item.telefono}}
+       </div>
+       <ng-template #elseBlock><input type="text" [(ngModel)]="usuario.telefono" /></ng-template>
+      </td>
+      <td>
+        <div *ngIf="condition; else elseBlock">
+         {{item.fechaNacimiento}}
+       </div>
+       <ng-template #elseBlock><input type="text" [(ngModel)]="usuario.fechaNacimiento" /></ng-template>
+      </td>
+
+       <td>
+           <!--<a class="btn btn-success" (click)="editar()">Editar</a>-->
+          <a class="btn btn-danger" (click)="delete(item.id_Usuario)">Eliminar</a>
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+</div>

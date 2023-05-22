@@ -1,0 +1,23 @@
+
+<div class="container">
+  <form [formGroup]="ventaForm"(ngSubmit)="addVenta()">
+    <h3>Crear venta</h3>
+    <input type="hidden" name="id" id="txtId" formControlName="id">
+    <div class="form-group">
+      <label for="name">Fecha de venta</label>
+      <input type="text" class="form-control" name="txtfechaVenta" formControlName="fechaVenta" id="txtfechaVenta" >
+    </div>
+  <div class="form-group">
+    <label for="name">Metodos de pago</label>
+    <input type="text" class="form-control" name="txtmetodosPago" formControlName="metodosDePago" id="txtmetodosPago" >
+  </div>
+  <div class="form-group">
+    <label for="name">Monto total</label>
+    <input type="text" class="form-control" name="txtmontoTotal" formControlName="montoTotal" id="txtmontoTotal" >
+  </div>
+<br>
+  <div>
+    <input type="submit" value="Guardar" class="btn btn-success"/>
+  </div>
+  </form>
+</div>

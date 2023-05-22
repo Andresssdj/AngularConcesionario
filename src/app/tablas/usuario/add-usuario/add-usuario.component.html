@@ -1,0 +1,30 @@
+<div class="container">
+  <form [formGroup]="usuarioForm"(ngSubmit)="addUsuario()">
+    <h3>Crear usuario</h3>
+    <input type="hidden" name="id" id="txtId" formControlName="id">
+    <div class="form-group">
+      <label for="name">Nombre</label>
+      <input type="text" class="form-control" name="txtname" formControlName="nombre" id="txtname"  aria-label="First name" >
+    </div>
+    <div class="form-group">
+      <label for="name">Apellido</label>
+      <input type="text" class="form-control" name="txtlastname" formControlName="apellido" id="txtlastname" >
+    </div>
+    <div class="form-group">
+      <label for="name">Correo</label>
+      <input type="text" class="form-control" name="txtemail" formControlName="correo" id="txtemail" >
+    </div>
+    <div class="form-group">
+      <label for="name">Telefono</label>
+      <input type="text" class="form-control" name="txtphone" formControlName="telefono" id="txtphone" >
+    </div>
+    <div class="form-group">
+      <label for="name">Fecha de Nacimiento</label>
+      <input type="text" class="form-control" name="txtdeni" formControlName="fechaNacimiento" id="txtdni" >
+    </div>
+    <br>
+    <div>
+      <input type="submit" value="Guardar" class="btn btn-success"/>
+    </div>
+  </form>
+</div>

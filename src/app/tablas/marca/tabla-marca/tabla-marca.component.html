@@ -1,0 +1,36 @@
+<div class="container">
+    
+    <div class="table">
+      <table class="table table-bordered">
+        <h3>Lista Marcas</h3>
+        <thead class="table-dark">
+                <th>id</th>
+                <th>Marca</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listMarca">
+                    <td>
+                        <div *ngIf="condition; else elseBlock">
+                          {{item.id_Marca}}
+                        </div>
+                        <ng-template #elseBlock>
+                          <input type="text" [(ngModel)]="marca.id_Marca" />
+                        </ng-template>
+                       </td>
+                       <td>
+                         <div *ngIf="condition; else elseBlock">
+                          {{item.marca}}
+                        </div>
+                        <ng-template #elseBlock><input type="text" [(ngModel)]="marca.marca" /></ng-template>
+                       </td>
+                       <td>
+                           <!--<a class="btn btn-success" (click)="editar()">Editar</a>-->
+                          <a class="btn btn-danger" (click)="delete(item.id_Marca)">Eliminar</a>
+                        </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      

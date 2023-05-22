@@ -1,0 +1,65 @@
+<div class="container">
+    
+    <div class="table">
+   
+      <table class="table table-bordered">
+        <h3>Lista Vehiculos</h3>
+        <thead class="table-dark">
+                <th>id</th>
+                <th>Modelo</th>
+                <th>Centimetros Cubicos</th>
+                <th>Placa</th>
+                <th>Precio</th>
+                <th>Color</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listVehiculos">
+                    <td>
+                        <div *ngIf="condition; else elseBlock">
+                          {{item.id_Vehiculo}}
+                        </div>
+                        <ng-template #elseBlock>
+                          <input type="text" [(ngModel)]="vehiculo.id_Vehiculo" />
+                        </ng-template>
+                       </td>
+                       <td>
+                         <div *ngIf="condition; else elseBlock">
+                          {{item.modelo}}
+                        </div>
+                        <ng-template #elseBlock><input type="text" [(ngModel)]="vehiculo. modelo" /></ng-template>
+                       </td>
+                       <td>
+                        <div *ngIf="condition; else elseBlock">
+                         {{item.centimetrosCubicos}}
+                       </div>
+                       <ng-template #elseBlock><input type="text" [(ngModel)]="vehiculo.centimetrosCubicos" /></ng-template>
+                      </td>
+                      <td>
+                        <div *ngIf="condition; else elseBlock">
+                         {{item.placa}}
+                       </div>
+                       <ng-template #elseBlock><input type="text" [(ngModel)]="vehiculo.placa" /></ng-template>
+                      </td>
+                      <td>
+                        <div *ngIf="condition; else elseBlock">
+                         {{item.precio}}
+                       </div>
+                       <ng-template #elseBlock><input type="text" [(ngModel)]="vehiculo.precio" /></ng-template>
+                      </td>
+                      <td>
+                        <div *ngIf="condition; else elseBlock">
+                         {{item.color}}
+                       </div>
+                       <ng-template #elseBlock><input type="text" [(ngModel)]="vehiculo.color" /></ng-template>
+                      </td>
+                       <td>
+                           <!--<a class="btn btn-success" (click)="editar()">Editar</a>-->
+                          <a class="btn btn-danger" (click)="delete(item.id_Vehiculo)">Eliminar</a>
+                        </td>
+                      </tr>
+                  </tbody>
+                </table>
+                </div>
+                </div>
+                

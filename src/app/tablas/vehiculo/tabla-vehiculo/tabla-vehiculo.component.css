@@ -1,0 +1,20 @@
+
+.table{
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Ajusta el ancho del contenido */
+    max-width: 600px; /* Define un ancho máximo para limitar el tamaño en pantallas grandes */
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Ajusta el color y la opacidad del fondo */
+    color: #fff; /* Ajusta el color del texto */
+}
+
+
+@import "~bootstrap/dist/css/bootstrap.css"

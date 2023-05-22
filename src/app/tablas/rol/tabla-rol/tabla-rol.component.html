@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="table">
+      <table class="table table-bordered">
+        <h3>Lista Roles</h3>
+        <thead class="table-dark">
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listRoles">
+                  <td>
+                    <div *ngIf="condition; else elseBlock">
+                      {{item.id}}
+                    </div>
+                    <ng-template #elseBlock>
+                      <input type="text" [(ngModel)]="rol.id" />
+                    </ng-template>
+                   </td>
+                   <td>
+                     <div *ngIf="condition; else elseBlock">
+                      {{item.nombre}}
+                    </div>
+                    <ng-template #elseBlock><input type="text" [(ngModel)]="rol.nombre" /></ng-template>
+                   </td>
+
+                   <td>
+                       <!--<a class="btn btn-success" (click)="editar()">Editar</a>-->
+                      <a class="btn btn-danger" (click)="delete(item.id)">Eliminar</a>
+                    </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+  

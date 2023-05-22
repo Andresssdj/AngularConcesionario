@@ -1,0 +1,58 @@
+<div class="container">
+    
+    <div class="table">
+      <table class="table table-bordered">
+        <h3>Lista Concesionarios</h3>
+        <thead class="table-dark">
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Telefono</th>
+                <th>Ciudad</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listConcesionario">
+                    <td>
+                        <div *ngIf="condition; else elseBlock">
+                          {{item.id_Concesionario}}
+                        </div>
+                        <ng-template #elseBlock>
+                          <input type="text" [(ngModel)]="concesionario.id_Concesionario" />
+                        </ng-template>
+                       </td>
+                       <td>
+                         <div *ngIf="condition; else elseBlock">
+                          {{item.nombre}}
+                        </div>
+                        <ng-template #elseBlock><input type="text" [(ngModel)]="concesionario.nombre" /></ng-template>
+                       </td>
+                       <td>
+                        <div *ngIf="condition; else elseBlock">
+                         {{item.direccion}}
+                       </div>
+                       <ng-template #elseBlock><input type="text" [(ngModel)]="concesionario.direccion" /></ng-template>
+                      </td>
+                      <td>
+                        <div *ngIf="condition; else elseBlock">
+                         {{item.telefono}}
+                       </div>
+                       <ng-template #elseBlock><input type="text" [(ngModel)]="concesionario.telefono" /></ng-template>
+                      </td>
+                      <td>
+                        <div *ngIf="condition; else elseBlock">
+                         {{item.ciudad}}
+                       </div>
+                       <ng-template #elseBlock><input type="text" [(ngModel)]="concesionario.ciudad" /></ng-template>
+                      </td>
+    
+                       <td>
+                        <!--<a class="btn btn-success" (click)="editar()">Editar</a>-->
+                          <a class="btn btn-danger" (click)="delete(item.id_Concesionario)">Eliminar</a>
+                        </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      
