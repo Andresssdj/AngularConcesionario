@@ -1,0 +1,41 @@
+for(let i = 0; i < response.length; i++){
+        this.formattedData = response[i].terminalModel.toString().replace('[', '').replace(']',"");
+        console.log(this.formattedData);
+        this.dataArray = this.formattedData.split(',').map(Number);
+        response[i].terminalModel = this.dataArray
+      }
+      this.dataSource.data = response as FilesAndVersionsDTO[];
+
+
+      
+      this.dataArray.forEach(response => {
+
+        switch(response){
+      
+          case 1:
+              return'move 2500';
+          case 2:
+              return'DESK 3500';
+          case 3:
+              return'LINK 2500';
+          case 4:
+              return'LANE 5000';
+          case 5:
+              return'LANE 5000';
+          case 6:
+              return'Vx 675';
+          case 7:
+              return'Vx 675';
+          case 8:
+              return'LANE 3000';
+          case 41:
+              return'ICT 220';
+          case 42:
+              return'IWL 220';
+          case 43:
+              return'IWL 280';
+              default:
+                return 'modelo no valido';
+        }
+        this.resultados.push(resultados);
+      });
