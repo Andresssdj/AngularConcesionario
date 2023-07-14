@@ -1,462 +1,61 @@
-ngSwitch en matTooltip
-
-
-User
-Como meter un ngSwitch en un matTooltip 
-
-ChatGPT
-No es posible incluir directamente un ngSwitch dentro de un atributo matTooltip de Angular Material, ya que matTooltip solo admite cadenas de texto simples como contenido. Sin embargo, puedes lograr un comportamiento similar utilizando una combinación de ngSwitch y un atributo personalizado.
-
-Aquí tienes un ejemplo de cómo puedes lograrlo:
-
-html
-Copy code
-<span [matTooltip]="getContent()" matTooltipClass="custom-tooltip">Hover over me</span>
-En tu componente de Angular, puedes definir la función getContent() que devolverá el contenido del tooltip en función de una variable o condición determinada por ngSwitch:
-
-html
-Copy code
-@Component({
-  selector: 'app-my-component',
-  template: `
-    <ng-container [ngSwitch]="variable">
-      <ng-container *ngSwitchCase="'value1'">
-        <ng-template #tooltipContent>
-          <!-- Contenido del tooltip para el caso 'value1' -->
-        </ng-template>
-      </ng-container>
-      <ng-container *ngSwitchCase="'value2'">
-        <ng-template #tooltipContent>
-          <!-- Contenido del tooltip para el caso 'value2' -->
-        </ng-template>
-      </ng-container>
-      <ng-container *ngSwitchDefault>
-        <ng-template #tooltipContent>
-          <!-- Contenido del tooltip para el caso por defecto -->
-        </ng-template>
-      </ng-container>
-    </ng-container>
-  `,
-})
-export class MyComponent {
-  variable: string = 'value1'; // Variable que determina el caso del ngSwitch
-
-  getContent(): string {
-    // Lógica para determinar qué contenido mostrar en el tooltip
-    switch (this.variable) {
-      case 'value1':
-        return 'Tooltip para el caso 1';
-      case 'value2':
-        return 'Tooltip para el caso 2';
-      default:
-        return 'Tooltip por defecto';
-    }
-  }
-}
-En este ejemplo, la función getContent() devuelve el contenido del tooltip en función del valor de variable, y ese contenido se muestra en el atributo matTooltip del elemento <span>. Además, se ha agregado la clase CSS custom-tooltip al atributo matTooltipClass para personalizar el estilo del tooltip.
-
-Recuerda que debes importar MatTooltipModule en tu módulo Angular correspondiente y asegurarte de que tienes instalado Angular Material en tu proyecto.
-
-Ten en cuenta que esta es una solución alternativa y no está directamente relacionada con ngSwitch. Estás utilizando la función getContent() para determinar el contenido del tooltip en función de una variable, pero podrías adaptarla a tus necesidades específicas.
-
-
-
-
-
-User
-Tengo este switch dentro de un td de una tabla Quiero me lo muestre como mensaje informativo de un icono que voy a poner en el td
-
-
-<ng-container *ngFor-"let ob of f.terminalModel">
-
-<ng-container [ngSwitch]-"ob">
-
-<some-element ngSwitchCase-"1"><b>-</b>MOVE 2500<b>-</b></some-element>
-
-<some-element ngSwitchCase-"2"><b>-</b>DESK 3500<b>-</b></some-element>
-
-<some-element ngSwitchCase-"3"><b>-</b>LINK 2500<b>-</b></some-element>
-
-<some-element ngSwitchCase-"4"><b>-</b>LANE 5000<b>-</b></some-element> <some-element *ngSwitchCase-"5"><b>-</b>LANE 5000<b>-</b></some-element>
-
-<some-element #ngSwitchCase-"6"><b>-</b>Vx 675<b>-</b></some-element>
-
-<some-element *ngSwitchCase-"7"><b>-</b>Vx 675<b>-</b></some-element>
-
-<some-element ngSwitchCase-"8"><b>-</b>LANE 3008<b>-</b></some-element> <some-element ngSwitchCase-"41"><b>-</b>ICT 220<b>-</b></some-element>
-
-<some-element ngSwitchCase-"42"><b>-</b>IWL 220<b>-</b></some-element> ngSwitchCase-"43"><b>-</b>IML 288<b>-</b></some-element>
-
-<some-element <some-element *ngSwitchDefault>Modelo no valido </some-element>
-
-</ng-container>
-
-</ng-container>
-
-ChatGPT
-Para mostrar el mensaje informativo como un tooltip de un icono dentro del <td> de una tabla, puedes utilizar la directiva matTooltip de Angular Material. Aquí tienes un ejemplo de cómo puedes hacerlo:
-
-html
-Copy code
-<td matTooltip="Tooltip content">
-  <mat-icon>info</mat-icon>
-</td>
-En tu caso, puedes ajustar tu código para incluir el ngSwitch dentro de un icono <mat-icon> y mostrar el tooltip correspondiente:
-
-html
-Copy code
-<td>
-  <mat-icon [matTooltip]="getTooltip(ob)">{{ getIcon(ob) }}</mat-icon>
-</td>
-Luego, en tu componente de Angular, puedes definir las funciones getTooltip() y getIcon() para retornar el contenido del tooltip y el nombre del ícono, respectivamente, en función del valor de ob:
-
-typescript
-Copy code
-@Component({
-  selector: 'app-my-component',
-  template: `
-    <ng-container *ngFor="let ob of f.terminalModel">
-      <td>
-        <mat-icon [matTooltip]="getTooltip(ob)">{{ getIcon(ob) }}</mat-icon>
-      </td>
-    </ng-container>
-  `,
-})
-export class MyComponent {
-  f = {
-    terminalModel: [1, 2, 3, 4, 5, 6, 7, 8, 41, 42, 43],
-  };
-
-  getTooltip(ob: number): string {
-    switch (ob) {
-      case 1:
-        return 'MOVE 2500';
-      case 2:
-        return 'DESK 3500';
-      case 3:
-        return 'LINK 2500';
-      case 4:
-      case 5:
-        return 'LANE 5000';
-      case 6:
-      case 7:
-        return 'Vx 675';
-      case 8:
-        return 'LANE 3008';
-      case 41:
-        return 'ICT 220';
-      case 42:
-        return 'IWL 220';
-      case 43:
-        return 'IML 288';
-      default:
-        return 'Modelo no válido';
-    }
-  }
-
-  getIcon(ob: number): string {
-    // Aquí puedes retornar el nombre del ícono correspondiente a cada valor de `ob`
-    // Por ejemplo, si estás utilizando Material Icons, puedes retornar el nombre de la clase del ícono correspondiente a cada caso del switch
-    // Puedes consultar los nombres de los íconos disponibles en https://fonts.google.com/icons
-    switch (ob) {
-      case 1:
-        return 'icon-name-1';
-      case 2:
-        return 'icon-name-2';
-      // ...
-      default:
-        return 'default-icon';
-    }
-  }
-}
-Recuerda importar MatIconModule y MatTooltipModule en tu módulo Angular correspondiente y asegurarte de tener instalado Angular Material en tu proyecto. Además, personaliza el código según los nombres de los íconos y los valores correspondientes a ob en tu caso.
-
-
-
-
-
-User
-Como meto esto dentro del ts 
-
-
-ngSwitch en matTooltip
-
-
-User
-Como meter un ngSwitch en un matTooltip 
-
-ChatGPT
-No es posible incluir directamente un ngSwitch dentro de un atributo matTooltip de Angular Material, ya que matTooltip solo admite cadenas de texto simples como contenido. Sin embargo, puedes lograr un comportamiento similar utilizando una combinación de ngSwitch y un atributo personalizado.
-
-Aquí tienes un ejemplo de cómo puedes lograrlo:
-
-html
-Copy code
-<span [matTooltip]="getContent()" matTooltipClass="custom-tooltip">Hover over me</span>
-En tu componente de Angular, puedes definir la función getContent() que devolverá el contenido del tooltip en función de una variable o condición determinada por ngSwitch:
-
-html
-Copy code
-@Component({
-  selector: 'app-my-component',
-  template: `
-    <ng-container [ngSwitch]="variable">
-      <ng-container *ngSwitchCase="'value1'">
-        <ng-template #tooltipContent>
-          <!-- Contenido del tooltip para el caso 'value1' -->
-        </ng-template>
-      </ng-container>
-      <ng-container *ngSwitchCase="'value2'">
-        <ng-template #tooltipContent>
-          <!-- Contenido del tooltip para el caso 'value2' -->
-        </ng-template>
-      </ng-container>
-      <ng-container *ngSwitchDefault>
-        <ng-template #tooltipContent>
-          <!-- Contenido del tooltip para el caso por defecto -->
-        </ng-template>
-      </ng-container>
-    </ng-container>
-  `,
-})
-export class MyComponent {
-  variable: string = 'value1'; // Variable que determina el caso del ngSwitch
-
-  getContent(): string {
-    // Lógica para determinar qué contenido mostrar en el tooltip
-    switch (this.variable) {
-      case 'value1':
-        return 'Tooltip para el caso 1';
-      case 'value2':
-        return 'Tooltip para el caso 2';
-      default:
-        return 'Tooltip por defecto';
-    }
-  }
-}
-En este ejemplo, la función getContent() devuelve el contenido del tooltip en función del valor de variable, y ese contenido se muestra en el atributo matTooltip del elemento <span>. Además, se ha agregado la clase CSS custom-tooltip al atributo matTooltipClass para personalizar el estilo del tooltip.
-
-Recuerda que debes importar MatTooltipModule en tu módulo Angular correspondiente y asegurarte de que tienes instalado Angular Material en tu proyecto.
-
-Ten en cuenta que esta es una solución alternativa y no está directamente relacionada con ngSwitch. Estás utilizando la función getContent() para determinar el contenido del tooltip en función de una variable, pero podrías adaptarla a tus necesidades específicas.
-
-
-
-
-
-User
-Tengo este switch dentro de un td de una tabla Quiero me lo muestre como mensaje informativo de un icono que voy a poner en el td
-
-
-<ng-container *ngFor-"let ob of f.terminalModel">
-
-<ng-container [ngSwitch]-"ob">
-
-<some-element ngSwitchCase-"1"><b>-</b>MOVE 2500<b>-</b></some-element>
-
-<some-element ngSwitchCase-"2"><b>-</b>DESK 3500<b>-</b></some-element>
-
-<some-element ngSwitchCase-"3"><b>-</b>LINK 2500<b>-</b></some-element>
-
-<some-element ngSwitchCase-"4"><b>-</b>LANE 5000<b>-</b></some-element> <some-element *ngSwitchCase-"5"><b>-</b>LANE 5000<b>-</b></some-element>
-
-<some-element #ngSwitchCase-"6"><b>-</b>Vx 675<b>-</b></some-element>
-
-<some-element *ngSwitchCase-"7"><b>-</b>Vx 675<b>-</b></some-element>
-
-<some-element ngSwitchCase-"8"><b>-</b>LANE 3008<b>-</b></some-element> <some-element ngSwitchCase-"41"><b>-</b>ICT 220<b>-</b></some-element>
-
-<some-element ngSwitchCase-"42"><b>-</b>IWL 220<b>-</b></some-element> ngSwitchCase-"43"><b>-</b>IML 288<b>-</b></some-element>
-
-<some-element <some-element *ngSwitchDefault>Modelo no valido </some-element>
-
-</ng-container>
-
-</ng-container>
-
-ChatGPT
-Para mostrar el mensaje informativo como un tooltip de un icono dentro del <td> de una tabla, puedes utilizar la directiva matTooltip de Angular Material. Aquí tienes un ejemplo de cómo puedes hacerlo:
-
-html
-Copy code
-<td matTooltip="Tooltip content">
-  <mat-icon>info</mat-icon>
-</td>
-En tu caso, puedes ajustar tu código para incluir el ngSwitch dentro de un icono <mat-icon> y mostrar el tooltip correspondiente:
-
-html
-Copy code
-<td>
-  <mat-icon [matTooltip]="getTooltip(ob)">{{ getIcon(ob) }}</mat-icon>
-</td>
-Luego, en tu componente de Angular, puedes definir las funciones getTooltip() y getIcon() para retornar el contenido del tooltip y el nombre del ícono, respectivamente, en función del valor de ob:
-
-typescript
-Copy code
-@Component({
-  selector: 'app-my-component',
-  template: `
-    <ng-container *ngFor="let ob of f.terminalModel">
-      <td>
-        <mat-icon [matTooltip]="getTooltip(ob)">{{ getIcon(ob) }}</mat-icon>
-      </td>
-    </ng-container>
-  `,
-})
-export class MyComponent {
-  f = {
-    terminalModel: [1, 2, 3, 4, 5, 6, 7, 8, 41, 42, 43],
-  };
-
-  getTooltip(ob: number): string {
-    switch (ob) {
-      case 1:
-        return 'MOVE 2500';
-      case 2:
-        return 'DESK 3500';
-      case 3:
-        return 'LINK 2500';
-      case 4:
-      case 5:
-        return 'LANE 5000';
-      case 6:
-      case 7:
-        return 'Vx 675';
-      case 8:
-        return 'LANE 3008';
-      case 41:
-        return 'ICT 220';
-      case 42:
-        return 'IWL 220';
-      case 43:
-        return 'IML 288';
-      default:
-        return 'Modelo no válido';
-    }
-  }
-
-ChatGPT
-Si deseas utilizar un ngSwitch dentro de tu componente TypeScript para determinar el contenido del tooltip y el ícono correspondiente, puedes ajustar el código de la siguiente manera:
-
-typescript
-Copy code
-@Component({
-  selector: 'app-my-component',
-  template: `
-    <table>
-      <tr *ngFor="let ob of f.terminalModel">
-        <td>
-          <mat-icon [matTooltip]="getTooltip(ob)">{{ getIcon(ob) }}</mat-icon>
-        </td>
-      </tr>
-    </table>
-  `,
-})
-export class MyComponent {
-  f = {
-    terminalModel: [1, 2, 3, 4, 5, 6, 7, 8, 41, 42, 43],
-  };
-
-  getTooltip(ob: number): string {
-    switch (ob) {
-      case 1:
-        return 'MOVE 2500';
-      case 2:
-        return 'DESK 3500';
-      case 3:
-        return 'LINK 2500';
-      case 4:
-      case 5:
-        return 'LANE 5000';
-      case 6:
-      case 7:
-        return 'Vx 675';
-      case 8:
-        return 'LANE 3008';
-      case 41:
-        return 'ICT 220';
-      case 42:
-        return 'IWL 220';
-      case 43:
-        return 'IML 288';
-      default:
-        return 'Modelo no válido';
-    }
-  }
-
-  getIcon(ob: number): string {
-    switch (ob) {
-      case 1:
-        return 'icon-name-1';
-      case 2:
-        return 'icon-name-2';
-      case 3:
-        return 'icon-name-3';
-      // ...
-      default:
-        return 'default-icon';
-    }
-  }
-}
-En este ejemplo, el componente MyComponent contiene una tabla en la que se itera sobre el arreglo f.terminalModel para mostrar una fila por cada elemento. Dentro de cada celda <td>, se utiliza un ícono <mat-icon> con el atributo [matTooltip] para mostrar el contenido del tooltip.
-
-Las funciones getTooltip() y getIcon() determinan el contenido del tooltip y el ícono correspondiente en función del valor de ob. Puedes ajustar estos métodos según tus necesidades y los valores que deseas mostrar.
-
-Recuerda importar MatIconModule y MatTooltipModule en tu módulo Angular correspondiente y asegurarte de tener instalado Angular Material en tu proyecto. Además, personaliza el código según los nombres de los íconos y los valores correspondientes a ob en tu caso.
-
-
-
-
-
-User
-Quita el gt ICON 
-
-ChatGPT
-Disculpa por la confusión anterior. Si deseas mostrar solo el contenido del tooltip sin el ícono, puedes ajustar el código de la siguiente manera:
-
-typescript
-Copy code
-@Component({
-  selector: 'app-my-component',
-  template: `
-    <table>
-      <tr *ngFor="let ob of f.terminalModel">
-        <td>
-          <span matTooltip="{{ getTooltip(ob) }}">Texto de ejemplo</span>
-        </td>
-      </tr>
-    </table>
-  `,
-})
-export class MyComponent {
-  f = {
-    terminalModel: [1, 2, 3, 4, 5, 6, 7, 8, 41, 42, 43],
-  };
-
-  getTooltip(ob: number): string {
-    switch (ob) {
-      case 1:
-        return 'MOVE 2500';
-      case 2:
-        return 'DESK 3500';
-      case 3:
-        return 'LINK 2500';
-      case 4:
-      case 5:
-        return 'LANE 5000';
-      case 6:
-      case 7:
-        return 'Vx 675';
-      case 8:
-        return 'LANE 3008';
-      case 41:
-        return 'ICT 220';
-      case 42:
-        return 'IWL 220';
-      case 43:
-        return 'IML 288';
-      default:
-        return 'Modelo no válido';
-    }
-  }
-}
+ 
+
+getFiles(pag: number) {
+    this.changeService.requestGetFilesAndVersions(pag).subscribe(response => {
+      console.log('Response list files OK');
+      this.dataSource.data = response as FilesAndVersionsDTO[];
+
+   
+      for(let i = 0; i < response.length; i++){
+        this.formattedData = response[i].terminalModel.toString().replace('[', '').replace(']',"");
+        console.log(this.formattedData);
+        this.dataArray = this.formattedData.split(',').map(Number);
+
+        var nombres= '';
+        for (let a in this.dataArray) {
+          switch (a) {
+            case '1':
+              nombres += 'Move 2500 ';
+              break;
+            case '2':
+              nombres += 'DESK 3500 ';
+              break;
+            case '3':
+              nombres += 'LINK 2500 ';
+              break;
+            case '4':
+              nombres += 'LANE 5000 ';
+              break;
+            case '5':
+              nombres += 'LANE 5000 ';
+              break;
+            case '6':
+              nombres += 'Vx 675 ';
+              break;
+            case '7':
+              nombres += 'Vx 675 ';
+              break;
+            case '8':
+              nombres += 'LANE 3000 ';
+              break;
+            case '41':
+              nombres += 'ICT 220 ';
+              break;
+            case '42':
+              nombres += 'IWL 2205 ';
+               break;
+              case'43':
+              nombres += 'IWL 280 ';
+              break;
+
+            default:
+              
+              break;
+          }
+
+        }
+        response[i].terminalModel = nombres;
+
+
+<mat-icon [matTooltip]="f.terminalModel" style="font-size: 15px; color: rgb(111, 155, 212);" role="group" >visibility
+                    </mat-icon>
