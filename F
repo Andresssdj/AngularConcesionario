@@ -1,84 +1,32 @@
- viewInformationFile(modal: any, dtoFiles: FilesAndVersionsDTO) {
-    this.dtoFilesVersion = dtoFiles;
-    this.listTechnolgy = []
-
-    let models: Array<string> = String(this.dtoFilesVersion.terminalModel).replace("[", "").replace("]", "").split(',');
-    let mdls: Array<number> = [];
-    models.forEach(md => {
-      mdls.push(Number(md));
-    })
-
-    this.technologyService.requestGetListTechnology().subscribe(response => {
-      console.log('Response Ok  list models technolgy');
-      response.forEach(th => {
-        mdls.forEach(md => {
-          if (th.id == md) {
-            this.listTechnolgy.push(th);
-          }
-        })
-      })
-
-    }, error => {
-      console.log('Response Not found  list models technolgy');
-    })
+<button mat-menu-item [matMenuTriggerFor]="versions">Versiones</button>
 
 
-    this.openModal(modal, 'xl');
-  }
+listParams(pagina: string, type: string) {
 
-
-----------------
-
-getFiles(pag: number) {
-    this.changeService.requestGetFilesAndVersions(pag).subscribe(response => {
-      console.log('Response list files OK');
-      this.dataSource.data = response as FilesAndVersionsDTO[];
-     /* for(let i = 0; i < response.length; i++){
-        this.formattedData = response[i].terminalModel.toString().replace('[', '').replace(']',"");
-        console.log(this.formattedData);
-        this.dataArray = this.formattedData.split(',').map(Number);
-        var nombres= '';
-        for (let a of this.dataArray) {
-          switch (a) {
-            case 1:
-              nombres += 'MOVE 2500 ';
-              break;
-            case 2:
-              nombres += 'DESK 3500 ';
-              break;
-            case 3:
-              nombres += 'LINK 2500 ';
-              break;
-            case 4:
-              nombres += 'LANE 5000 ';
-              break;
-            case 5:
-              nombres += 'LANE 5000 ';
-              break;
-            case 6:
-              nombres += 'Vx 675 ';
-              break;
-            case 7:
-              nombres += 'Vx 675 ';
-              break;
-            case 8:
-              nombres += 'LANE 3000 ';
-              break;
-            case 41:
-              nombres += 'ICT 220 ';
-              break;
-            case 42:
-              nombres += 'IWL 2205 ';
-               break;
-              case 43:
-              nombres += 'IWL 280 ';
-              break;
-            default:
-              break;
+    this.requestType = type;
+    this.changeService.requestListChangeParamsTef('0', type, pagina).subscribe(
+      response => {
+        // console.log('Response OK change params');
+        for (let parameters in response){
+          for (let parameter in response[parameters].value){
+            if (parameter === 'tef_android') {
+              var valTef: any = {"tef" : ""};
+              valTef.tef = response[parameters].value[parameter];
+              response[parameters].value = valTef;
+            }else if (parameter === 'tef_legacy'){
+              var valTef1: TefDTO;
+              valTef1 = this.formatParameterToJson(response[parameters].value[parameter]);
+              response[parameters].value = valTef1;
+            }
           }
         }
-        response[i].terminalModel = nombres;
+
         
+        this.dataSource.data = response as UpdateDownloadDTO[];   
+
+      }, error => {
+        this.dataSource.data = [];
+        console.log('Sin información');
       }
-
-
+    )
+  }
