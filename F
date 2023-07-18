@@ -8,3 +8,16 @@ public List<UpdateDownloadResponse> listChangesPageTefByTypeTerminal(int status,
 
         return !listChanges.isEmpty() ? mapperListToResponse(listChanges) : null;
     }
+public List<UpdateDownloadResponse> getAllChanges() {
+    List<UpdateDownload> listChanges = new ArrayList<>();
+
+    // Obtener cambios para el tipo de terminal Android
+    List<UpdateDownload> androidChanges = repositoryDownload.listChangesTypeParamsTefAndroid(0, 0);
+    listChanges.addAll(androidChanges);
+
+    // Obtener cambios para el tipo de terminal heredado
+    List<UpdateDownload> legacyChanges = repositoryDownload.listChangesTypeParamsTefLegacy(0, 0);
+    listChanges.addAll(legacyChanges);
+
+    return !listChanges.isEmpty() ? mapperListToResponse(listChanges) : null;
+}
