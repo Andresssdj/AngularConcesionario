@@ -1,10 +1,6 @@
-<button mat-menu-item [matMenuTriggerFor]="versions">Versiones</button>
-
-
-listParams(pagina: string, type: string) {
-
-    this.requestType = type;
-    this.changeService.requestListChangeParamsTef('0', type, pagina).subscribe(
+getTefByTypeTerminal(type: string) {
+    console.log(type);
+    this.changeService.requestListParamsTefByTypeTerminal('0', '2', type, '0').subscribe(
       response => {
         // console.log('Response OK change params');
         for (let parameters in response){
@@ -20,10 +16,8 @@ listParams(pagina: string, type: string) {
             }
           }
         }
-
         
-        this.dataSource.data = response as UpdateDownloadDTO[];   
-
+        this.dataSource.data = response as UpdateDownloadDTO[];    
       }, error => {
         this.dataSource.data = [];
         console.log('Sin información');
