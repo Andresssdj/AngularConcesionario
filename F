@@ -1,36 +1,29 @@
-public List<UpdateDownloadResponse> listChangesPageTefByTypeTerminal(int status, int type, int typeTerminal, Pageable pageable) {
-        List<UpdateDownload> listChanges;
-        if (typeTerminal == 0){
-            listChanges = repositoryDownload.listChangesTypeParamsTefAndroid(status, type, pageable);
-        }else{
-            listChanges = repositoryDownload.listChangesTypeParamsTefLegacy(status, type, pageable);
+getTefByTypeTerminal(type: string) {
+  console.log(type);
+  this.changeService.requestListParamsTefByTypeTerminal('0', '2', type, '0').subscribe(
+    response => {
+      // console.log('Response OK change params');
+      for (let parameters in response) {
+        let combinedTef: any = { "tef": "", "tef_legacy": null };
+        
+        for (let parameter in response[parameters].value) {
+          if (parameter === 'tef_android') {
+            combinedTef.tef = response[parameters].value[parameter];
+          } else if (parameter === 'tef_legacy') {
+            if (!combinedTef.tef_legacy) {
+              combinedTef.tef_legacy = [];
+            }
+            combinedTef.tef_legacy.push(this.formatParameterToJson(response[parameters].value[parameter]));
+          }
         }
 
-        return !listChanges.isEmpty() ? mapperListToResponse(listChanges) : null;
+        response[parameters].value = combinedTef;
+      }
+
+      this.dataSource.data = response as UpdateDownloadDTO[];
+    }, error => {
+      this.dataSource.data = [];
+      console.log('Sin información');
     }
-public List<UpdateDownloadResponse> getAllChanges() {
-    List<UpdateDownload> listChanges = new ArrayList<>();
-
-    // Obtener cambios para el tipo de terminal Android
-    List<UpdateDownload> androidChanges = repositoryDownload.listChangesTypeParamsTefAndroid(0, 0);
-    listChanges.addAll(androidChanges);
-
-    // Obtener cambios para el tipo de terminal heredado
-    List<UpdateDownload> legacyChanges = repositoryDownload.listChangesTypeParamsTefLegacy(0, 0);
-    listChanges.addAll(legacyChanges);
-
-    return !listChanges.isEmpty() ? mapperListToResponse(listChanges) : null;
-}
-
-
-    @GetMapping("/changes")
-    public ResponseEntity<List<UpdateDownloadResponse>> getAllChanges() {
-        List<UpdateDownloadResponse> changes = updateDownloadService.getAllChanges();
-
-        if (changes != null && !changes.isEmpty()) {
-            return ResponseEntity.ok(changes);
-        } else {
-            return ResponseEntity.noContent().build();
-        }
-    }
+  );
 }
