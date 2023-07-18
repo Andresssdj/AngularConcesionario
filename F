@@ -21,3 +21,16 @@ public List<UpdateDownloadResponse> getAllChanges() {
 
     return !listChanges.isEmpty() ? mapperListToResponse(listChanges) : null;
 }
+
+
+    @GetMapping("/changes")
+    public ResponseEntity<List<UpdateDownloadResponse>> getAllChanges() {
+        List<UpdateDownloadResponse> changes = updateDownloadService.getAllChanges();
+
+        if (changes != null && !changes.isEmpty()) {
+            return ResponseEntity.ok(changes);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+}
