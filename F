@@ -1,59 +1,10 @@
-getTefByTypeTerminal(type: string) {
-    console.log(type);
-    this.changeService.requestListParamsTefByTypeTerminal('0', '2', type, '0').subscribe(
-      response => {
-        // console.log('Response OK change params');
-        for (let parameters in response){
-          for (let parameter in response[parameters].value){
-            if (parameter === 'tef_android') {
-              var valTef: any = {"tef" : ""};
-              valTef.tef = response[parameters].value[parameter];
-              response[parameters].value = valTef;
-            }else if (parameter === 'tef_legacy'){
-              var valTef1: TefDTO;
-              valTef1 = this.formatParameterToJson(response[parameters].value[parameter]);
-              response[parameters].value = valTef1;
-            }
-          }
+public List<UpdateDownloadResponse> listChangesPageTefByTypeTerminal(int status, int type, int typeTerminal, Pageable pageable) {
+        List<UpdateDownload> listChanges;
+        if (typeTerminal == 0){
+            listChanges = repositoryDownload.listChangesTypeParamsTefAndroid(status, type, pageable);
+        }else{
+            listChanges = repositoryDownload.listChangesTypeParamsTefLegacy(status, type, pageable);
         }
-        
-        this.dataSource.data = response as UpdateDownloadDTO[];    
-      }, error => {
-        this.dataSource.data = [];
-        console.log('Sin información');
-      }
-    )
-  }
 
-
-
-
-getTefByTypeTerminal(type: string) {
-  console.log(type);
-  this.changeService.requestListParamsTefByTypeTerminal('0', '2', type, '0').subscribe(
-    response => {
-      // console.log('Response OK change params');
-      for (let parameters in response) {
-        for (let parameter in response[parameters].value) {
-          if (parameter === 'tef_android') {
-            var valTef: any = { "tef": "", "tef_legacy": null };
-            valTef.tef = response[parameters].value[parameter];
-            response[parameters].value = valTef;
-          } else if (parameter === 'tef_legacy') {
-            if (!response[parameters].value["tef_legacy"]) {
-              response[parameters].value["tef_legacy"] = [];
-            }
-            var valTef1: TefDTO = this.formatParameterToJson(response[parameters].value[parameter]);
-            response[parameters].value["tef_legacy"].push(valTef1);
-          }
-        }
-      }
-
-      this.dataSource.data = response as UpdateDownloadDTO[];
-    }, error => {
-      this.dataSource.data = [];
-      console.log('Sin información');
+        return !listChanges.isEmpty() ? mapperListToResponse(listChanges) : null;
     }
-  )
-}
-
