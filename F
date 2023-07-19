@@ -7,3 +7,14 @@ async getContentById(id: number): Promise<void> {
       console.error('Error al obtener el contenido:', error);
     }
   }
+
+
+getFilesModel(id: string) {
+    
+    this.changeService.requestGetChangesById(id).subscribe(
+      response => {
+        this.dataArray =this.dataSource.data.map(value => value.value, (id: { id: any; }) => id.id)
+      }, error => {
+        console.log('Sin archivos por la version seleccionada');
+      })
+  }
