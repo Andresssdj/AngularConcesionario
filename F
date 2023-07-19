@@ -9,3 +9,25 @@
   }
 
 requestGetChangesById(id)
+
+
+
+
+let id = this.activatedRoute.snapshot.params['id'];
+    await this.changeService.requestGetChangesById(id).toPromise().then(response => 
+      {
+        console.log('Response ok Info archivo');
+        this.updateDownloadDto = response;
+        for (let parameters in response.value){
+          
+            if (parameters === 'tef_android') {
+              this.tefDTO = {"tef" : ""};
+              this.tefDTO= response.value[parameters];
+              this.type = 0;
+            }else if (parameters === 'tef_legacy'){
+              var valTef1: any;
+              valTef1 = this.formatParameterToJson(response.value[parameters]);
+              this.tefDTO = valTef1.tef;
+              this.type = 1;
+            }        
+        }
