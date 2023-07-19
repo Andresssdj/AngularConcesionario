@@ -1,12 +1,16 @@
- @GetMapping (path = "/list/filter/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> searchListFilesByUptade(@PathVariable long id) {
+    @GetMapping (path = "/list/filter/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> searchIDUptade(@PathVariable long id) {
         logger.info("----- Listado de archivos por id  {} -----", id);
         List<UpdateDownloadResponse> listUpdates = UpdateDownloadService.listUpdate(id);
         logger.info(FIN_HTTP);
         return ResponseEntity.status(listUpdates != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(listUpdates != null ? listUpdates : Util.jsonMessage(MessagesDTO.SIN_INFORMACION));
     }
 
-  public List<UpdateDownloadResponse> listUpdate(long id){
-        List<UpdateDownload> list = repositoryDownload.findAllById(Collections.singleton(id));
-        return(!list.isEmpty()) ? mapperListToResponse(list): null;
+
+  public List<UpdateDownloadResponse>listUpdate (long id) {
+        Optional<UpdateDownload> entity = repositoryDownload.findById(id);
+        return (!entity.isPresent())  ? mapperListToResponse((List<UpdateDownload>) entity.get()) : null;
     }
+
+
+Non-static method 'listUpdate(long)' cannot be referenced from a static context
