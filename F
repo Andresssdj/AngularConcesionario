@@ -1,29 +1,11 @@
-getTefByTypeTerminal(type: string) {
-  console.log(type);
-  this.changeService.requestListParamsTefByTypeTerminal('0', '2', type, '0').subscribe(
-    response => {
-      // console.log('Response OK change params');
-      for (let parameters in response) {
-        let combinedTef: any = { "tef": "", "tef_legacy": null };
-        
-        for (let parameter in response[parameters].value) {
-          if (parameter === 'tef_android') {
-            combinedTef.tef = response[parameters].value[parameter];
-          } else if (parameter === 'tef_legacy') {
-            if (!combinedTef.tef_legacy) {
-              combinedTef.tef_legacy = [];
-            }
-            combinedTef.tef_legacy.push(this.formatParameterToJson(response[parameters].value[parameter]));
-          }
-        }
+ getFilesModel(model: string) {
+    console.log(model);
+    this.changeService.requestGetFilesByModel(0, model).subscribe(
+      response => {
+        this.dataSource.data = response as FilesAndVersionsDTO[];
+      }, error => {
+        console.log('Sin archivos por la version seleccionada');
+      })
+  }
 
-        response[parameters].value = combinedTef;
-      }
-
-      this.dataSource.data = response as UpdateDownloadDTO[];
-    }, error => {
-      this.dataSource.data = [];
-      console.log('Sin información');
-    }
-  );
-}
+requestGetChangesById(id)
