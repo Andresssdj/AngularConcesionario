@@ -25,3 +25,13 @@ getFilesModel(id: string) {
                         <button mat-menu-item (click)="getFilesModel(mdl.id)"> {{ mdl.model }}</button>
                     </div>
             </mat-menu>
+
+
+ getFilesModel(id: string) {
+    this.changeService.requestGetChangesById(id).subscribe(
+      response => {
+       console.log(response);
+      }, error => {
+        console.log('Sin archivos por la version seleccionada');
+      })
+  }
