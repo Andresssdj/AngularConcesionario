@@ -4,3 +4,7 @@
                         <button mat-menu-item (click)="getFilesModel(mdl.data.id)">{{mdl.data.value.tef.NOMBREARCHIVO}}</button>
                     </div>
             </mat-menu>
+
+
+ ERROR TypeError: Cannot read properties of undefined (reading 'value')
+    at ParametrosTefListComponent_div_1_div_24_Template
