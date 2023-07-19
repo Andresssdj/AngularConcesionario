@@ -31,3 +31,13 @@ let id = this.activatedRoute.snapshot.params['id'];
               this.type = 1;
             }        
         }
+
+
+async getContentById(id: number): Promise<void> {
+    try {
+      this.content = await this.changeService.requestGetChangesById(id).toPromise();
+      console.log('Contenido obtenido:', this.content);
+    } catch (error) {
+      console.error('Error al obtener el contenido:', error);
+    }
+  }
