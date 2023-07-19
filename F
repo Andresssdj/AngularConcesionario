@@ -1,10 +1,12 @@
-<mat-menu #versions="matMenu">
-                
-                    <div *ngFor="let mdl of dataSource.data">
-                        <button mat-menu-item (click)="getFilesModel(mdl.data.id)">{{mdl.data.value.tef.NOMBREARCHIVO}}</button>
-                    </div>
-            </mat-menu>
+ @GetMapping (path = "/list/filter/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> searchListFilesByUptade(@PathVariable long id) {
+        logger.info("----- Listado de archivos por id  {} -----", id);
+        List<UpdateDownloadResponse> listUpdates = UpdateDownloadService.listUpdate(id);
+        logger.info(FIN_HTTP);
+        return ResponseEntity.status(listUpdates != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(listUpdates != null ? listUpdates : Util.jsonMessage(MessagesDTO.SIN_INFORMACION));
+    }
 
-
- ERROR TypeError: Cannot read properties of undefined (reading 'value')
-    at ParametrosTefListComponent_div_1_div_24_Template
+  public List<UpdateDownloadResponse> listUpdate(long id){
+        List<UpdateDownload> list = repositoryDownload.findAllById(Collections.singleton(id));
+        return(!list.isEmpty()) ? mapperListToResponse(list): null;
+    }
