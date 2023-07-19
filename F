@@ -1,37 +1,6 @@
-async getContentById(id: number): Promise<void> {
-    try {
-      let id = this.activatedRoute.snapshot.params['id'];
-      await this.changeService.requestGetChangesById(id).toPromise();
-      console.log('Contenido obtenido:', id);
-    } catch (error) {
-      console.error('Error al obtener el contenido:', error);
-    }
-  }
-
-
-getFilesModel(id: string) {
-    
-    this.changeService.requestGetChangesById(id).subscribe(
-      response => {
-        this.dataArray =this.dataSource.data.map(value => value.value, (id: { id: any; }) => id.id)
-      }, error => {
-        console.log('Sin archivos por la version seleccionada');
-      })
-  }
-
 <mat-menu #versions="matMenu">
                 
-                    <div *ngFor="let mdl of listModels">
-                        <button mat-menu-item (click)="getFilesModel(mdl.id)"> {{ mdl.model }}</button>
+                    <div *ngFor="let mdl of dataSource.data">
+                        <button mat-menu-item (click)="getFilesModel(mdl.data.id)">{{dataArray.data.value.tef.NOMBREARCHIVO}}</button>
                     </div>
             </mat-menu>
-
-
- getFilesModel(id: string) {
-    this.changeService.requestGetChangesById(id).subscribe(
-      response => {
-       console.log(response);
-      }, error => {
-        console.log('Sin archivos por la version seleccionada');
-      })
-  }
