@@ -1,42 +1,8 @@
- getFilesModel(model: string) {
-    console.log(model);
-    this.changeService.requestGetFilesByModel(0, model).subscribe(
-      response => {
-        this.dataSource.data = response as FilesAndVersionsDTO[];
-      }, error => {
-        console.log('Sin archivos por la version seleccionada');
-      })
-  }
-
-requestGetChangesById(id)
-
-
-
-
-let id = this.activatedRoute.snapshot.params['id'];
-    await this.changeService.requestGetChangesById(id).toPromise().then(response => 
-      {
-        console.log('Response ok Info archivo');
-        this.updateDownloadDto = response;
-        for (let parameters in response.value){
-          
-            if (parameters === 'tef_android') {
-              this.tefDTO = {"tef" : ""};
-              this.tefDTO= response.value[parameters];
-              this.type = 0;
-            }else if (parameters === 'tef_legacy'){
-              var valTef1: any;
-              valTef1 = this.formatParameterToJson(response.value[parameters]);
-              this.tefDTO = valTef1.tef;
-              this.type = 1;
-            }        
-        }
-
-
 async getContentById(id: number): Promise<void> {
     try {
-      this.content = await this.changeService.requestGetChangesById(id).toPromise();
-      console.log('Contenido obtenido:', this.content);
+      let id = this.activatedRoute.snapshot.params['id'];
+      await this.changeService.requestGetChangesById(id).toPromise();
+      console.log('Contenido obtenido:', id);
     } catch (error) {
       console.error('Error al obtener el contenido:', error);
     }
