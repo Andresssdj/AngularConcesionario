@@ -1,6 +1,6 @@
 <mat-menu #versions="matMenu">
                 
                     <div *ngFor="let mdl of dataSource.data">
-                        <button mat-menu-item (click)="getFilesModel(mdl.data.id)">{{dataArray.data.value.tef.NOMBREARCHIVO}}</button>
+                        <button mat-menu-item (click)="getFilesModel(mdl.data.id)">{{mdl.data.value.tef.NOMBREARCHIVO}}</button>
                     </div>
             </mat-menu>
