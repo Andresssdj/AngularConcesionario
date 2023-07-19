@@ -18,3 +18,10 @@ getFilesModel(id: string) {
         console.log('Sin archivos por la version seleccionada');
       })
   }
+
+<mat-menu #versions="matMenu">
+                
+                    <div *ngFor="let mdl of listModels">
+                        <button mat-menu-item (click)="getFilesModel(mdl.id)"> {{ mdl.model }}</button>
+                    </div>
+            </mat-menu>
