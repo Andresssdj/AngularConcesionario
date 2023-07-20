@@ -29,3 +29,37 @@ getFilesModel(model: string) {
         console.log('Sin archivos por la version seleccionada');
       })
   }
+
+
+-------------------------------------------------------------------
+obtenerArchivosPorId(id: number) {
+    this.changeService.requestGetFilesByModel(id, 0).subscribe(
+      (response: FilesAndVersionsDTO[]) => {
+        this.archivos = response;
+        // Aquí puedes realizar la comparación con el arreglo local de objetos que tengas
+        // Por ejemplo, para encontrar el objeto que coincide con el ID recibido:
+        const objetoEncontrado = this.archivos.find(archivo => archivo.id === id);
+
+        if (objetoEncontrado) {
+          // Realiza alguna acción con el objeto encontrado, por ejemplo, muestra en la consola:
+          console.log('Objeto encontrado:', objetoEncontrado);
+        } else {
+          console.log('No se encontró ningún objeto con el ID especificado');
+        }
+      },
+      (error) => {
+        console.log('Error al obtener los archivos por ID:', error);
+      }
+    );
+  }
+}
+
+
+En esta comparación, se utiliza el método find del arreglo 
+this.archivos para buscar el objeto que tiene el mismo ID 
+que el que se recibió como parámetro en la función obtenerArchivosPorId.
+ Si encuentra un objeto que coincide, se asignará a la variable objetoEncontrado 
+y se mostrará en la consola con el mensaje "Objeto encontrado". 
+Si no se encuentra ningún objeto con el ID especificado,
+ se imprimirá el mensaje "No se encontró ningún objeto con el ID especificado"
+ en la consola.
