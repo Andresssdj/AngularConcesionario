@@ -17,3 +17,15 @@
 
  @Query("SELECT u FROM UpdateDownload u WHERE u.elemento.id = :id")
     List<UpdateDownload> findByElementoId(long id, Pageable pageable);
+
+
+
+getFilesModel(model: string) {
+    console.log(model);
+    this.changeService.requestGetFilesByModel(0, model).subscribe(
+      response => {
+        this.dataSource.data = response as FilesAndVersionsDTO[];
+      }, error => {
+        console.log('Sin archivos por la version seleccionada');
+      })
+  }
