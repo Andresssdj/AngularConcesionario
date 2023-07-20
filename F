@@ -14,3 +14,6 @@
         List<UpdateDownload> list = repositoryDownload.findById(pageable,id);
         return (!list.isEmpty()) ? mapperListToResponse(list) : null;
     }
+
+ @Query("SELECT u FROM UpdateDownload u WHERE u.elemento.id = :id")
+    List<UpdateDownload> findByElementoId(long id, Pageable pageable);
