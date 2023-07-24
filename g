@@ -19,6 +19,8 @@ En línea: 1 Carácter: 1
     + CategoryInfo          : SecurityError: (:) [], PSSecurityException
     + FullyQualifiedErrorId : UnauthorizedAccess
 
+SELECT u.id, JSON_VALUE(u.value, '$.tef_legacy.NOMBREARCHIVO') FROM Update_Download u;
+
 
  {"tef_legacy":"[PARAMS]ISTEFON=1|MODETEF2=1|ISANULACION=1|ISCIERRE=1|ISBONOREGALO=1|ISAVANCE=1|ISPAGOMOVIL=0|ISBONOVIRTUAL=0|
    ISRECARGACELULAR=0|ISCUPON=0|[RS232]ISRS232=1|COMPORT=7052|PHYSICALCOMPORT=7025|NUMBERDATABITS=5|PARITY=NA|STOPBITS=5|BAUDRATE=9600|
