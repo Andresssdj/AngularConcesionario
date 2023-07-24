@@ -19,3 +19,6 @@
 	
 	   @Query("select new com.credibanco.entity.UpdateDownload(u.id as id , u.value as value, u.status as status,u.createdDate as createdDate, u.tipoCambio as tipoCambio,u.criterio as criterio,u.type as type,u.updatedDate as updatedDate,u.description as description,u.version as version)from UpdateDownload u where u.value  is not null")
     List<UpdateDownload> findByElementoId(long id, String value);
+
+
+.w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingPathVariableException: Required URI template variable 'id' for method parameter type long is not present]
