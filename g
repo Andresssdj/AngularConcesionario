@@ -12,3 +12,9 @@ sistema. Para obtener más información, consulta el tema about_Execution_Polici
 En línea: 1 Carácter: 1
 + ng serve
 + ~~
+
+
++ ng serve
++ ~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
