@@ -48,3 +48,11 @@ FROM
     tu_tabla t;
 
 
+SELECT
+    SUBSTR(
+        t.value,
+        INSTR(t.value, 'NOMBREARCHIVO=') + LENGTH('NOMBREARCHIVO='),
+        INSTR(t.value, '|', INSTR(t.value, 'NOMBREARCHIVO=')) - (INSTR(t.value, 'NOMBREARCHIVO=') + LENGTH('NOMBREARCHIVO='))
+    ) AS NOMBREARCHIVO
+FROM
+    tu_tabla t;
