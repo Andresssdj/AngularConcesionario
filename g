@@ -40,3 +40,11 @@ FROM
         COLUMNS (json_data PATH '$.tef_legacy')
     ) jt;
 
+
+
+SELECT
+    JSON_VALUE(t.value, '$.tef_legacy.VARIABLES.NOMBREARCHIVO') AS NOMBREARCHIVO
+FROM
+    tu_tabla t;
+
+
