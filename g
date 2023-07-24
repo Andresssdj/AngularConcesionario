@@ -63,3 +63,6 @@ SELECT
 FROM
     tu_tabla t;
 
+
+
+(u.id as id , u.value as value, u.status as status,u.createdDate as createdDate, u.tipoCambio as tipoCambio,u.criterio as criterio,u.type as type,u.updatedDate as updatedDate,u.description as description,u.version as version)from UpdateDownload u where u.value.tef_legacy is not null")
