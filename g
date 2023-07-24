@@ -58,3 +58,23 @@ public class TuServicio {
         return responseList;
     }
 }
+
+
+
+
+
+public List<IdValueResponse> getIdValueList() {
+    List<UpdateDownload> list = repositoryDownload.findByElementoId();
+    return (!list.isEmpty()) ? mapperListToIdValueResponse(list) : null;
+}
+
+private List<IdValueResponse> mapperListToIdValueResponse(List<UpdateDownload> list) {
+    List<IdValueResponse> idValueList = new ArrayList<>();
+    for (UpdateDownload updateDownload : list) {
+        IdValueResponse idValueResponse = new IdValueResponse();
+        idValueResponse.setId(updateDownload.getId());
+        idValueResponse.setValue(updateDownload.getValue());
+        idValueList.add(idValueResponse);
+    }
+    return idValueList;
+}
