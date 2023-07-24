@@ -78,3 +78,7 @@ private List<IdValueResponse> mapperListToIdValueResponse(List<UpdateDownload> l
     }
     return idValueList;
 }
+
+
+   @Query("select new com.credibanco.entity.UpdateDownload(u.id as id , u.value as value, u.status as status,u.createdDate as createdDate, u.tipoCambio as tipoCambio,u.criterio as criterio,u.type as type,u.updatedDate as updatedDate,u.description as description,u.version as version)FROM UpdateDownload u  where u.value like '%tef%' ORDER BY ID DESC")
+    List<UpdateDownload> findByElementoId();
