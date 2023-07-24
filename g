@@ -56,3 +56,10 @@ SELECT
     ) AS NOMBREARCHIVO
 FROM
     tu_tabla t;
+
+
+SELECT
+    REGEXP_SUBSTR(t.value, 'NOMBREARCHIVO=([^|]+)', 1, 1, NULL, 1) AS NOMBREARCHIVO
+FROM
+    tu_tabla t;
+
