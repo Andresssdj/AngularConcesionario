@@ -22,3 +22,28 @@
 
 
 .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingPathVariableException: Required URI template variable 'id' for method parameter type long is not present]
+
+
+
+@Service
+public class TuServicio {
+
+    @Autowired
+    private UpdateDownloadRepository repositoryDownload;
+
+    public List<UpdateDownloadResponse> listAllIdAndValue() {
+        List<Object[]> resultList = repositoryDownload.findAllIdAndValue();
+        return mapResultToResponse(resultList);
+    }
+
+    private List<UpdateDownloadResponse> mapResultToResponse(List<Object[]> resultList) {
+        List<UpdateDownloadResponse> responseList = new ArrayList<>();
+        for (Object[] result : resultList) {
+            long id = (long) result[0];
+            String value = (String) result[1];
+            UpdateDownloadResponse response = new UpdateDownloadResponse(id, value);
+            responseList.add(response);
+        }
+        return responseList;
+    }
+}
