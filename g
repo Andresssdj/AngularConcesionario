@@ -32,3 +32,10 @@ WHERE
     AND u.criterio LIKE '%> 1%'
 ORDER BY
     u.id DESC;
+
+
+@Query("SELECT new com.credibanco.entity.UpdateDownload(u.id as id, " +
+       "SUBSTR(u.value, INSTR(u.value, 'NOMBREARCHIVO=') + LENGTH('NOMBREARCHIVO='), " +
+       "INSTR(u.value, '|', INSTR(u.value, 'NOMBREARCHIVO=')) - INSTR(u.value, 'NOMBREARCHIVO=') - LENGTH('NOMBREARCHIVO=')) as value) " +
+       "FROM UpdateDownload u " +
+       "WHERE u.value LIKE '%tef%' AND u.criterio LIKE '%> 1%' ORDER BY u.id DESC")
