@@ -1,24 +1,15 @@
-<mat-menu #versions="matMenu">
-                <div *ngFor="let vr of listTef">
-                    <button mat-menu-item *ngIf="vr.id != null && vr.id != ''"
-                        (click)="getFilesVersionId(vr.id)">
-                        {{ vr.value }}
-                    </button>
-                </div>
-            </mat-menu>
+for (let parameters in response){
+        for (let parameter in response[parameters].value){
+          if (parameter === 'tef_android') {
+            var valTef: any = {"tef" : ""};
+            valTef.tef = response[parameters].value[parameter];
+            response[parameters].value = valTef;
+          }else if (parameter === 'tef_legacy'){
+            var valTef1: TefDTO;
+            valTef1 = this.formatParameterToJson(response[parameters].value[parameter]);
+            response[parameters].value = valTef1;
+          }
+        }
+      }
 
 
-
-getFilesVersionId(id: string) {
-    if (id != 'all') {
-      this.changeService.requestGetFilesById(0, id).subscribe(
-        response => {
-          this.dataSource.data = response as UpdateDownloadDTO[];
-        }, error => {
-          console.log('Sin archivos por la version seleccionada');
-        })
-  }
-}
-
-ERROR TypeError: this.changeService.requestGetFilesById is not a function
-    at ParametrosTefListComponent.getFilesVersionId 
