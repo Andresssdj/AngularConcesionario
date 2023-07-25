@@ -19,3 +19,6 @@ getFilesVersionId(id: string) {
         })
   }
 }
+
+ERROR TypeError: this.changeService.requestGetFilesById is not a function
+    at ParametrosTefListComponent.getFilesVersionId 
