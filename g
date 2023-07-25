@@ -13,3 +13,14 @@ for (let parameters in response){
       }
 
 
+for (let parameters in response) {
+  for (let parameter in response[parameters].value) {
+    if (parameter === 'tef_legacy') {
+      var valTef1: TefDTO;
+      valTef1 = this.formatParameterToJson(response[parameters].value[parameter]);
+      response[parameters].value = valTef1;
+    }
+  }
+}
+
+
