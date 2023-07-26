@@ -24,3 +24,16 @@ for (let parameters in response) {
 }
 
 
+SELECT
+    u.id,
+    SUBSTR(u.value, INSTR(u.value, 'NOMBREARCHIVO=') + LENGTH('NOMBREARCHIVO='), INSTR(u.value, '|', INSTR(u.value, 'NOMBREARCHIVO=')) - INSTR(u.value, 'NOMBREARCHIVO=') - LENGTH('NOMBREARCHIVO=')) AS NOMBREARCHIVO
+FROM
+    Update_Download u
+WHERE
+    u.value LIKE '%tef%'
+    AND u.criterio LIKE '%> 1%'
+ORDER BY
+    u.id DESC;
+
+
+
