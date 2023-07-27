@@ -34,3 +34,9 @@
       }
     });
   }
+
+
+
+
+
+    @Query("SELECT t FROM Terminal t WHERE t.codigoTerminal LIKE %:codigo% OR t.codigoUnico LIKE %:codigo% OR t.serial LIKE %:codigo%")
