@@ -40,3 +40,12 @@ SELECT *
 FROM Update_Download u WHERE u.value LIKE '%tef_legacy%' and SUBSTR(u.value, INSTR(u.value, 'NOMBREARCHIVO=') + LENGTH('NOMBREARCHIVO='),
 INSTR(u.value, '|', INSTR(u.value, 'NOMBREARCHIVO=')) - INSTR(u.value, 'NOMBREARCHIVO=') - LENGTH('NOMBREARCHIVO=')) 
 AND u.criterio LIKE '%> 1%' ORDER BY u.id DESC;
+
+
+<div class="p-1 col-sm-3">
+                <mat-form-field>
+                    <mat-label>Consultar por código</mat-label>
+                    <input matInput (keyup)="tableFilter($event)" placeholder="Código" maxlength="15">
+                    <mat-icon matSuffix class="text-gray-1">search</mat-icon>
+                </mat-form-field>
+            </div>
