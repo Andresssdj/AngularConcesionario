@@ -49,3 +49,10 @@ AND u.criterio LIKE '%> 1%' ORDER BY u.id DESC;
                     <mat-icon matSuffix class="text-gray-1">search</mat-icon>
                 </mat-form-field>
             </div>
+
+
+<input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" placeholder="Buscar...">
+<ul>
+  <li *ngFor="let item of filteredItems">{{ item.nombre }}</li>
+</ul>
+
