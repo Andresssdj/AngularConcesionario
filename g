@@ -56,3 +56,5 @@ AND u.criterio LIKE '%> 1%' ORDER BY u.id DESC;
   <li *ngFor="let item of filteredItems">{{ item.nombre }}</li>
 </ul>
 
+
+SELECT * FROM UPDATE_DOWNLOAD D WHERE D.VALUE.tef_legacy like '%  %' OR D.VALUE.tef_android like '%  %';
