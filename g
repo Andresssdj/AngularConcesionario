@@ -37,19 +37,23 @@
 
 
 
-tableFilter(event: Event) {
+lenghtCodTerm: number;
+  codigoSearch: string;
+
+ 
+
+  tableFilter(event: Event) {
 
     const filterValue = (event.target as HTMLInputElement).value;
     this.codigoSearch = filterValue.toUpperCase();
     this.lenghtCodTerm = filterValue.length;
 
     if (filterValue.length > 1) {
-      this.requestGetByValue(this.codigoSearch); //requestGetById ES EL QUE HACE REALIDAD
+      this.requestGetByValue(this.codigoSearch);
     } else if (filterValue.length == 0) {
       this.ngOnInit();
     }
-
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   
