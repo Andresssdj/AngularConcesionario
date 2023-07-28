@@ -1,61 +1,21 @@
-  // ==== Filtrado de tabla de terminales
-  selectProgramas: boolean = false;
-  lenghtCodTerm: number;
-  codigoSearch: string;
+ARCHIVO TS ANGULAR 
 
-  tableFilter(event: Event) {
+codigoSearch: string;
 
-    this.right = 1;
-    this.left = -1;
+tableFilter(event: Event) {
+
     const filterValue = (event.target as HTMLInputElement).value;
-    this.codigoSearch = filterValue.toUpperCase();
-    this.lenghtCodTerm = filterValue.length;
+    this.codigoSearch = filterValue;
+   
 
     if (filterValue.length > 3) {
-      this.pageListCodigosTerminal(0, this.codigoSearch);
-    } else if (filterValue.length == 0) {
-      this.ngOnInit();
-    }
-
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  
-  
-  
-  
-   pageListCodigosTerminal(pagina: number, codigo: string) {
-    this.paginaActual = pagina;
-    this.serviceTerminal.requestGetTerminalByCodTerminal(codigo, pagina).subscribe({
-      next: (response: any) => {
-        console.log('Response terminal list OK page search');
-        this.dataSource.data = response as Terminal[];
-      }, error(response: any) {
-        console.log('Error al obtener la lista de terminales en component:', response)
-      }
-    });
-  }
-
-
-
-lenghtCodTerm: number;
-  codigoSearch: string;
-
- 
-
-  tableFilter(event: Event) {
-
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.codigoSearch = filterValue.toUpperCase();
-    this.lenghtCodTerm = filterValue.length;
-
-    if (filterValue.length > 1) {
       this.requestGetByValue(this.codigoSearch);
     } else if (filterValue.length == 0) {
       this.ngOnInit();
     }
+
     this.dataSource.filter = filterValue;
   }
-
   
 
   requestGetByValue(value: string) {
@@ -82,3 +42,26 @@ lenghtCodTerm: number;
         console.log('Sin información');
       })
   }
+
+
+CONTROLADOR JAVA
+
+@GetMapping (path = "/list/filter-value/{value}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> searchListFilesByValue(@PathVariable String value, Pageable pageable) {
+        logger.info("----- filtro por value {} -----", value);
+        List<UpdateDownloadResponse> listVersions = serviceDownload.ListByValue(value, pageable);
+        logger.info(FIN_HTTP);
+        return ResponseEntity.status(listVersions != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(listVersions != null ? listVersions : Util.jsonMessage(MessagesDTO.SIN_INFORMACION));
+    }
+
+SERVICIO JAVA 
+
+ public List<UpdateDownloadResponse> ListByValue(String value, Pageable pageable) {
+        List<UpdateDownload> list = repositoryDownload.listFilesVersionByValue(value, pageable);
+        return (!list.isEmpty()) ? mapperListToResponse(list) : null;
+    }
+
+QUERY REPOCITORIO
+
+ @Query("select new com.credibanco.entity.UpdateDownload(u.id as id, u.value as value,u.status as status,u.createdDate as createdDate, u.tipoCambio as tipoCambio,u.criterio as criterio,u.type as type,u.updatedDate as updatedDate,u.description as description,u.version as version)from UpdateDownload u WHERE u.criterio like '%> 1%' AND u.value like '%' || :value || '%' and u.value like '%tef%'")
+    List<UpdateDownload> listFilesVersionByValue(String value, Pageable pageable);
