@@ -36,25 +36,45 @@
   }
 
 
-SELECT *
-FROM Update_Download u WHERE u.value LIKE '%tef_legacy%' and SUBSTR(u.value, INSTR(u.value, 'NOMBREARCHIVO=') + LENGTH('NOMBREARCHIVO='),
-INSTR(u.value, '|', INSTR(u.value, 'NOMBREARCHIVO=')) - INSTR(u.value, 'NOMBREARCHIVO=') - LENGTH('NOMBREARCHIVO=')) 
-AND u.criterio LIKE '%> 1%' ORDER BY u.id DESC;
 
+tableFilter(event: Event) {
 
-<div class="p-1 col-sm-3">
-                <mat-form-field>
-                    <mat-label>Consultar por código</mat-label>
-                    <input matInput (keyup)="tableFilter($event)" placeholder="Código" maxlength="15">
-                    <mat-icon matSuffix class="text-gray-1">search</mat-icon>
-                </mat-form-field>
-            </div>
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.codigoSearch = filterValue.toUpperCase();
+    this.lenghtCodTerm = filterValue.length;
 
+    if (filterValue.length > 1) {
+      this.requestGetByValue(this.codigoSearch); //requestGetById ES EL QUE HACE REALIDAD
+    } else if (filterValue.length == 0) {
+      this.ngOnInit();
+    }
 
-<input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" placeholder="Buscar...">
-<ul>
-  <li *ngFor="let item of filteredItems">{{ item.nombre }}</li>
-</ul>
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
+  
 
-SELECT * FROM UPDATE_DOWNLOAD D WHERE D.VALUE.tef_legacy like '%  %' OR D.VALUE.tef_android like '%  %';
+  requestGetByValue(value: string) {
+    console.log(value);
+   this.changeService.requestGetFilesByValue(0, value).subscribe(
+      response => {
+        for (let parameters in response){
+          for (let parameter in response[parameters].value){
+            if (parameter === 'tef_android') {
+              var valTef: any = {"tef" : ""};
+              valTef.tef = response[parameters].value[parameter];
+              response[parameters].value = valTef;
+            }else if (parameter === 'tef_legacy'){
+              var valTef1: TefDTO;
+              valTef1 = this.formatParameterToJson(response[parameters].value[parameter]);
+              response[parameters].value = valTef1;
+
+              console.log(response);
+            }
+          }
+        }
+      this.dataSource.data = response as UpdateDownloadDTO[];    
+      }, error => {
+        console.log('Sin información');
+      })
+  }
