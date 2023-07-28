@@ -43,3 +43,13 @@ codigoSearch: string;
         console.log('Sin información');
       })
   }
+
+
+<mat-form-field class="col-sm-3">
+                            <mat-label>Nombre configuración</mat-label>
+                            <input type="text" matInput [(ngModel)]="tefDTO.NOMBREARCHIVO" name="NOMBREARCHIVO" matTooltip="Nombre y versión comercio que se va a configurar"
+                                    minlength="1" maxlength="20" pattern="[0-9 A-Z a-z - _ .]*" #addNOMBREARCHIVO="ngModel" required>
+                            <mat-hint align="end" class="text-danger" *ngIf="addNOMBREARCHIVO.hasError('pattern')">
+                                    inválido
+                            </mat-hint>
+                        </mat-form-field> 
