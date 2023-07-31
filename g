@@ -3,6 +3,7 @@ variables : string[] = ['NOMBREARCHIVO','STIMEOUTCU','STIMEOUTME','STIMEOUTSC','
 
 for (let param in this.variables){
         if (this.variables[param] === clave) {
-          this.valTefVARIABLES += clave + '=' + valor + '|';
-		  
-		  }
+         
+        this.valTefVARIABLES += clave + '=' + (clave === 'NOMBREARCHIVO' ? valor.toUpperCase(): valor) + '|';
+        }
+      }
