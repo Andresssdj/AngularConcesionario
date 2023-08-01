@@ -1,9 +1,11 @@
-<div class="col-sm-4">
-                    <strong>Bono virtual :</strong><br>
-                    <span class="text-gray-300">
-                        {{ tefDTO.ISBONOVIRTUAL == 1 ? 'Integrado' : 'Desintegrado' }}
-                    </span>
-                </div>
+<mat-form-field class="col-sm-3">
+                            <mat-label>Bono virtual</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="tefDTO.ISBONOVIRTUAL" name="ISBONOVIRTUAL" matTooltip="Integrar transacción bono virtual"
+                                minlength="1" required>
+                                <mat-option value="0">Desintegrado</mat-option>
+                                <mat-option value="1">Integrado</mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
 refactoriaza
 <div class="form-group">
