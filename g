@@ -41,3 +41,15 @@ solution
         <mat-option value="1">Integrado</mat-option>
     </mat-select>
 </mat-form-field>
+
+
+
+
+<mat-form-field class="col-sm-3">
+  <mat-label>Bono virtual</mat-label>
+  <mat-select [(value)]="tefDTO.ISBONOVIRTUAL" name="ISBONOVIRTUAL" matTooltip="Integrar transacción bono virtual" required>
+    <mat-option value="0">Desintegrado</mat-option>
+    <mat-option value="1">Integrado</mat-option>
+  </mat-select>
+</mat-form-field>
+
