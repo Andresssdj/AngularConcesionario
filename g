@@ -1,9 +1,6 @@
-variables : string[] = ['NOMBREARCHIVO','STIMEOUTCU','STIMEOUTME','STIMEOUTSC','FKCSIGN','MXSIGNTOUT','SIGNATUREW','BEEPLEVEL','SIGNRETRIES','BLOCKMAGNETIC','SETADFIELDS','SENDTRACKS','BLOCKCREDITCARD','CIERREAUTO','SETPRINTER','ACTNUMRECEIPT','DELAYSLAN','SETOFFCAMPS','SETONACK','EXCLUSIVOFALA','IMPUESTOSAUTO','ESTADOCIERRE'];
-
-
-for (let param in this.variables){
-        if (this.variables[param] === clave) {
-         
-        this.valTefVARIABLES += clave + '=' + (clave === 'NOMBREARCHIVO' ? valor.toUpperCase(): valor) + '|';
-        }
-      }
+<div class="col-sm-3 ml-1">
+                        <span>Avance</span><br>
+                        <div class="text-gray-300">
+                            {{ dtoConfigParamsTef.value.tef.ISAVANCE == 1 ? 'Integrado' : 'Desintegrado' }}
+                        </div>
+                    </div>
