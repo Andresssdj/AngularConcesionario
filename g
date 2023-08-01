@@ -1,10 +1,9 @@
-<div class="col-sm-3 ml-1">
-                        <span>Avance</span><br>
-                        <div class="text-gray-300">
-                            {{ dtoConfigParamsTef.value.tef.ISAVANCE == 1 ? 'Integrado' : 'Desintegrado' }}
-                        </div>
-                    </div>
-
+<div class="col-sm-4">
+                    <strong>Bono virtual :</strong><br>
+                    <span class="text-gray-300">
+                        {{ tefDTO.ISBONOVIRTUAL == 1 ? 'Integrado' : 'Desintegrado' }}
+                    </span>
+                </div>
 
 refactoriaza
 <div class="form-group">
