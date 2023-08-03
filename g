@@ -37,3 +37,7 @@
 Incorrect use of <label for=FORM_ELEMENT>
 The label's for attribute doesn't match any element id. This might prevent the browser from correctly autofilling the form and accessibility tools from working correctly.
 To fix this issue, make sure the label's for attribute references the correct id of a form field.
+
+
+El atributo para de la etiqueta no coincide con ningún ID de elemento. Esto podría evitar que el navegador complete correctamente el formulario y que las herramientas de accesibilidad no funcionen correctamente.
+Para solucionar este problema, asegúrese de que el atributo for de la etiqueta haga referencia a la identificación correcta de un campo de formulario.
