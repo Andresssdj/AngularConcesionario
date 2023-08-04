@@ -16,10 +16,19 @@ generateTefLegacy(newTef: TefDTO) : string{
     this.valTefUSB  = '[USB]';
     this.valTefTEFCLOUD  = '[TEFCLOUD]';
     this.valTefVARIABLES  = '[VARIABLES]';
+    generateTefLegacy(newTef: TefDTO) : string{
+    this.valTefParams  = '[PARAMS]';
+    this.valTefRS232  = '[RS232]';
+    this.valTefETHERNET  = '[ETHERNET]';
+    this.valTefUSB  = '[USB]';
+    this.valTefTEFCLOUD  = '[TEFCLOUD]';
+    this.valTefVARIABLES  = '[VARIABLES]';
     
     for (const [clave, valor] of Object.entries(newTef)) {
-      for (let param in this.params){
-        if (this.params[param] === clave) {
+      for (let param in this.params) {
+        const clave = this.params[param];
+        const valor = newTef[clave];
+        if (valor !== clave) {
           this.valTefParams += clave + '=' + valor + '|';
         }
       }    
