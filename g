@@ -1,4 +1,15 @@
- generateTefLegacy(newTef: TefDTO) : string{
+
+for (let param in this.params) {
+  const clave = this.params[param];
+  const valor = newTef[clave];
+  if (valor !== undefined) {
+    this.valTefParams += clave + '=' + valor + '|';
+  }
+}
+
+
+
+generateTefLegacy(newTef: TefDTO) : string{
     this.valTefParams  = '[PARAMS]';
     this.valTefRS232  = '[RS232]';
     this.valTefETHERNET  = '[ETHERNET]';
