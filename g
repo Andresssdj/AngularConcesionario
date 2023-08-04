@@ -22,3 +22,15 @@
           this.valTefRS232 += clave + '=' + valor + '|';
         }
       }  
+
+
+Object.entries(newTef).forEach(([clave, valor]) => {
+  if (this.params.hasOwnProperty(clave)) {
+    this.valTefParams += `${clave}=${valor}|`;
+  }
+
+  if (this.rs232.hasOwnProperty(clave)) {
+    this.valTefRS232 += `${clave}=${valor}|`;
+  }
+});
+
