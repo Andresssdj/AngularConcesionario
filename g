@@ -52,3 +52,32 @@ generateTefLegacy(newTef: TefDTO) : string{
     return this.archivoTef;
     
   }
+
+
+
+
+generateTefLegacy(newTef: TefDTO): string {
+  const tefSections = {
+    PARAMS: this.params,
+    RS232: this.rs232,
+    ETHERNET: this.ethernet,
+    USB: [this.usb],
+    TEFCLOUD: [this.tefCloud],
+    VARIABLES: this.variables,
+  };
+
+  const sectionNames = Object.keys(tefSections);
+  const sectionValues = Object.values(tefSections);
+  const sectionKeys = sectionNames.map(name => `[${name}]`);
+
+  const sections = sectionValues.map((section, index) => {
+    const sectionEntries = Object.entries(newTef);
+    const sectionValues = sectionEntries.filter(([clave]) => section.includes(clave));
+    return sectionValues.map(([clave, valor]) => {
+      return clave === 'NOMBREARCHIVO' ? `${clave}=${valor.toUpperCase()}` : `${clave}=${valor}`;
+    }).join('|');
+  });
+
+  this.archivoTef = sectionKeys.map((sectionKey, index) => `${sectionKey}${sections[index]}`).join('');
+  return this.archivoTef;
+}
