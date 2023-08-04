@@ -1,11 +1,11 @@
-
-for (let param in this.params) {
-  const clave = this.params[param];
-  const valor = newTef[clave];
-  if (valor !== undefined) {
-    this.valTefParams += clave + '=' + valor + '|';
-  }
-}
+for (const [clave, valor] of Object.entries(newTef)) {
+      for (let param in this.params) {
+        let clave = this.params[param];
+        let valor = newTef[clave];
+        if (valor !== undefined) {
+          this.valTefParams += clave + '=' + valor + '|';
+        }
+      } 
 
 
 
