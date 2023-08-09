@@ -1,4 +1,10 @@
-for (let parameters in response){
+ listParams(pagina: string, type: string) {
+
+    this.requestType = type;
+    this.changeService.requestListChangeParamsTef('0', type, pagina).subscribe(
+      response => {
+        // console.log('Response OK change params');
+        for (let parameters in response){
           for (let parameter in response[parameters].value){
             if (parameter === 'tef_android') {
               var valTef: any = {"tef" : ""};
@@ -8,10 +14,19 @@ for (let parameters in response){
               var valTef1: TefDTO;
               valTef1 = this.formatParameterToJson(response[parameters].value[parameter]);
               response[parameters].value = valTef1;
-              console.log(valTef1);
             }
           }
         }
+        
+        this.dataSource.data = response as UpdateDownloadDTO[];    
+      }, error => {
+        this.dataSource.data = [];
+        console.log('Sin información');
+      }
+    )
+  }
+
+
 
 
 formatParameterToJson(parameterBD: any) : TefDTO{
@@ -34,44 +49,3 @@ formatParameterToJson(parameterBD: any) : TefDTO{
     return valTef;
 
   }
-
-
-
-params : string[] = ['ISTEFON','MODETEF2','ISANULACION','ISCIERRE','ISBONOREGALO','ISAVANCE','ISPAGOMOVIL','ISBONOVIRTUAL','ISRECARGACELULAR','ISCUPON'];
-
-
-interface TefDTO {
-  [key: string]: string;
-}
-
-for (const parameters in response) {
-  for (const parameter in response[parameters].value) {
-    if (parameter === 'tef_android') {
-      const valTef: any = { tef: '' };
-      valTef.tef = response[parameters].value[parameter];
-      response[parameters].value = valTef;
-    } else if (parameter === 'tef_legacy') {
-      const valTef1: TefDTO = this.formatParameterToJson(response[parameters].value[parameter]);
-      response[parameters].value = valTef1;
-      console.log(valTef1);
-    }
-  }
-}
-
-
-formatParameterToJson(parameterBD: any): TefDTO {
-  const tef1 = parameterBD.slice(0, -1);
-  const listaNombres = tef1.split('|');
-  const valTef: TefDTO = {};
-  
-  this.itemsTef.forEach((key, index) => {
-    const name = key.concat('=');
-    if (listaNombres.length > index && listaNombres[index].includes(name)) {
-      const position = listaNombres[index].indexOf(name) + name.length;
-      const values = listaNombres[index].substring(position);
-      valTef[key] = values;
-    }
-  });
-  
-  return valTef;
-}
