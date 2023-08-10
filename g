@@ -91,3 +91,33 @@ createTef() {
 
     
   }
+
+
+
+
+generateTefLegacy(newTef: TefDTO) : string{
+    this.valTefParams  = '[PARAMS]';
+    this.valTefRS232  = '[RS232]';
+    this.valTefVARIABLES  = '[VARIABLES]';
+    
+    for (const [clave, valor] of Object.entries(newTef)) {
+      for (let param in this.params){
+        if (this.params[param] === clave) {
+          this.valTefParams += clave + '=' + valor + '|';
+        }
+      }    
+      for (let param in this.rs232){
+        if (this.rs232[param] === clave) {
+          this.valTefRS232 += clave + '=' + valor + '|';
+        }
+      }  
+      for (let param in this.variables){
+        if (this.variables[param] === clave) {
+          this.valTefVARIABLES += clave + '=' + (clave === 'NOMBREARCHIVO' ? valor.toUpperCase(): valor) + '|';
+        }
+      }
+    }
+    this.archivoTef = this.valTefParams + this.valTefRS232 + this.valTefVARIABLES
+    return this.archivoTef;
+    
+  }
