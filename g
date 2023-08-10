@@ -95,66 +95,27 @@ createTef() {
 
 
 
-generateTefLegacy(newTef: TefDTO) : string{
-    this.valTefParams  = '[PARAMS]';
-    this.valTefRS232  = '[RS232]';
-    this.valTefVARIABLES  = '[VARIABLES]';
-    
-    for (const [clave, valor] of Object.entries(newTef)) {
-      for (let param in this.params){
-        if (this.params[param] === clave) {
-          this.valTefParams += clave + '=' + valor + '|';
-        }
-      }    
-      for (let param in this.rs232){
-        if (this.rs232[param] === clave) {
-          this.valTefRS232 += clave + '=' + valor + '|';
-        }
-      }  
-      for (let param in this.variables){
-        if (this.variables[param] === clave) {
-          this.valTefVARIABLES += clave + '=' + (clave === 'NOMBREARCHIVO' ? valor.toUpperCase(): valor) + '|';
+listParams(pagina: string, type: string) {
+  this.requestType = type;
+  this.changeService.requestListChangeParamsTef('0', type, pagina).subscribe(
+    response => {
+      for (let parameters in response) {
+        for (let parameter in response[parameters].value) {
+          if (parameter === 'tef_android') {
+            // ... Lógica para tef_android (sin cambios)
+          } else if (parameter === 'tef_legacy') {
+            var valTef1: TefDTO;
+            valTef1 = this.formatParameterToJson(response[parameters].value[parameter]);
+            response[parameters].value = valTef1; // Esta línea puede estar causando problemas
+          }
         }
       }
+      
+      this.dataSource.data = response as UpdateDownloadDTO[];    
+    },
+    error => {
+      this.dataSource.data = [];
+      console.log('Sin información');
     }
-    this.archivoTef = this.valTefParams + this.valTefRS232 + this.valTefVARIABLES
-    return this.archivoTef;
-    
-  }
-
-
- generateTefLegacy(newTef: TefDTO): string {
-  const tefParams: any = {};
-  const rs232Params: any = {};
-  const ethernetParams: any = {};
-  // ... Define other parameter sections as needed
-
-  for (const [clave, valor] of Object.entries(newTef)) {
-    if (this.params.includes(clave)) {
-      tefParams[clave] = valor;
-    } else if (this.rs232.includes(clave)) {
-      rs232Params[clave] = valor;
-    } else if (this.ethernet.includes(clave)) {
-      ethernetParams[clave] = valor;
-    }
-    // ... Add logic for other parameter sections
-  }
-
-  const tefParamsString = this.formatParameterToString(tefParams);
-  const rs232ParamsString = this.formatParameterToString(rs232Params);
-  const ethernetParamsString = this.formatParameterToString(ethernetParams);
-  // ... Convert other parameter sections to strings
-
-  const archivoTef = `[PARAMS]${tefParamsString}[RS232]${rs232ParamsString}[ETHERNET]${ethernetParamsString}`;
-  // ... Concatenate other parameter sections
-
-  return archivoTef;
-}
-
-formatParameterToString(params: any): string {
-  let paramString = '';
-  for (const [key, value] of Object.entries(params)) {
-    paramString += `${key}=${value}|`;
-  }
-  return paramString;
+  );
 }
