@@ -1,4 +1,31 @@
- listParams(pagina: string, type: string) {
+formatParameterToJson(parameterBD: any): TefDTO {
+    var listaNombres = parameterBD.split('|');
+    var valTef: any = {"tef": {}};
+
+    var paramMap: {[key: string]: string} = {}; // Objeto para mapear nombres a valores
+
+    // Llena el paramMap con los nombres de los parámetros y sus valores correspondientes
+    listaNombres.forEach(item => {
+        var [name, value] = item.split('=');
+        paramMap[name] = value;
+    });
+
+    // Asigna los valores en el orden correcto según this.itemsTef
+    this.itemsTef.forEach(key => {
+        var normalizedKey = key.replace(/[\[\]"]/g, ''); // Normaliza el nombre del campo
+        if (paramMap.hasOwnProperty(normalizedKey)) {
+            valTef.tef[key] = paramMap[normalizedKey];
+        }
+    });
+
+    return valTef;
+}
+
+
+
+
+
+listParams(pagina: string, type: string) {
 
     this.requestType = type;
     this.changeService.requestListChangeParamsTef('0', type, pagina).subscribe(
