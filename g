@@ -1,4 +1,68 @@
-Quiero que de esto 
+tengo este metodo
+
+  formatParameterToJson(parameterBD: any): TefDTO {
+    console.log('parameterBD',parameterBD);
+    var listaNombres = parameterBD.split('|');
+    var valTef: any = {"tef" : {}};
+    
+    var paramMap: {[key: string]: string} = {}; // Objeto para mapear nombres a valores
+    
+    // Llena el paramMap con los nombres de los parámetros y sus valores correspondientes
+    listaNombres.forEach(item => {
+        var [name, value] = item.split('=');
+        paramMap[name] = value;
+    });
+    console.log('map', paramMap);
+    // Asigna los valores en el orden correcto según this.itemsTef
+    this.itemsTef.forEach(key => {
+        if (paramMap.hasOwnProperty(key)) {
+            valTef.tef[key] = paramMap[key];
+        }
+    });
+    //console.log(this.itemsTef);
+    console.log('valTef',valTef);
+    return valTef;
+	
+	
+que al momento de mapear los datos me los trae asi 
+
+"": undefined
+ACTNUMRECEIPT: "0"
+BAUDRATE: "0"
+BEEPLEVEL: "10"
+BLOCKCREDITCARD: "0"
+BLOCKMAGNETIC: "0"
+CIERREAUTO: "NULL"
+COMPORT: "0"
+DELAYSLAN: "0"
+ESTADOCIERRE: "0"
+EXCLUSIVOFALA: "0"
+FKCSIGN: "30"
+IMPUESTOSAUTO: "0"IPHOST: "0"
+ISANULACION: "1"
+ISAVANCE: "1"
+ISBONOREGALO: "1"
+ISBONOVIRTUAL: "1"
+ISCIERRE: "1"
+ISCUPON: "1"
+ISRECARGACELULAR: "1"
+ISTEFON: "1"
+MODETEF2: "1"
+MXSIGNTOUT: "45"
+NUMBERDATABITS:"0"
+PARITY: "0"
+PHYSICALCOMPORT: "0"
+PORTHOST: "0"
+SENDTRACKS: "0"
+SETADFIELDS: "0"
+SETOFFCAMPS: "53"
+SETONACK: "0"
+SETPRINTER: "0"
+SIGNATUREW: "0"
+SIGNRETRIES: "2"
+STIMEOUTCU: "60"
+STIMEOUTME: "60"
+STIMEOUTSC: "60"STOPBITS: "0"
 [ETHERNET]ISETHERNET: "0"
 [PARAMS]ISPAGOMOVIL: "1"
 [RS232]ISRS232: "0"
@@ -6,15 +70,7 @@ Quiero que de esto
 [USB]ISUSB: "1"
 [VARIABLES]NOMBREARCHIVO: "PRUEBA_M"
 
-
-me lo deje asi
-
-ISETHERNET: "0"
-ISPAGOMOVIL: "1"
-ISRS232: "0"
-ISTEFCLOUD: "0"
-ISUSB: "1"
-NOMBREARCHIVO: "PRUEBA_M"
+quiero que cuando me los mapee me borre todo lo que este dentro de [ ] incluendo los corchetes
 
 
 formatParameterToJson(parameterBD: any): TefDTO {
