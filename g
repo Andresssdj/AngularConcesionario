@@ -123,113 +123,38 @@ generateTefLegacy(newTef: TefDTO) : string{
   }
 
 
- tef_legacy: "[PARAMS]ISCUPON=1|ISANULACION=1|ISBONOREGALO=1|ISPAGOMOVIL=1|ISBONOVIRTUAL=1|ISTEFON=1|ISAVANCE=1|ISRECARGACELULAR=1|ISCIERRE=1|MODETEF2=1|
-  [RS232]ISRS232=1|COMPORT=0|PHYSICALCOMPORT=0|NUMBERDATABITS=8|PARITY=N|STOPBITS=1|BAUDRATE=9600|
-  [ETHERNET]ISETHERNET=0|IPHOST=0|PORTHOST=0|
-  [USB]ISUSB=0|
-  [TEFCLOUD]ISTEFCLOUD=0|
-  [VARIABLES]NOMBREARCHIVO=PRUEBA_M|STIMEOUTCU=60|STIMEOUTME=60|STIMEOUTSC=60|FKCSIGN=30|MXSIGNTOUT=45|SIGNATUREW=0|SIGNRETRIES=2|BEEPLEVEL=10|BLOCKMAGNETIC=0|SETADFIELDS=0|SENDTRACKS=0|BLOCKCREDITCARD=0|CIERREAUTO=NULL|SETPRINTER=0|ACTNUMRECEIPT=0|DELAYSLAN=0|SETOFFCAMPS=53|SETONACK=0|EXCLUSIVOFALA=0|IMPUESTOSAUTO=0|ESTADOCIERRE=0|"
+ generateTefLegacy(newTef: TefDTO): string {
+  const tefParams: any = {};
+  const rs232Params: any = {};
+  const ethernetParams: any = {};
+  // ... Define other parameter sections as needed
 
-value: tef: 
-ACTNUMRECEIPT
-: 
-"0"
-BAUDRATE
-: 
-"9600"
-BEEPLEVEL
-: 
-"10"
-BLOCKCREDITCARD
-: 
-"0"
-BLOCKMAGNETIC
-: 
-"0"
-CIERREAUTO
-: 
-"NULL"
-COMPORT
-: 
-"0"
-DELAYSLAN
-: 
-"0"
-ESTADOCIERRE
-: 
-"0"
-EXCLUSIVOFALA
-: 
-"0"
-FKCSIGN
-: 
-"30"
-IMPUESTOSAUTO
-: 
-"0"
-IPHOST
-: 
-"0"
-ISETHERNET
-: 
-"0"
-ISRS232
-: 
-"1"
-ISTEFCLOUD
-: 
-"0"
-ISUSB
-: 
-"0"
-MXSIGNTOUT
-: 
-"45"
-NOMBREARCHIVO
-: 
-"PRUEBA_M"
-NUMBERDATABITS
-: 
-"8"
-PARITY
-: 
-"N"
-PHYSICALCOMPORT
-: 
-"0"
-PORTHOST
-: 
-"0"
-SENDTRACKS
-: 
-"0"
-SETADFIELDS
-: 
-"0"
-SETOFFCAMPS
-: 
-"53"
-SETONACK
-: 
-"0"
-SETPRINTER
-: 
-"0"
-SIGNATUREW
-: 
-"0"
-SIGNRETRIES
-: 
-"2"
-STIMEOUTCU
-: 
-"60"
-STIMEOUTME
-: 
-"60"
-STIMEOUTSC
-: 
-"60"
-STOPBITS
-: 
-"1"
+  for (const [clave, valor] of Object.entries(newTef)) {
+    if (this.params.includes(clave)) {
+      tefParams[clave] = valor;
+    } else if (this.rs232.includes(clave)) {
+      rs232Params[clave] = valor;
+    } else if (this.ethernet.includes(clave)) {
+      ethernetParams[clave] = valor;
+    }
+    // ... Add logic for other parameter sections
+  }
+
+  const tefParamsString = this.formatParameterToString(tefParams);
+  const rs232ParamsString = this.formatParameterToString(rs232Params);
+  const ethernetParamsString = this.formatParameterToString(ethernetParams);
+  // ... Convert other parameter sections to strings
+
+  const archivoTef = `[PARAMS]${tefParamsString}[RS232]${rs232ParamsString}[ETHERNET]${ethernetParamsString}`;
+  // ... Concatenate other parameter sections
+
+  return archivoTef;
+}
+
+formatParameterToString(params: any): string {
+  let paramString = '';
+  for (const [key, value] of Object.entries(params)) {
+    paramString += `${key}=${value}|`;
+  }
+  return paramString;
+}
