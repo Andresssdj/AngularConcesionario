@@ -49,3 +49,45 @@ formatParameterToJson(parameterBD: any) : TefDTO{
     return valTef;
 
   }
+
+
+
+
+createTef() {
+    this.dtoParametros = new Parameters();
+    this.dtoParamsTef = new UpdateDownloadDTO();
+    if (this.tipoTerminal == '1') {
+      this.dtoParametros.tef_legacy = this.generateTefLegacy(this.tefDTO);
+    }else{
+      this.dtoParametros.tef_android = this.tefDTO;
+    }
+
+    this.dtoParamsTef.created = localStorage.getItem('username');
+    this.dtoParamsTef.description = this.tefDTO.NOMBREARCHIVO;
+    var parametrosUpdate = this.managerJsonService.removeCleanKeysJson(this.dtoParametros);
+    this.dtoParamsTef.value = parametrosUpdate;
+    let criterioGroup = {
+      "id_terminal": "> 1"
+    }
+
+    console.log(this.dtoParamsTef);
+
+    this.changeService.requestChangesBuilderTef(parametrosUpdate).subscribe(
+      response => {
+        console.log(response.id);
+        this.tefDTO = new TefDTO();
+        this.auditService.requestAddAudit(response.id, 2, parametrosUpdate, JSON.stringify(parametrosUpdate), parametrosUpdate, criterioGroup);
+        this.modal.dismissAll();
+        this.tipoTerminal="";
+        this.habilitado = "";
+        console.log('STATUS = 202');
+        this.toastShow('Solicitud exitosa, parametros TEF agregados', NgbToastType.Success, 5);
+        this.ngOnInit();
+      }, error => {
+        console.log('STATUS = 400');
+        this.toastShow('No se logro aplicar los cambios', NgbToastType.Danger, 5);
+      }
+    );
+
+    
+  }
