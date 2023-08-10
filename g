@@ -149,30 +149,262 @@ formatParameterToJson(parameterBD: any): TefDTO {
 }
 
 
+en  paramMap me los esta mostrando asi 
 
-formatParameterToJson(parameterBD: any): TefDTO {
-    var tef1 = parameterBD.slice(0, -1);
-    var listaNombres = tef1.split('|');
-    var valTef: any = {"tef": {}};
-    var position;
-    var values;
+""
+: 
+undefined
+ACTNUMRECEIPT
+: 
+"0"
+BAUDRATE
+: 
+"0"
+BEEPLEVEL
+: 
+"10"
+BLOCKCREDITCARD
+: 
+"0"
+BLOCKMAGNETIC
+: 
+"0"
+CIERREAUTO
+: 
+"NULL"
+COMPORT
+: 
+"0"
+DELAYSLAN
+: 
+"0"
+ESTADOCIERRE
+: 
+"0"
+EXCLUSIVOFALA
+: 
+"0"
+FKCSIGN
+: 
+"30"
+IMPUESTOSAUTO
+: 
+"0"
+IPHOST
+: 
+"0"
+ISANULACION
+: 
+"1"
+ISAVANCE
+: 
+"1"
+ISBONOREGALO
+: 
+"1"
+ISBONOVIRTUAL
+: 
+"1"
+ISCIERRE
+: 
+"1"
+ISCUPON
+: 
+"1"
+ISRECARGACELULAR
+: 
+"1"
+ISTEFON
+: 
+"1"
+MODETEF2
+: 
+"1"
+MXSIGNTOUT
+: 
+"45"
+NUMBERDATABITS
+: 
+"0"
+PARITY
+: 
+"0"
+PHYSICALCOMPORT
+: 
+"0"
+PORTHOST
+: 
+"0"
+SENDTRACKS
+: 
+"0"
+SETADFIELDS
+: 
+"0"
+SETOFFCAMPS
+: 
+"53"
+SETONACK
+: 
+"0"
+SETPRINTER
+: 
+"0"
+SIGNATUREW
+: 
+"0"
+SIGNRETRIES
+: 
+"2"
+STIMEOUTCU
+: 
+"60"
+STIMEOUTME
+: 
+"60"
+STIMEOUTSC
+: 
+"60"
+STOPBITS
+: 
+"0"
+[ETHERNET]ISETHERNET
+: 
+"0"
+[PARAMS]ISPAGOMOVIL
+: 
+"1"
+[RS232]ISRS232
+: 
+"0"
+[TEFCLOUD]ISTEFCLOUD
+: 
+"0"
+[USB]ISUSB
+: 
+"1"
+[VARIABLES]NOMBREARCHIVO
+: 
+"PRUEBA_M"
 
-    // Crear un objeto para mapear nombres de parámetros a índices en listaNombres
-    var paramNameIndexMap: { [name: string]: number } = {};
-    listaNombres.forEach((item, index) => {
-        var [name, _] = item.split('=');
-        paramNameIndexMap[name] = index;
-    });
 
-    this.itemsTef.forEach((key) => {
-        var name = key.concat('=');
-        if (paramNameIndexMap.hasOwnProperty(name)) {
-            var index = paramNameIndexMap[name];
-            position = listaNombres[index].indexOf(name) + name.length;
-            values = listaNombres[index].substring(position);
-            valTef.tef[key] = values;
-        }
-    });
 
-    return valTef;
-}
+En valTef me los esta mostrando asi 
+
+
+tef
+: 
+ACTNUMRECEIPT
+: 
+"0"
+BAUDRATE
+: 
+"0"
+BEEPLEVEL
+: 
+"10"
+BLOCKCREDITCARD
+: 
+"0"
+BLOCKMAGNETIC
+: 
+"0"
+CIERREAUTO
+: 
+"NULL"
+COMPORT
+: 
+"0"
+DELAYSLAN
+: 
+"0"
+ESTADOCIERRE
+: 
+"0"
+EXCLUSIVOFALA
+: 
+"0"
+FKCSIGN
+: 
+"30"
+IMPUESTOSAUTO
+: 
+"0"
+IPHOST
+: 
+"0"
+ISANULACION
+: 
+"1"
+ISAVANCE
+: 
+"1"
+ISBONOREGALO
+: 
+"1"
+ISBONOVIRTUAL
+: 
+"1"
+ISCIERRE
+: 
+"1"
+ISCUPON
+: 
+"1"
+ISRECARGACELULAR
+: 
+"1"
+ISTEFON
+: 
+"1"
+MODETEF2
+: 
+"1"
+MXSIGNTOUT
+: 
+"45"
+NUMBERDATABITS
+: 
+"0"
+PARITY
+: 
+"0"
+PHYSICALCOMPORT
+: 
+"0"
+PORTHOST
+: 
+"0"
+SENDTRACKS
+: 
+"0"
+SETADFIELDS
+: 
+"0"
+SETOFFCAMPS
+: 
+"53"
+SETONACK
+: 
+"0"
+SETPRINTER
+: 
+"0"
+SIGNATUREW
+: 
+"0"
+SIGNRETRIES
+: 
+"2"
+STIMEOUTCU
+: 
+"60"
+STIMEOUTME
+: 
+"60"
+STIMEOUTSC
+: 
+"60"
+STOPBITS
+: 
+"0"
