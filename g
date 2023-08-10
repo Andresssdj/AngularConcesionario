@@ -1,6 +1,32 @@
 formatParameterToJson(parameterBD: any): TefDTO {
     var listaNombres = parameterBD.split('|');
     var valTef: any = {"tef": {}};
+    
+    var paramMap: {[key: string]: string} = {}; // Objeto para mapear nombres a valores
+    
+    // Llena el paramMap con los nombres de los parámetros y sus valores correspondientes
+    listaNombres.forEach(item => {
+        var [name, value] = item.split('=');
+        var normalizedName = name.replace(/[\[\]"]/g, ''); // Elimina corchetes y comillas
+        paramMap[normalizedName] = value;
+    });
+    
+    // Asigna los valores en el orden correcto según this.itemsTef
+    this.itemsTef.forEach(key => {
+        if (paramMap.hasOwnProperty(key)) {
+            valTef.tef[key] = paramMap[key];
+        }
+    });
+    
+    return valTef;
+}
+
+
+
+
+formatParameterToJson(parameterBD: any): TefDTO {
+    var listaNombres = parameterBD.split('|');
+    var valTef: any = {"tef": {}};
 
     var paramMap: {[key: string]: string} = {}; // Objeto para mapear nombres a valores
 
