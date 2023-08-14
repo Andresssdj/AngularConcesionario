@@ -1,8 +1,48 @@
-if (keyOld == 'co' && jsonOld[keyOld] != null) {
-          var jsqr = JSON.parse(JSON.stringify(value));
-          if (jsqr.qrbco || jsqr.nequi) {
-            value = "Activo cuentas";
-          } else if (!jsqr.qrbco) {
-            value = "Inactivo";
+Tengo estos metodos que me filtran una tabla y los metodos funcionan 
+pero el filtro funciona cuando escribo el nombre completo de lo que 
+estoy filtrando pero si no lo escribo completo no me trae nada
+
+ codigoSearch: string;
+  
+  tableFilter(event: Event) {
+
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.codigoSearch = filterValue;
+
+   
+    if (filterValue.length > 1) {
+      this.requestGetByValue(this.codigoSearch);
+    } else if (filterValue.length == 0) {
+      this.ngOnInit();
+    }
+  }
+  
+  requestGetByValue(containerVersion: string) {
+    this.changeService.requestFilterFilesAndVersions(0,containerVersion).subscribe(response => {
+      console.log('Response list files OK');
+      console.log('response',response);
+      this.dataSource.data = response as FilesAndVersionsDTO[];
+      
+     for(let i = 0; i < response.length; i++){
+        this.formattedData = response[i].terminalModel.toString().replace('[', '').replace(']',"");
+        console.log(this.formattedData);
+        this.dataArray = this.formattedData.split(',').map(Number);
+
+        var nombres= '';
+
+        for (const dato of this.dataArray){
+          for(const item of this.listModels){
+
+            if (item.id === dato){ 
+              nombres += item.model + " ";
+            }
           }
         }
+        response[i].terminalModel = nombres; 
+        this.dataSource.data = response as FilesAndVersionsDTO[];
+    }
+    
+    }, error => {
+      console.log('Response list files Not Found');
+    })
+  }
