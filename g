@@ -46,3 +46,41 @@ estoy filtrando pero si no lo escribo completo no me trae nada
       console.log('Response list files Not Found');
     })
   }
+
+
+
+
+
+codigoSearch: string;
+dataSource: MatTableDataSource<FilesAndVersionsDTO>;  // Asegúrate de importar MatTableDataSource si no lo has hecho.
+
+constructor() {
+  this.dataSource = new MatTableDataSource<FilesAndVersionsDTO>();
+}
+
+tableFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.codigoSearch = filterValue.trim().toLowerCase();
+  this.applyFilter();
+}
+
+applyFilter() {
+  if (!this.codigoSearch) {
+    this.dataSource.filter = '';
+    return;
+  }
+
+  this.dataSource.filterPredicate = (data: FilesAndVersionsDTO, filter: string) => {
+    const formattedData = data.terminalModel.toString().replace('[', '').replace(']', "");
+    const dataArray = formattedData.split(',').map(Number);
+
+    const matchingModels = this.listModels
+      .filter(item => dataArray.includes(item.id))
+      .map(item => item.model.toLowerCase());
+
+    return matchingModels.join(' ').includes(filter);
+  };
+
+  this.dataSource.filter = this.codigoSearch;
+}
+
