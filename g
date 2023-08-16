@@ -65,3 +65,34 @@ viewTerminalSmarVista(code: string, modal: any) {
             </div>
     
         </ng-template>
+
+
+
+<!-- Corrección de la plantilla modal -->
+<ng-template #modalAprobacion let-modal>
+
+  <div class="modal-header">
+    <h3 class="modal-title">Aprobar parámetros de {{ complet }}</h3> <!-- ¿Dónde se define complet? -->
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <mat-progress-bar mode="buffer"></mat-progress-bar>
+  
+  <div class="modal-body">
+    <div *ngIf="response">
+      <div class="form-group row col-sm-12 ml-2">
+        {{ response }}
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-footer" *ngIf="profile == '0' || profile == '2'">
+    <button class="card card-small btn bg-light" (click)="modal.dismiss()">
+      <span class="p-2">Cerrar</span>
+    </button>
+  </div>
+
+</ng-template>
+
