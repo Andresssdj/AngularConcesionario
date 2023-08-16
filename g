@@ -9,3 +9,12 @@ Tengo este endpoint de un api, y quiero un metodo en typescrip que me permita vi
 y el body de requestDTO es de tipo JSON 
 {"operation":"unica","code":"000QA"}
 
+
+
+requestSearchSmartVist(terminalName: string, id: number, type: number) {
+    let json: any = {
+      "codigoTerminal": terminalName,
+      "type": type
+    }
+    return this.http.put<any>(`${this.PATH_TERMINALS}/update/type/${id}`, json).pipe(catchError(this.handleError));
+  }
