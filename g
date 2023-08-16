@@ -20,213 +20,24 @@ viewTerminalSmarVista(code: string){
 
 esta es la respuesta que tengo
 
-acdcc
-: 
-"0"
-app3
-: 
-"0"
-arl
-: 
-"0"
-bp
-: 
-"0"
-bt
-: 
-"0"
-ca
-: 
-"0"
-cb
-: 
-"0"
-cbr
-: 
-"0"
-cc
-: 
-"11001"
-cce
-: 
-"011682886"
-ccm
-: 
-"0"
-ccn
-: 
-"Pruebas AGENCIA CL 148 SAS NC"
-ccs
-: 
-"INTERPRU.PEM"
-cct
-: 
-"000A0ITM"
-cd
-: 
-"Calle 148 58B-58"
-cdc
-: 
-"0"
-cdi
-: 
-"190.085.196.055"
-cdic
-: 
-"0"
-cg
-: 
-"0"
-chabc
-: 
-"1"
-chorc
-: 
-"20:00"
-cim
-: 
-"0"
-cir
-: 
-"1"
-city
-: 
-"BOGOTA"
-cl
-: 
-"ES"
-cma
-: 
-"VEN:DIV:SUP;REC;FIN;FIL;MPV;LEA;CMP;MBV"
-cmac
-: 
-"COR;MPV"
-cmb
-: 
-"0"
-cn
-: 
-"0001"
-cnc
-: 
-"0"
-cnd
-: 
-"8"
-cnr
-: 
-"0"
-co
-: 
-"0"
-cor
-: 
-"0"
-cp
-: 
-"443 "
-cps
-: 
-"3141"
-csm
-: 
-"$"
-ctc1
-: 
-"0"
-ctc2
-: 
-"0"
-ctcr
-: 
-"0"
-cte
-: 
-"45"
-ctp
-: 
-"0"
-cts
-: 
-"0"
-cv
-: 
-"0"
-ep
-: 
-"0"
-es
-: 
-"0"
-estf
-: 
-"0"
-et
-: 
-"0"
-etrm
-: 
-"0"
-fob
-: 
-"1"
-iac
-: 
-"8"
-iacA
-: 
-"0"
-iacT
-: 
-"1"
-iva
-: 
-"19"
-ivaA
-: 
-"0"
-ivaT
-: 
-"1"
-lst
-: 
-"0"
-mcc
-: 
-"4722"
-mhr
-: 
-"00:00"
-mt
-: 
-"00:00"
-nit
-: 
-"11682886"
-pd
-: 
-"0"
-pgr
-: 
-"0"
-pl
-: 
-[,…]
-prop
-: 
-"1"
-qr
-: 
-null
-ref
-: 
-"0"
-snfrm
-: 
-"0"
-tptch
-: 
-null
-vfd
-: 
-"0"
+
+viewTerminalSmarVista(code: string) {
+  code = this.codigoSearch;
+  this.serviceTerminal.requestSearchSmartVist(code).subscribe(response => {
+    for (const key in response) {
+      if (response.hasOwnProperty(key)) {
+        const value = response[key];
+        
+        if (key === 'cct') {
+          console.log('cct', value);
+          const cct = [{"codigo": ""}];
+          // ¿Quisieras asignar algo a cct.codigo aquí?
+        } else if (key === 'status') {
+          console.log('response', response);
+        }
+      }
+    }
+  }, error => {
+    console.log('Sin información');
+  });
+}
