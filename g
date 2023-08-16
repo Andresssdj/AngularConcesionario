@@ -11,10 +11,10 @@ y el body de requestDTO es de tipo JSON
 
 
 
-requestSearchSmartVist(terminalName: string, id: number, type: number) {
+ requestSearchSmartVist(code: string) {
     let json: any = {
-      "codigoTerminal": terminalName,
-      "type": type
+      "operation": "unicaTerminal",
+      "code": code
     }
-    return this.http.put<any>(`${this.PATH_TERMINALS}/update/type/${id}`, json).pipe(catchError(this.handleError));
+    return this.http.post<object>(`${this.PATH_MIGRATE}/search${json}`).pipe(catchError(this.handleError));
   }
