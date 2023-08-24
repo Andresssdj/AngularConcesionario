@@ -1,4 +1,25 @@
-tengo este codigo 
+tengo este codigo y este filtro 
+
+selectProgramas: boolean = false;
+  lenghtCodTerm: number;
+  codigoSearch: string;
+
+  tableFilter(event: Event) {
+
+    this.right = 1;
+    this.left = -1;
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.codigoSearch = filterValue.toUpperCase();
+    this.lenghtCodTerm = filterValue.length;
+
+    if (filterValue.length > 3) {
+      this.pageListCodigosTerminal(0, this.codigoSearch);
+    } else if (filterValue.length == 0) {
+      this.ngOnInit();
+    }
+
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 pageListCodigosTerminal(pagina: number, codigo: string) {
     this.paginaActual = pagina;
