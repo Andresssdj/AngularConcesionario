@@ -1,13 +1,22 @@
 tengo este codigo y este filtro 
 
 HTML:
- <div class="p-1 col-sm-3">
+<div class="p-1 col-sm-3">
                 <mat-form-field>
                     <mat-label>Consultar por código</mat-label>
                     <input matInput (keyup)="tableFilter($event)" placeholder="Código" maxlength="15">
                     <mat-icon matSuffix class="text-gray-1">search</mat-icon>
                 </mat-form-field>
             </div>
+            <div>
+                <button matTooltip="Consutar terminal" type="button" class="btn movement"
+                            (click)="viewTerminalSmarVista(codigoSearch ,modalAprobacion)"
+                            *ngIf="showButton">
+                            <mat-icon class="btn-group size-20 text-info" role="group"> task_alt
+                            </mat-icon>
+                            <span>Consutar terminal</span>
+                        </button>
+                </div>
 
 TS:
 selectProgramas: boolean = false;
