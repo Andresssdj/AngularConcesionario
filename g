@@ -40,14 +40,52 @@ selectProgramas: boolean = false;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-pageListCodigosTerminal(pagina: number, codigo: string) {
+  // === Paginacion de terminales
+  right: number = 1;
+  left: number = -1;
+  showButton: boolean = false;
+  showCreate: boolean = false;
+
+  pageList(pagina: number, opcion: string) {
+    console.log('pagina: ' + pagina);
+    this.paginaActual = pagina;
+
+    if (this.lenghtCodTerm > 0) {
+      this.pageListCodigosTerminal(pagina, this.codigoSearch);
+    } else {
+      if (pagina >= 0) {
+        this.serviceTerminal.requestGetListTerminals(pagina).subscribe({
+          next: (response: any) => {
+            console.log('Response terminal list OK page all');
+            this.dataSource.data = response as Terminal[];
+          }, error(response: any) {
+            console.log('Error al obtener la lista de terminales en component:', response)
+          }
+        });
+      }
+    }
+
+    if (pagina >= 0) {
+      if (opcion == '+') {
+        console.log('+');
+        this.right++;
+        this.left++;
+      } else {
+        console.log('-');
+        this.right--;
+        this.left--;
+      }
+    }
+  }
+
+  pageListCodigosTerminal(pagina: number, codigo: string) {
     this.paginaActual = pagina;
     this.showButton = false;
     this.serviceTerminal.requestGetTerminalByCodTerminal(codigo, pagina).subscribe({
       next: (response: any) => {
         console.log('Response terminal list OK page search');
         this.dataSource.data = response as Terminal[];
-        this.showButton = this.codigoSearch.length === 8 && response.length === 0;
+        //this.showButton = this.codigoSearch.length === 8 && response.length === 0;
       }, error(response: any) {
         console.log('Error al obtener la lista de terminales en component:', response)
       }
