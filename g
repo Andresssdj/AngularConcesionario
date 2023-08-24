@@ -20,17 +20,11 @@
 
 
 <div>
-  <button matTooltip="Consultar terminal" type="button" class="btn movement"
-          (click)="viewTerminalSmarVista(codigoSearch, modalAprobacion)"
-          *ngIf="showButton">
-    <mat-icon class="btn-group size-20 text-info" role="group" [class.spinner]="loading">
-      <ng-container *ngIf="!loading; else loadingIcon">task_alt</ng-container>
-      <ng-template #loadingIcon>
-        <!-- Agrega aquí la animación de carga para el icono -->
-        <div class="spinner"></div>
-      </ng-template>
-    </mat-icon>
-    <span>Consultar terminal</span>
-  </button>
-</div>
-
+                <button matTooltip="Consutar terminal" type="button" class="btn movement"
+                            (click)="viewTerminalSmarVista(codigoSearch ,modalAprobacion),[class.spinner]="loading""
+                            *ngIf="showButton">
+                            <mat-icon class="btn-group size-20 text-info" role="group"> task_alt
+                            </mat-icon>
+                            <span>Consutar terminal</span>
+                        </button>
+                </div>
