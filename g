@@ -1,5 +1,15 @@
 tengo este codigo y este filtro 
 
+HTML:
+ <div class="p-1 col-sm-3">
+                <mat-form-field>
+                    <mat-label>Consultar por código</mat-label>
+                    <input matInput (keyup)="tableFilter($event)" placeholder="Código" maxlength="15">
+                    <mat-icon matSuffix class="text-gray-1">search</mat-icon>
+                </mat-form-field>
+            </div>
+
+TS:
 selectProgramas: boolean = false;
   lenghtCodTerm: number;
   codigoSearch: string;
