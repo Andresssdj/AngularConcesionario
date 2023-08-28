@@ -57,3 +57,54 @@ y esto es la respuesta pero quiero que bp sea una lista de objetos
         }
     }
 ]
+
+
+
+
+public class BinStagesResponse {
+    private int id;
+    private String es;
+    private List<BpObject> bp;
+
+    // Getters and setters
+}
+
+public class BpObject {
+    private String rf;
+    private String ri;
+    private String id;
+
+    // Getters and setters
+}
+
+// ...
+
+private List<BinStagesResponse> mapperListToResponse(List<BinStages> listEntity) {
+    Map<String, List<BinStages>> groupedByEs = listEntity.stream().collect(Collectors.groupingBy(BinStages::getEs));
+
+    List<BinStagesResponse> response = new ArrayList<>();
+    try {
+        for (Map.Entry<String, List<BinStages>> entry : groupedByEs.entrySet()) {
+            List<BpObject> bpList = entry.getValue().stream()
+                    .map(binStages -> {
+                        BpObject bpObject = new BpObject();
+                        bpObject.setRf(binStages.getBp().getRf());
+                        bpObject.setRi(binStages.getBp().getRi());
+                        bpObject.setId(binStages.getBp().getId());
+                        return bpObject;
+                    })
+                    .collect(Collectors.toList());
+
+            BinStagesResponse binStagesResponse = new BinStagesResponse();
+            binStagesResponse.setId(entry.getValue().get(0).getId());
+            binStagesResponse.setEs(entry.getValue().get(0).getEs());
+            binStagesResponse.setBp(bpList);
+
+            response.add(binStagesResponse);
+        }
+    } catch (Exception e) {
+        logger.error("Error al convertir String a Json en mapperListResponse: ", e);
+    }
+    return response;
+}
+
