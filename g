@@ -36,8 +36,6 @@ Caused by: org.hibernate.AnnotationException: Use of @OneToMany or @ManyToMany t
 	... 16 common frames omitted
 
 
-Process finished with exit code 1
-
 
 @Entity
 @Table (name =" BIN_STAGES")
@@ -53,7 +51,9 @@ public class BinStages {
     private String escenario;
 
 
-    @OneToMany(mappedBy = "binStages", cascade = CascadeType.ALL , orphanRemoval = true)
+    @Column(name = "BINES")
+    @JsonProperty ("bp")
+    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
     private List<ValueBinResponse>bines;
 
     public Long getId() {
@@ -83,6 +83,7 @@ public class BinStages {
 
 
 
+
 public class ValueBinResponse {
 
     @JsonProperty ("rf")
@@ -92,17 +93,6 @@ public class ValueBinResponse {
     @JsonProperty ("id")
     private String id;
 
-    @ManyToOne
-    @JoinColumn (name = "BINES")
-    private BinStages binStages;
-
-    public BinStages getBinStages() {
-        return binStages;
-    }
-
-    public void setBinStages(BinStages binStages) {
-        this.binStages = binStages;
-    }
 
     public String getRf() {
         return rf;
@@ -128,4 +118,6 @@ public class ValueBinResponse {
         this.id = id;
     }
 }
+
+
 
