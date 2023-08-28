@@ -88,3 +88,34 @@ private List<BinStagesResponse> mapperListToResponse(List<BinStages> listEntity)
             return response;
         }
     }
+
+
+
+private List<BinStagesResponse> mapperListToResponse(List<BinStages> listEntity) {
+    Map<String, List<BinStages>> groupedByEs = listEntity.stream().collect(Collectors.groupingBy(BinStages::getEscenario));
+
+    List<BinStagesResponse> response = new ArrayList<>();
+    try {
+        for (Map.Entry<String, List<BinStages>> entry : groupedByEs.entrySet()) {
+            List<ValueBinResponse> valueBinResponseList = entry.getValue().stream()
+                    .map(binStages -> {
+                        ValueBinResponse valueBinResponse = new ValueBinResponse();
+                        valueBinResponse.setRf(binStages.getBines().getRf());
+                        valueBinResponse.setRi(binStages.getBines().getRi());
+                        valueBinResponse.setId(binStages.getBines().getId());
+                        return valueBinResponse;
+                    }).collect(Collectors.toList());
+
+            BinStagesResponse binStagesResponse = new BinStagesResponse();
+            binStagesResponse.setId(entry.getValue().get(0).getId());
+            binStagesResponse.setEscenario(entry.getValue().get(0).getEscenario());
+            binStagesResponse.setBines(valueBinResponseList);
+
+            response.add(binStagesResponse);
+        }
+    } catch(Exception e) {
+        logger.error("Error al convertir String a Json en mapperListResponse: ", e);
+    }
+    return response;
+}
+
