@@ -61,50 +61,30 @@ y esto es la respuesta pero quiero que bp sea una lista de objetos
 
 
 
-public class BinStagesResponse {
-    private int id;
-    private String es;
-    private List<BpObject> bp;
-
-    // Getters and setters
-}
-
-public class BpObject {
-    private String rf;
-    private String ri;
-    private String id;
-
-    // Getters and setters
-}
-
-// ...
-
 private List<BinStagesResponse> mapperListToResponse(List<BinStages> listEntity) {
-    Map<String, List<BinStages>> groupedByEs = listEntity.stream().collect(Collectors.groupingBy(BinStages::getEs));
+        Map<String, List<BinStages>> groupedByEs = listEntity.stream().collect(Collectors.groupingBy(BinStages::getEscenario));
 
-    List<BinStagesResponse> response = new ArrayList<>();
-    try {
-        for (Map.Entry<String, List<BinStages>> entry : groupedByEs.entrySet()) {
-            List<BpObject> bpList = entry.getValue().stream()
-                    .map(binStages -> {
-                        BpObject bpObject = new BpObject();
-                        bpObject.setRf(binStages.getBp().getRf());
-                        bpObject.setRi(binStages.getBp().getRi());
-                        bpObject.setId(binStages.getBp().getId());
-                        return bpObject;
-                    })
-                    .collect(Collectors.toList());
+        List<BinStagesResponse> response = new ArrayList<>();
+        try {
+            for (Map.Entry<String, List<BinStages>> entry : groupedByEs.entrySet()) {
+                List<ValueBinResponse> valueBinResponseList = entry.getValue().stream()
+                        .map(binStages -> {
+                            ValueBinResponse valueBinResponse = new ValueBinResponse();
+                            valueBinResponse.setRf(binStages.getBines().get(0).getRf());
+                            valueBinResponse.getRi(binStages.getBines().get(0).getRi());
+                            valueBinResponse.getId(binStages.getBines().get(0).getId());
+                            return valueBinResponse;
+                        }).collect(Collectors.toList());
 
-            BinStagesResponse binStagesResponse = new BinStagesResponse();
-            binStagesResponse.setId(entry.getValue().get(0).getId());
-            binStagesResponse.setEs(entry.getValue().get(0).getEs());
-            binStagesResponse.setBp(bpList);
+                BinStagesResponse binStagesResponse = new BinStagesResponse();
+                binStagesResponse.setId(entry.getValue().get(0).getId());
+                binStagesResponse.getEscenario(entry.getValue().get(0).getEscenario());
+                binStagesResponse.getBines(valueBinResponseList);
 
-            response.add(binStagesResponse);
+                response.add(binStagesResponse);
+            } catch(Exception e){
+                logger.error("Error al convert String to Json en mapperListResponse: ", e);
+            }
+            return response;
         }
-    } catch (Exception e) {
-        logger.error("Error al convertir String a Json en mapperListResponse: ", e);
     }
-    return response;
-}
-
