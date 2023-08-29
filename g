@@ -17,8 +17,11 @@ ri es RANGO_INICIAL
 id es INDICE
 
 
+Tengo este query de oracle pero ID_ESCENARIO me lo esta llenado con el valos de e.INDICE y quiero que  ID_ESCENARIO se lo agregue yo
 
-INSERT INTO BIN_STAGES (BINES, id)
+INSERT INTO BIN_STAGES (BINES, ID_ESCENARIO)
 SELECT '{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}',
        e.INDICE
-FROM emisor e;
+FROM BIN_EMISOR e
+WHERE e.INDICE =: INDICE
+;
