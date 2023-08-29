@@ -39,3 +39,6 @@ lic void updateBinesForEscenario(String escenario, String newBines) {
             // Handle if escenario is not found
         }
     }
+
+
+Non-static method 'updateBinesForEscenario(int, java.lang.String)' cannot be referenced from a static context
