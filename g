@@ -17,11 +17,11 @@ ri es RANGO_INICIAL
 id es INDICE
 
 
-Tengo este query de oracle pero ID_ESCENARIO me lo esta llenado con el valos de e.INDICE y quiero que  ID_ESCENARIO se lo agregue yo
+Tengo este query de oracle Y quiero que me deje agregar mas de un indice a la vez y que cara arreglo que lo separe con una coma
 
 INSERT INTO BIN_STAGES (BINES, ID_ESCENARIO)
 SELECT '{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}',
-       e.INDICE
+      :ID_ESCENARIO
 FROM BIN_EMISOR e
 WHERE e.INDICE =: INDICE
 ;
