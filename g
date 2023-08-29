@@ -9,3 +9,6 @@ WHERE EXISTS (
     FROM bien b2
     WHERE b2.ID = b.valor
 );
+
+
+UPDATE Terminal t set t.terminalModel = :model where t.id = :id
