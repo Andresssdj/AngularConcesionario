@@ -24,3 +24,18 @@ SET b.BINES = CASE
                   ELSE b.BINES || ',' || :BINES
              END
 WHERE b.ESCENARIO = :ESCENARIO;
+
+
+
+lic void updateBinesForEscenario(String escenario, String newBines) {
+        Optional<BinStage> optionalBinStage = binStageRepository.findByEscenario(escenario);
+        if (optionalBinStage.isPresent()) {
+            BinStage binStage = optionalBinStage.get();
+            String existingBines = binStage.getBines();
+            String updatedBines = existingBines != null ? existingBines + "," + newBines : newBines;
+            binStage.setBines(updatedBines);
+            binStageRepository.save(binStage);
+        } else {
+            // Handle if escenario is not found
+        }
+    }
