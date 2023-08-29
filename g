@@ -33,3 +33,13 @@ que el campo bines quede algo asi
 {"rf":"5704239999","ri":"5704230000","id":"436"}, 
 {"rf":"5903099999","ri":"5903090000","id":"444"}
 
+
+
+
+INSERT INTO BIN_STAGES (BINES, ID_ESCENARIO)
+SELECT
+    '[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ', ') WITHIN GROUP (ORDER BY e.INDICE) || ']',
+    :ID_ESCENARIO
+FROM BIN_EMISOR e
+WHERE e.INDICE IN (:INDICES);
+
