@@ -25,3 +25,11 @@ SELECT '{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"'
 FROM BIN_EMISOR e
 WHERE e.INDICE =: INDICE
 ;
+
+
+
+INSERT INTO BIN_STAGES (BINES, ID_ESCENARIO)
+SELECT '{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || LISTAGG(e.INDICE, ',') WITHIN GROUP (ORDER BY e.INDICE) || '"}',
+      :ID_ESCENARIO
+FROM BIN_EMISOR e
+WHERE e.INDICE IN (:INDICES);
