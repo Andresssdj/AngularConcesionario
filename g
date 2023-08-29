@@ -59,11 +59,31 @@ WHERE e.INDICE IN (
 
 
 
-UPDATE BIN_STAGES
-SET BINES = '[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ', ') WITHIN GROUP (ORDER BY e.INDICE) || ']'
-WHERE ID_ESCENARIO = :ID_ESCENARIO
-  AND e.INDICE IN (
+SELECT
+    ID_ESCENARIO,
+    '[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ', ') WITHIN GROUP (ORDER BY e.INDICE) || ']' AS NEW_BINES
+FROM BIN_EMISOR e
+WHERE e.INDICE IN (
     SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL))
     FROM DUAL
     CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL
+)
+GROUP BY ID_ESCENARIO;
+
+
+
+UPDATE BIN_STAGES b
+SET BINES = (
+    SELECT NEW_BINES
+    FROM (
+        -- La consulta anterior aquí
+    )
+    WHERE b.ID_ESCENARIO = ID_ESCENARIO
+)
+WHERE EXISTS (
+    SELECT 1
+    FROM (
+        -- La consulta anterior aquí
+    )
+    WHERE b.ID_ESCENARIO = ID_ESCENARIO
 );
