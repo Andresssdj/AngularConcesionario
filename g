@@ -15,3 +15,10 @@ y que quede con este formato
 rf es RANGO_FINAL
 ri es RANGO_INICIAL
 id es INDICE
+
+
+
+INSERT INTO BIN_STAGES (BINES, id)
+SELECT '{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}',
+       e.INDICE
+FROM emisor e;
