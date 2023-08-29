@@ -1,9 +1,15 @@
-ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'binStagesController': Unsatisfied dependency expressed through field 'binStagesService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'binStagesService': Unsatisfied dependency expressed through field 'binStagesRepository'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'IBinStagesRepository' defined in com.credibanco.repository.IBinStagesRepository defined in @EnableJpaRepositories declared on PosApiFiladelfiaApplication: Invocation of init method failed; nested exception is org.springframework.data.repository.query.QueryCreationException: Could not create query for public abstract java.util.Optional com.credibanco.repository.IBinStagesRepository.updateBines(int)! Reason: Using named parameters for method public abstract java.util.Optional com.credibanco.repository.IBinStagesRepository.updateBines(int) but parameter 'Optional[escenario]' not found in annotated query 'BIN_STAGES b set b.BINES = :BINES where b.ESCENARIO = :ESCENARIO'!; nested exception is java.lang.IllegalStateException: Using named parameters for method public abstract java.util.Optional com.credibanco.repository.IBinStagesRepository.updateBines(int) but parameter 'Optional[escenario]' not found in annotated query 'BIN_STAGES b set b.BINES = :BINES where b.ESCENARIO = :ESCENARIO'!
+hazme el controlador para este servicio
 
 
-public interface IBinStagesRepository extends JpaRepository<BinStages, Long> {
-    @Modifying
-    @Query("UPDATE BinStages b SET b.bines = CASE WHEN b.bines IS NULL THEN :newBin ELSE b.bines || ',' || :newBin END WHERE b.escenario = :escenario")
-    @Transactional
-    void updateBines(@Param("escenario") int escenario, @Param("newBin") String newBin);
-}
+public boolean updateParametersTerminal(BinStages entity) {
+        try {
+            logger.info("* Actualizar parametros de terminal");
+            entity.setBines(new String());
+            binStagesRepository.save(entity);
+            logger.info("Parametros actualizados");
+            return true;
+        } catch (Exception e) {
+            logger.info("Error al actualizar parametros de terminal: ", e);
+        }
+        return false;
+    }
