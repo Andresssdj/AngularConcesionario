@@ -15,3 +15,12 @@ WHERE EXISTS (
 Quiero que actualice este query para que en vez de actualizarme la columna me completamente me deje los
 valores que ya estan en BINES y que me me agrege los nuevos que le coloque separandolos con una coma
 UPDATE BIN_STAGES b set b.BINES = :BINES where b.ESCENARIO = :ESCENARIO
+
+
+
+UPDATE BIN_STAGES b
+SET b.BINES = CASE 
+                  WHEN b.BINES IS NULL THEN :BINES
+                  ELSE b.BINES || ',' || :BINES
+             END
+WHERE b.ESCENARIO = :ESCENARIO;
