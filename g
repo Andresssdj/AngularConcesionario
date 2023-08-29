@@ -1,5 +1,7 @@
-org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.dao.InvalidDataAccessApiUsageException: Modifying queries can only use void or int/Integer as return type! Offending method: public abstract java.util.Optional com.credibanco.repository.IBinStagesRepository.updateBines(int,java.lang.String); nested exception is java.lang.IllegalArgumentException: Modifying queries can only use void or int/Integer as return type! Offending method: public abstract java.util.Optional com.credibanco.repository.IBinStagesRepository.updateBines(int,java.lang.String)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-5.3.9.jar:5.3.9]
+org.springframework.web.util.NestedServletException: Handler dispatch failed; nested exception is java.lang.NoSuchMethodError: com.credibanco.repository.IBinStagesRepository.updateBines(ILjava/lang/String;)Ljava/util/Optional;
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1079) ~[spring-webmvc-5.3.9.jar:5.3.9]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.9.jar:5.3.9]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.9.jar:5.3.9]
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:920) ~[spring-webmvc-5.3.9.jar:5.3.9]
 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:520) ~[jakarta.servlet-api-4.0.4.jar:4.0.4]
 	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.9.jar:5.3.9]
@@ -58,20 +60,7 @@ org.springframework.web.util.NestedServletException: Request processing failed; 
 	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1423) ~[jboss-threads-3.1.0.Final.jar:3.1.0.Final]
 	at org.xnio.XnioWorker$WorkerThreadFactory$1$1.run(XnioWorker.java:1280) ~[xnio-api-3.8.4.Final.jar:3.8.4.Final]
 	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
-Caused by: org.springframework.dao.InvalidDataAccessApiUsageException: Modifying queries can only use void or int/Integer as return type! Offending method: public abstract java.util.Optional com.credibanco.repository.IBinStagesRepository.updateBines(int,java.lang.String); nested exception is java.lang.IllegalArgumentException: Modifying queries can only use void or int/Integer as return type! Offending method: public abstract java.util.Optional com.credibanco.repository.IBinStagesRepository.updateBines(int,java.lang.String)
-	at org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:374) ~[spring-orm-5.3.9.jar:5.3.9]
-	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:235) ~[spring-orm-5.3.9.jar:5.3.9]
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:551) ~[spring-orm-5.3.9.jar:5.3.9]
-	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:152) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:145) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215) ~[spring-aop-5.3.9.jar:5.3.9]
-	at com.sun.proxy.$Proxy121.updateBines(Unknown Source) ~[na:na]
+Caused by: java.lang.NoSuchMethodError: com.credibanco.repository.IBinStagesRepository.updateBines(ILjava/lang/String;)Ljava/util/Optional;
 	at com.credibanco.services.BinStagesService.updateBines(BinStagesService.java:49) ~[classes/:na]
 	at com.credibanco.controller.BinStagesController.updateBinesForEscenario(BinStagesController.java:51) ~[classes/:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
@@ -85,27 +74,8 @@ Caused by: org.springframework.dao.InvalidDataAccessApiUsageException: Modifying
 	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.9.jar:5.3.9]
 	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.9.jar:5.3.9]
 	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1064) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	... 58 common frames omitted
-Caused by: java.lang.IllegalArgumentException: Modifying queries can only use void or int/Integer as return type! Offending method: public abstract java.util.Optional com.credibanco.repository.IBinStagesRepository.updateBines(int,java.lang.String)
-	at org.springframework.util.Assert.isTrue(Assert.java:121) ~[spring-core-5.3.9.jar:5.3.9]
-	at org.springframework.data.jpa.repository.query.JpaQueryExecution$ModifyingExecution.<init>(JpaQueryExecution.java:224) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.getExecution(AbstractJpaQuery.java:170) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:143) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:137) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:121) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:159) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:138) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:80) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137) ~[spring-tx-5.3.9.jar:5.3.9]
-	... 80 common frames omitted
+	... 60 common frames omitted
+
 
 
 
@@ -117,4 +87,9 @@ Caused by: java.lang.IllegalArgumentException: Modifying queries can only use vo
         } else {
             return ResponseEntity.ok("Bines no");
         }
+    }
+
+
+ public void updateBines (int escenario, String bines){
+       return binStagesRepository.updateBines(escenario, bines);
     }
