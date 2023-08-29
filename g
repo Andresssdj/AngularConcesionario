@@ -1,5 +1,16 @@
-hazme el controlador para este servicio
+QUE ERRORES TENGO
 
+CONTROLADOR 
+
+public ResponseEntity<Object> updateBinesForEscenario (@RequestBody BinStages binStages){
+        logger.info("----- Actualizar bines   -----");
+        boolean response = binStagesService.updateParametersTerminal(binStages);
+        logger.info(FIN_HTTP);
+        return ResponseEntity.status(response ? HttpStatus.OK :HttpStatus.BAD_REQUEST).body(response ? Util.jsonMessage(MessagesDTO.ACTUALIZADO) : Util.jsonMessage(MessagesDTO.NO_ACTUALIZADO));
+
+    }
+
+SERVICIO
 
 public boolean updateParametersTerminal(BinStages entity) {
         try {
@@ -13,3 +24,9 @@ public boolean updateParametersTerminal(BinStages entity) {
         }
         return false;
     }
+
+
+REPOSITORIO 
+
+@Query("BIN_STAGES b set b.BINES = :BINES where b.ESCENARIO = :ESCENARIO")
+    Optional<BinStages>updateBines(int escenario, String bines);
