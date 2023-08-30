@@ -59,31 +59,14 @@ WHERE e.INDICE IN (
 
 
 
-SELECT
-    ID_ESCENARIO,
-    '[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ', ') WITHIN GROUP (ORDER BY e.INDICE) || ']' AS NEW_BINES
-FROM BIN_EMISOR e
-WHERE e.INDICE IN (
-    SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL))
-    FROM DUAL
-    CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL
-)
-GROUP BY ID_ESCENARIO;
-
-
-
-UPDATE BIN_STAGES b
-SET BINES = (
-    SELECT NEW_BINES
-    FROM (
-        -- La consulta anterior aquí
+UPDATE BIN_STAGES bs
+SET bs.JSON_DATA = (
+    SELECT '[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ', ') WITHIN GROUP (ORDER BY e.INDICE) || ']'
+    FROM BIN_EMISOR e
+    WHERE e.INDICE IN (
+        SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL))
+        FROM DUAL
+        CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL
     )
-    WHERE b.ID_ESCENARIO = ID_ESCENARIO
 )
-WHERE EXISTS (
-    SELECT 1
-    FROM (
-        -- La consulta anterior aquí
-    )
-    WHERE b.ID_ESCENARIO = ID_ESCENARIO
-);
+WHERE bs.ID_ESCENARIO = :ID_ESCENARIO;
