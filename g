@@ -1,134 +1,49 @@
-que error tengo 
+tengo esta tabla 
 
 
-TENGO ESTE QUERY EN ORACLE
-UPDATE BIN_STAGES bs SET bs.bines = (
-    SELECT '[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ', ') WITHIN GROUP (ORDER BY e.INDICE) || ']'
-    FROM BIN_EMISOR e WHERE e.INDICE IN (SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL))FROM DUAL CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL)) WHERE bs.ID_ESCENARIO = :ID_ESCENARIO;
+<div class="mat-elevation-z4 col-lg-12" style="border-radius: 10px;">
+        <table mat-table [dataSource]="dataSource">
 
-ESTE EN SPRING BOOT
-  @Transactional
-    @Modifying
-    @Query(value = "UPDATE BIN_STAGES bs SET bs.bines = (\n" +
-            "    SELECT '[' || LISTAGG('{\"rf\":\"' || e.RANGO_FINAL || '\",\"ri\":\"' || e.RANGO_INICIAL || '\",\"id\":\"' || e.INDICE || '\"}', ', ') WITHIN GROUP (ORDER BY e.INDICE) || ']'\n" +
-            "    FROM BIN_EMISOR e WHERE e.INDICE IN (SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL))FROM DUAL CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL)) WHERE bs.ID_ESCENARIO = :ID_ESCENARIO", nativeQuery = true)
-    void updateBines(@Param("ID_ESCENARIO") Long idEscenario,@Param("INDICES") String bines);
+            <ng-container matColumnDef="Escenarios">
+                <th mat-header-cell *matHeaderCellDef><strong>Escenario</strong></th>
+                <td mat-cell *matCellDef="let f"> <span>{{f.es}}</span>
+                </td>
+            </ng-container>
 
-ESTA ES MI ENTITY
-@Entity
-@Table (name =" BIN_STAGES")
-public class BinStages {
+            <!--
 
+            <ng-container matColumnDef="Bines">
+                <th mat-header-cell *matHeaderCellDef> <strong> Bines </strong></th>
+                <td mat-cell *matCellDef="let f"> {{f.bi}} </td>
+            </ng-container>
+        -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    @Id
-    @Column (name = "ID_ESCENARIO")
-    @JsonProperty ("es")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEscenario;
-
-    @Column (name = "BINES")
-    @JsonProperty ("bi")
-    private String bines;
-
-    public Long getIdEscenario() {
-        return idEscenario;
-    }
-
-    public void setIdEscenario(Long idEscenario) {
-        this.idEscenario = idEscenario;
-    }
-    public String getBines() {
-        return bines;
-    }
-
-    public void setBines(String bines) {
-        this.bines = bines;
-    }
-}
-
-
-@JsonIgnoreProperties (ignoreUnknown = true)
-@JsonSerialize
-public class BinStagesResponse {
-
-
-    @JsonProperty ("es")
-    private Long idEscenario;
-
-    @JsonProperty ("bi")
-    private String bines;
-
-
-    public Long getIdEscenario() {
-        return idEscenario;
-    }
-
-    public void setIdEscenario(Long idEscenario) {
-        this.idEscenario = idEscenario;
-    }
-
-    public String getBines() {
-        return bines;
-    }
-
-    public void setBines(String bines) {
-        this.bines = bines;
-    }
-}
-
-
-JsonIgnoreProperties (ignoreUnknown = true)
-@JsonSerialize
-public class BinStagesRequest {
+        </table>
+    </div>
 
 
 
+y este es mi ts
 
-    @JsonProperty ("es")
-    private Long idEscenario;
-
-    @JsonProperty ("bi")
-    private String bines;
-
-    public Long getIdEscenario() {
-        return idEscenario;
-    }
-
-    public void setIdEscenario(Long idEscenario) {
-        this.idEscenario = idEscenario;
-    }
-
-    public String getBines() {
-        return bines;
-    }
-
-    public void setBines(String bines) {
-        this.bines = bines;
-    }
-}
+ngOnInit(): void {
+    // === Obtiene la lista de terminales
+    this.paginaActual = 0;
+    this.changeService.requestGetListBin(0).subscribe({
+      next: (response: any) =>{
+        console.log('Response escenarios bines list OK ');
+        this.dataSource.data = response as EscenarioBinDTO[];
+        console.log('data',this.dataSource.data);
+      }, error(response: any){
+        console.log('Error al obtener la lista de escenarios bines en component:', response);
+      }
+    });
 
 
-CONTROLADOR 
+al momento de usar esto 
 
- public ResponseEntity<Object> updateBinesForEscenario (@PathVariable Long idEscenario ,@RequestBody BinStages binStages){
-        logger.info("----- Actualizar bines   -----");
-        binStages.setIdEscenario(idEscenario);
-        boolean  updateBiness =  binStagesService.updateBiness(binStages);
-        logger.info(FIN_HTTP);
-        return ResponseEntity.status(updateBiness ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(updateBiness ? Util.jsonMessage(MessagesDTO.ACTUALIZADO) : Util.jsonMessage(MessagesDTO.NO_ACTUALIZADO));
-        }
+console.log('data',this.dataSource.data);
 
-servicio
-
-
-public boolean updateBiness (BinStages entity){
-        try {
-                binStagesRepository.updateBines(entity.getIdEscenario(), entity.getBines());
-                binStagesRepository.save(entity);
-                logger.info("Bines actualizados");
-                return true;
-            } catch (Exception e) {
-                logger.info("Error al actualizar bines: ", e);
-            }
-            return false;
-        }
+veo que si me trae datos 
+pero no me muestra en la tabla 
