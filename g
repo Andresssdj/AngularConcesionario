@@ -1,93 +1,41 @@
-tengo esta tabla 
+<ng-template #modalBinesTef let-modal>
 
-
-<div class="d-flex justify-content-center" *ngIf="!load">
-    <mat-progress-bar style="width: 50%;" class="justify-content-center ml" mode="indeterminate"></mat-progress-bar>
-</div>
-<div class="container-fluid" *ngIf="load">
-    <div class="col-lg-12">
-        <div class="float-right" *ngIf="profile == '0'">
-            <button  matTooltip="Agregar configuración" type="button" *ngIf="profile == '0'"
-                class="btn movement text-white" (click)="addConfigTef(modalConfigTef)"> 
-                 <mat-icon class="btn-group size-20 text-cbc"  role="group"> add
-                 </mat-icon>
-             </button>
-        </div>
-
-        <div class="form-row">
-            <div class="col-sm-4">
-                <br>
-                <span class="textcb">Escenarios de bines</span>
+            <div class="modal-header">
+                <h3 class="modal-title">Bines</h3>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
 
-    </div>
-    <div class="mat-elevation-z4 col-lg-12" style="border-radius: 10px;">
-        <table mat-table [dataSource]="dataSource">
+            <div class="modal-body">
+                <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport col-sm-12">
+                    <table class="table table-striped table-light">
+                        <thead>
+                            <tr>
+                                <th scope="col">Rango Inicial</th>
+                                <th scope="col">Rango Final</th>
+                                <th scope="col">Label</th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let bin of listBinEmisorTEF">
+                                <td>{{ bin.ri }}</td>
+                                <td>{{ bin.rf }}</td>
+                                <td>{{ bin.lb }}</td>
+                                <td>
+                                    <mat-checkbox [(ngModel)]="bin.checked" color="primary">
+                                    </mat-checkbox>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </cdk-virtual-scroll-viewport>
+            </div>
 
-            <ng-container matColumnDef="Escenarios">
-                <th mat-header-cell *matHeaderCellDef><strong>Escenario</strong></th>
-                <td mat-cell *matCellDef="let f"> <span>{{f.es}}</span>
-                </td>
-            </ng-container>
-
-            <!--
-
-            <ng-container matColumnDef="Bines">
-                <th mat-header-cell *matHeaderCellDef> <strong> Bines </strong></th>
-                <td mat-cell *matCellDef="let f"> {{f.bi}} </td>
-            </ng-container>
-        -->
-
-
-            
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-        </table>
-    </div>
-
-
-
-
-</div>
-
-
-y este es mi ts
-
-export class EscenarioBinComponent implements OnInit {
-
-  constructor(private changeService: ChangesService) { }
-  public load: boolean;
-  paginaActual: number;
-  profile = localStorage.getItem('profile');
-  listEscenarioBin: EscenarioBinDTO [] = [];
-  dataSource = new MatTableDataSource<EscenarioBinDTO>(this.listEscenarioBin);
-
-  ngOnInit(): void {
-    // === Obtiene la lista de terminales
-    this.paginaActual = 0;
-    this.changeService.requestGetListBin(0).subscribe({
-      next: (response: any) =>{
-        console.log('Response escenarios bines list OK ');
-        this.dataSource.data = response as EscenarioBinDTO[];
-        console.log('data',this.dataSource.data);
-      }, error(response: any){
-        console.log('Error al obtener la lista de escenarios bines en component:', response);
-      }
-    });
-
-    setTimeout(() => {
-      this.load = true;
-    }, 3000);   
-  }
-
-}
-
-
-al momento de usar esto 
-
-console.log('data',this.dataSource.data);
-
-veo que si me trae datos 
-pero no me muestra en la tabla 
+            <div class="modal-footer">
+                <button (click)="modal.dismiss()" class="card card-small btn btn-primary bg-primary text-light">
+                    <span class="p-2">Confirmar</span>
+                </button>
+            </div>
+        </ng-template>
