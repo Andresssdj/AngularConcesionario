@@ -110,3 +110,54 @@ tego esta tabla y este modalBinesUp y quiero que el comento de darle click a edi
       this.toastShow('No se logro actualizar bines', NgbToastType.Danger);
     });
   }
+
+
+
+
+
+
+<button matTooltip="Editar" type="button"
+    class="btn movement text-white" *ngIf="profile == '0' || profile == '2'"
+    (click)="openEditModal(f.es)">
+    <mat-icon class="btn-group size-20 text-cbc" role="group">mode</mat-icon>
+</button>
+
+
+
+
+
+
+<div class="modal-header">
+    <h3 class="modal-title">{{ selectedEscenario }}</h3>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+
+selectedEscenario: string;
+selectedIds: string[] = [];
+
+openEditModal(es: string) {
+    this.selectedEscenario = es;
+    // También puedes aquí obtener los valores seleccionados y asignarlos a this.selectedIds si es necesario
+    // Ejemplo: this.selectedIds = obtenerIdsSeleccionados();
+    // Luego, puedes mostrar el modal aquí
+    this.modalService.open(this.modalBinesUp);
+}
+
+updateEscenarioBin() {
+    const es = this.selectedEscenario;
+    const selectedIds = this.selectedIds;
+    // Resto de tu código para realizar la actualización
+    this.changeService.requestUpdateEscenarioBin(es, selectedIds).subscribe(response => {
+        console.log(response);
+        this.toastShow('Solicitud exitosa, bines actualizados', NgbToastType.Success);
+        this.ngOnInit();
+        this.selectedIds = [];
+    }, error => {
+        this.toastShow('No se logró actualizar bines', NgbToastType.Danger);
+    });
+}
+
