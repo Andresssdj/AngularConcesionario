@@ -1,12 +1,14 @@
+tengo esta funcion y este checkbox y el checkbox me esta mostrando casillas marcadas que no he marcado yo y es falla del checkbox ya que en 
+mi base de datos solo tengo un registro
+
+
 updateeBin(es: string, bi: string[], modal: any) {
   const numero = es.match(/^\d+(?=\.\s)/);
   if (numero) {
     this.selectedEscenario = numero[0];
   }
-
   // Inicializa selectedIds como un arreglo vacío
   this.selectedIds = [];
-
   // Realiza la comparación y marca los elementos correspondientes
   this.listBinEmisorTEF.forEach(element => {
     if (bi.includes(element.id)) {
@@ -20,48 +22,6 @@ updateeBin(es: string, bi: string[], modal: any) {
 
   this.openModal(modal, 'content');
 }
-
-
-
-tengo esta funcion y quiero es el resultado de la comparacion sea lo que se le pase a updateEscenarioBin en su campo selectedIds
-
-
-updateeBin(es: string, bi: string[], modal: any) {
-  const numero = es.match(/^\d+(?=\.\s)/);
-  if (numero) {
-    this.selectedEscenario = numero[0];
-  }
-  this.listBinEmisorTEF.forEach(element => {
-      element.checked = false;
-  });
-  // Realiza la comparación y marca los elementos correspondientes
-  this.listBinEmisorTEF.forEach(element => {
-    if (bi.includes(element.id)) {
-      element.checked = true;
-    }
-  });
-
-  this.openModal(modal, 'content');
-}
-
-
-
-updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
-  const es = selectedEscenario;
-  const bines = selectedIds.join(',').replace(/,\s+/g, ',');
-  console.log("es",es,"bines",bines)
-  this.changeService.requestUpdateEscenarioBin(es, bines).subscribe(response =>{
-    console.log(response);
-    this.toastShow('Solicitud exitosa, bines actualizados', NgbToastType.Success);
-    this.ngOnInit();
-    //this.selectedIds=[];
-  }, error => {
-    this.toastShow('No se logro actualizar bines', NgbToastType.Danger);
-  });
-}
-
-
-y este checkedbox
 
 <ng-template #modalBinesUp let-modal>
 
@@ -110,6 +70,4 @@ y este checkedbox
             </button>   
         </div>
     </ng-template>
-
-
 
