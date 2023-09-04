@@ -1,3 +1,30 @@
+getBinesTef() {
+  this.binemisorService.requestGetListBinEmisor().subscribe({
+    next: (response: any) => {
+      this.listBinEmisorTEF = response;
+      this.listBinEmisorTEF.forEach(element => {
+        element.checked = false;
+        if (this.jsonBinPan != null) {
+          for (let i = 0; i < this.jsonBinPan.length; i++) {
+            if (element.id == this.jsonBinPan[i]['id']) {
+              element.checked = true;
+              break;
+            } 
+          }
+        }
+      });
+      
+      // Llama a openModal aquí, después de que los datos estén listos.
+      this.openModal(modal, 'content');
+    },
+    error(response: any) {
+      console.log('Error al obtener la lista de bines en component:', response);
+    }
+  });
+}
+
+
+
 // === Obtiene la lista de Bines
   listBinEmisorTEF: BinDtoTef[] = [];
   jsonBinPan: any;
