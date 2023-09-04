@@ -1,3 +1,32 @@
+updateeBin(es: string, bi: string[], modal: any) {
+  const numero = es.match(/^\d+(?=\.\s)/);
+  if (numero) {
+    this.selectedEscenario = numero[0];
+  }
+
+  // Inicializa selectedIds con los IDs que ya están marcados
+  this.selectedIds = this.listBinEmisorTEF
+    .filter(element => element.checked)
+    .map(element => element.id);
+
+  // Restablece los estados de los checkboxes para todos los elementos
+  this.listBinEmisorTEF.forEach(element => {
+    element.checked = false;
+  });
+
+  // Realiza la comparación y marca los elementos correspondientes
+  this.listBinEmisorTEF.forEach(element => {
+    if (bi.includes(element.id)) {
+      element.checked = true;
+    }
+  });
+
+  this.openModal(modal, 'content');
+}
+
+
+
+
 tengo estas funciones y este checkbox, al momento de abrir el checkbox me muestra los id que ya tiene el objeto pero a la hora se seleciones otro check solo me cuenta el 
 que acabo de selecionar y no los que ya me esta mostrando que estan marcados, quiero que tambien me cuente los que la estan marcados en selectedIds para poder usar la fincion updateEscenarioBin
 
