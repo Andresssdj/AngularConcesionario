@@ -1,56 +1,71 @@
-tego esta tabla y este modalBinesUp y quiero que el comento de darle click a editar me tome el f.es y se lo pase a la
- fincion de updateEscenarioBin y tambine quiero que al momento de darle al boton edidat y que me abre el modalBinesUp
- quiero que el el modal-header me muestre el id del elemento selecionado a editar
+tengo esta funcion "getBinesTef()"
+
+listBinEmisorTEF: BinDtoTef[] = [];
+  jsonBinPan: any;
+  listCheck: BinDtoTef [] = []
+  getBinesTef() {
+    this.binemisorService.requestGetListBinEmisor().subscribe({
+      next: (response: any) => {
+        this.listBinEmisorTEF = response;
+        this.listBinEmisorTEF.forEach(element => {
+          element.checked = false;
+          if (this.jsonBinPan != null) {
+            for (let i = 0; i < this.jsonBinPan.length; i++) {
+              if (element.id == this.jsonBinPan[i]['id']) {
+                element.checked = true;
+                break;
+              } 
+            }
+          }
+        });
+      }, error(response: any) {
+        console.log('Error al obtener la lista de bines en component:', response)
+      }
+    });
+  }
+  
+  y estas otras  "updateeBin()", "updateEscenarioBin()"
+  
+  selectedEscenario: string;
+
+updateeBin(es: string,modal: any){
+  console.log(modal);
+  const numero = es.match(/^\d+(?=\.\s)/);
+   if(numero){
+    this.selectedEscenario = numero[0];
+   }
+  this.getBinesTef();
+  this.openModal(modal, 'content');
+}
+
+updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
+  const es = selectedEscenario;
+  const bines = selectedIds.join(',').replace(/,\s+/g, ',');
+  console.log("es",es,"bines",bines)
+  this.changeService.requestUpdateEscenarioBin(es, bines).subscribe(response =>{
+    console.log(response);
+    this.toastShow('Solicitud exitosa, bines actualizados', NgbToastType.Success);
+    this.ngOnInit();
+    this.selectedIds=[];
+  }, error => {
+    this.toastShow('No se logro actualizar bines', NgbToastType.Danger);
+  });
+}
 
 
+y este html 
 
-<table mat-table [dataSource]="dataSource">
-            <ng-container matColumnDef="Escenarios">
-                <th mat-header-cell *matHeaderCellDef><strong>Escenario</strong></th>
-                <td mat-cell *matCellDef="let f"> 
-                    <span>{{f.es}}</span>
-                </td>
-            </ng-container>
-
-            <ng-container matColumnDef="Bines">
-                <th mat-header-cell *matHeaderCellDef> <strong> Bines </strong></th>
-                <td mat-cell *matCellDef="let f"> {{f.bi}} </td>
-            </ng-container>
-
-
-            <ng-container matColumnDef="Acciones">
-
-                <th mat-header-cell *matHeaderCellDef> <strong> Acciones </strong></th>
-                <td mat-cell *matCellDef="let f"> 
-                   
-                   
-                   
-                    <button matTooltip="Editar" type="button"
+<button matTooltip="Editar" type="button"
                     class="btn movement text-white" *ngIf="profile == '0' || profile == '2'"
-                    (click)="">
-                    <mat-icon
-                        class="btn-group size-20 text-cbc" role="group"> mode
-                    </mat-icon>
-                    </button> 
-
-                </td>
-
-            </ng-container>
-            
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            
-
-        </table>
-
-
-
-
+                       (click)="updateeBin(f.es, modalBinesUp)">
+                      <mat-icon class="btn-group size-20 text-cbc" role="group">mode</mat-icon>
+                   </button>
+				   
+				   
 <ng-template #modalBinesUp let-modal>
 
         <div class="modal-header">
-            <h3 class="modal-title" ></h3>
+            <h3 class="modal-title">Escenario a editar: {{selectedEscenario}}</h3>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -89,75 +104,22 @@ tego esta tabla y este modalBinesUp y quiero que el comento de darle click a edi
                 <span class="p-2">Cerrar</span>
               </button>
             
-            <button (click)="updateEscenarioBin(f.es, selectedIds)" class="card card-small btn btn-primary bg-primary text-light">
+            <button (click)="updateEscenarioBin(selectedEscenario, selectedIds)" class="card card-small btn btn-primary bg-primary text-light">
                 <span class="p-2">Confirmar</span>
             </button>   
         </div>
     </ng-template>
 	
-	
-	
-	
-	updateEscenarioBin(es: string, selectedIds: string[]){
+	quiero que al momento de llamar
 
-    const bines = selectedIds.join(',').replace(/,\s+/g, ',');
-    this.changeService.requestUpdateEscenarioBin(es, bines).subscribe(response =>{
-      console.log(response);
-      this.toastShow('Solicitud exitosa, bines actualizados', NgbToastType.Success);
-      this.ngOnInit();
-      this.selectedIds=[];
-    }, error => {
-      this.toastShow('No se logro actualizar bines', NgbToastType.Danger);
-    });
-  }
-
-
-
-
-
-
-<button matTooltip="Editar" type="button"
-    class="btn movement text-white" *ngIf="profile == '0' || profile == '2'"
-    (click)="openEditModal(f.es)">
-    <mat-icon class="btn-group size-20 text-cbc" role="group">mode</mat-icon>
-</button>
-
-
-
-
-
-
-<div class="modal-header">
-    <h3 class="modal-title">{{ selectedEscenario }}</h3>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-
-
-
-selectedEscenario: string;
-selectedIds: string[] = [];
-
-openEditModal(es: string) {
-    this.selectedEscenario = es;
-    // También puedes aquí obtener los valores seleccionados y asignarlos a this.selectedIds si es necesario
-    // Ejemplo: this.selectedIds = obtenerIdsSeleccionados();
-    // Luego, puedes mostrar el modal aquí
-    this.modalService.open(this.modalBinesUp);
+	updateeBin(es: string,modal: any){
+  console.log(modal);
+  const numero = es.match(/^\d+(?=\.\s)/);
+   if(numero){
+    this.selectedEscenario = numero[0];
+   }
+  this.getBinesTef();
+  this.openModal(modal, 'content');
 }
 
-updateEscenarioBin() {
-    const es = this.selectedEscenario;
-    const selectedIds = this.selectedIds;
-    // Resto de tu código para realizar la actualización
-    this.changeService.requestUpdateEscenarioBin(es, selectedIds).subscribe(response => {
-        console.log(response);
-        this.toastShow('Solicitud exitosa, bines actualizados', NgbToastType.Success);
-        this.ngOnInit();
-        this.selectedIds = [];
-    }, error => {
-        this.toastShow('No se logró actualizar bines', NgbToastType.Danger);
-    });
-}
-
+que se haga algo para que se comparen con unos id que tengo en un arreglo llamado "bi" para que si son iguales ya me aparescon marcados en el  checkbox de #modalBinesUp
