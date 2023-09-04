@@ -1,76 +1,5 @@
-updateeBin(es: string, bi: string[], modal: any) {
-  console.log(bi);
-  const numero = es.match(/^\d+(?=\.\s)/);
-  if (numero) {
-    this.selectedEscenario = numero[0];
-  }
-  // Realiza la comparación y marca los elementos correspondientes
-  this.listBinEmisorTEF.forEach(element => {
-    if (bi.includes(element.id)) {
-      element.checked = true;
-    }
-  });
+tengo estas funciones y al momento de usar updateeBin me abre mi chexbox y me las muestra marcadas los id que ya tiene el objeto un segundo y luego se quita la marcacion 
 
-  setTimeout(() => {
-    this.getBinesTef();
-  }, 0); // Utiliza un pequeño retraso para permitir que se actualicen los estados antes de llamar a getBinesTef
-  this.openModal(modal, 'content');
-}
-
-
-
-
-// === Obtiene la lista de Bines
-  listBinEmisorTEF: BinDtoTef[] = [];
-  jsonBinPan: any;
-  listCheck: BinDtoTef [] = []
-  getBinesTef() {
-    this.binemisorService.requestGetListBinEmisor().subscribe({
-      next: (response: any) => {
-        this.listBinEmisorTEF = response;
-        this.listBinEmisorTEF.forEach(element => {
-          element.checked = false;
-          if (this.jsonBinPan != null) {
-            for (let i = 0; i < this.jsonBinPan.length; i++) {
-              if (element.id == this.jsonBinPan[i]['id']) {
-                element.checked = true;
-                break;
-              } 
-            }
-          }
-        });
-      }, error(response: any) {
-        console.log('Error al obtener la lista de bines en component:', response)
-      }
-    });
-  }
-  
-  
-  updateeBin(es: string, bi:string[], modal: any) {
-  console.log(bi);
-  const numero = es.match(/^\d+(?=\.\s)/);
-  if (numero) {
-    this.selectedEscenario = numero[0];
-  }
-  // Realiza la comparación y marca los elementos correspondientes
-  this.listBinEmisorTEF.forEach(element => {
-    if (bi.includes(element.id)) {
-      element.checked = true;
-    }
-  });
-  this.getBinesTef();
-  this.openModal(modal, 'content');
-}
-
-
-tengo estas funciones pero me las muestra marcadas un segundo en el checkedbox y luego se quita la marcacion 
-
-
-
-// === Obtiene la lista de Bines
-listBinEmisorTEF: BinDtoTef[] = [];
-jsonBinPan: any;
-listCheck: BinDtoTef [] = []
 
 getBinesTef() {
   this.binemisorService.requestGetListBinEmisor().subscribe({
@@ -87,4 +16,96 @@ getBinesTef() {
 }
 
 
+updateeBin(es: string, bi: string[], modal: any) {
+  console.log(bi);
+  const numero = es.match(/^\d+(?=\.\s)/);
+  if (numero) {
+    this.selectedEscenario = numero[0];
+  }
+  // Realiza la comparación y marca los elementos correspondientes
+  this.listBinEmisorTEF.forEach(element => {
+    if (bi.includes(element.id)) {
+      element.checked = true;
+    }
+  });
+  
+  
+  updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
+  const es = selectedEscenario;
+  const bines = selectedIds.join(',').replace(/,\s+/g, ',');
+  console.log("es",es,"bines",bines)
+  this.changeService.requestUpdateEscenarioBin(es, bines).subscribe(response =>{
+    console.log(response);
+    this.toastShow('Solicitud exitosa, bines actualizados', NgbToastType.Success);
+    this.ngOnInit();
+    //this.selectedIds=[];
+  }, error => {
+    this.toastShow('No se logro actualizar bines', NgbToastType.Danger);
+  });
+}
+
+
+  selectedIds: string [] = [];
+  toggleChackbox(id: string){
+    var index = this.selectedIds.indexOf(id);
+    if (index === -1){
+      this.selectedIds.push(id);
+    } else {
+      this.selectedIds.splice(index, 1);
+    }
+    console.log("ids",this.selectedIds)
+  }
+  
+
+}
+
+
+
+<ng-template #modalBinesUp let-modal>
+
+        <div class="modal-header">
+            <h3 class="modal-title">Escenario a editar: {{selectedEscenario}}</h3>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+        
+
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport col-sm-12">
+                <table class="table table-striped table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Rango Inicial</th>
+                            <th scope="col">Rango Final</th>
+                            <th scope="col">Label</th>
+                            <th scope="col"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bin of listBinEmisorTEF">
+                            <td>{{ bin.ri }}</td>
+                            <td>{{ bin.rf }}</td>
+                            <td>{{ bin.lb }}</td>
+                            <td>
+                                <mat-checkbox [(ngModel)]="bin.checked" color="primary" (change)="toggleChackbox(bin.id)">
+                                </mat-checkbox>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </cdk-virtual-scroll-viewport>
+        </div>
+
+        <div class="modal-footer">
+            <button class="card card-small btn bg-light" (click)="modal.dismiss()">
+                <span class="p-2">Cerrar</span>
+              </button>
+            
+            <button (click)="updateEscenarioBin(selectedEscenario, selectedIds)" class="card card-small btn btn-primary bg-primary text-light">
+                <span class="p-2">Confirmar</span>
+            </button>   
+        </div>
+    </ng-template>
 
