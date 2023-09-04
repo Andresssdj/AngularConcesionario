@@ -45,3 +45,16 @@
             </button>   
         </div>
     </ng-template>
+
+
+
+  selectedIds: string [] = [];
+  toggleChackbox(id: string){
+    var index = this.selectedIds.indexOf(id);
+    if (index === -1){
+      this.selectedIds.push(id);
+    } else {
+      this.selectedIds.splice(index, 1);
+    }
+    console.log("ids",this.selectedIds)
+  }
