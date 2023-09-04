@@ -64,3 +64,27 @@ updateeBin(es: string, bi: string[], modal: any) {
 
 
 tengo estas funciones pero me las muestra marcadas un segundo en el checkedbox y luego se quita la marcacion 
+
+
+
+// === Obtiene la lista de Bines
+listBinEmisorTEF: BinDtoTef[] = [];
+jsonBinPan: any;
+listCheck: BinDtoTef [] = []
+
+getBinesTef() {
+  this.binemisorService.requestGetListBinEmisor().subscribe({
+    next: (response: any) => {
+      this.listBinEmisorTEF = response;
+      this.listBinEmisorTEF.forEach(element => {
+        element.checked = false;
+      });
+    },
+    error(response: any) {
+      console.log('Error al obtener la lista de bines en component:', response)
+    }
+  });
+}
+
+
+
