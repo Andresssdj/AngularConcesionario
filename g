@@ -1,26 +1,22 @@
-tengo estas funciones y al momento de usar updateeBin me abre mi chexbox y me las muestra marcadas los id que ya tiene el objeto un segundo y luego se quita la marcacion 
-
-
-<button matTooltip="Editar" type="button"
-                    class="btn movement text-white" *ngIf="profile == '0' || profile == '2'"
-                       (click)="updateeBin(f.es, f.bi , modalBinesUp)">
-                      <mat-icon class="btn-group size-20 text-cbc" role="group">mode</mat-icon>
-                   </button>
+tengo estas funciones y este checkbox, al momento de abrir el checkbox me muestra los id que ya tiene el objeto pero a la hora se seleciones otro check solo me cuenta el 
+que acabo de selecionar y no los que ya me esta mostrando que estan marcados, quiero que tambien me cuente los que la estan marcados en selectedIds para poder usar la fincion updateEscenarioBin
 
 
 updateeBin(es: string, bi: string[], modal: any) {
-  console.log(bi);
   const numero = es.match(/^\d+(?=\.\s)/);
   if (numero) {
     this.selectedEscenario = numero[0];
   }
-  this.getBinesTef();
+  this.listBinEmisorTEF.forEach(element => {
+      element.checked = false;
+  });
   // Realiza la comparación y marca los elementos correspondientes
   this.listBinEmisorTEF.forEach(element => {
     if (bi.includes(element.id)) {
       element.checked = true;
     }
   });
+
   this.openModal(modal, 'content');
 }
 
@@ -33,15 +29,27 @@ updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
     console.log(response);
     this.toastShow('Solicitud exitosa, bines actualizados', NgbToastType.Success);
     this.ngOnInit();
-    //this.selectedIds=[];
   }, error => {
     this.toastShow('No se logro actualizar bines', NgbToastType.Danger);
   });
 }
 
 
-
- <ng-template #modalBinesUp let-modal>
+// === Almacena los ids seleccionas en el checkbox
+  selectedIds: string [] = [];
+  toggleChackbox(id: string){
+    var index = this.selectedIds.indexOf(id);
+    if (index === -1){
+      this.selectedIds.push(id);
+    } else {
+      this.selectedIds.splice(index, 1);
+    }
+    console.log("ids",this.selectedIds)
+  }
+  
+  
+  
+   <ng-template #modalBinesUp let-modal>
 
         <div class="modal-header">
             <h3 class="modal-title">Escenario a editar: {{selectedEscenario}}</h3>
