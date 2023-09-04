@@ -1,3 +1,24 @@
+
+updateeBin(es: string, modal: any) {
+  console.log(modal);
+  const numero = es.match(/^\d+(?=\.\s)/);
+  if (numero) {
+    this.selectedEscenario = numero[0];
+  }
+  
+  // Realiza la comparación y marca los elementos correspondientes
+  this.listBinEmisorTEF.forEach(element => {
+    if (this.bi.includes(element.id)) {
+      element.checked = true;
+    }
+  });
+
+  this.getBinesTef();
+  this.openModal(modal, 'content');
+}
+
+
+
 tengo esta funcion "getBinesTef()"
 
 listBinEmisorTEF: BinDtoTef[] = [];
