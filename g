@@ -1,34 +1,7 @@
-updateeBin(es: string, bi: string[], modal: any) {
-  const numero = es.match(/^\d+(?=\.\s)/);
-  if (numero) {
-    this.selectedEscenario = numero[0];
-  }
-
-  // Inicializa selectedIds con los IDs que ya están marcados
-  this.selectedIds = this.listBinEmisorTEF
-    .filter(element => element.checked)
-    .map(element => element.id);
-
-  // Restablece los estados de los checkboxes para todos los elementos
-  this.listBinEmisorTEF.forEach(element => {
-    element.checked = false;
-  });
-
-  // Realiza la comparación y marca los elementos correspondientes
-  this.listBinEmisorTEF.forEach(element => {
-    if (bi.includes(element.id)) {
-      element.checked = true;
-    }
-  });
-
-  this.openModal(modal, 'content');
-}
 
 
 
-
-tengo estas funciones y este checkbox, al momento de abrir el checkbox me muestra los id que ya tiene el objeto pero a la hora se seleciones otro check solo me cuenta el 
-que acabo de selecionar y no los que ya me esta mostrando que estan marcados, quiero que tambien me cuente los que la estan marcados en selectedIds para poder usar la fincion updateEscenarioBin
+tengo esta funcion y quiero es el resultado de la comparacion sea lo que se le pase a updateEscenarioBin en su campo selectedIds
 
 
 updateeBin(es: string, bi: string[], modal: any) {
@@ -50,6 +23,7 @@ updateeBin(es: string, bi: string[], modal: any) {
 }
 
 
+
 updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
   const es = selectedEscenario;
   const bines = selectedIds.join(',').replace(/,\s+/g, ',');
@@ -58,27 +32,16 @@ updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
     console.log(response);
     this.toastShow('Solicitud exitosa, bines actualizados', NgbToastType.Success);
     this.ngOnInit();
+    //this.selectedIds=[];
   }, error => {
     this.toastShow('No se logro actualizar bines', NgbToastType.Danger);
   });
 }
 
 
-// === Almacena los ids seleccionas en el checkbox
-  selectedIds: string [] = [];
-  toggleChackbox(id: string){
-    var index = this.selectedIds.indexOf(id);
-    if (index === -1){
-      this.selectedIds.push(id);
-    } else {
-      this.selectedIds.splice(index, 1);
-    }
-    console.log("ids",this.selectedIds)
-  }
-  
-  
-  
-   <ng-template #modalBinesUp let-modal>
+y este checkedbox
+
+<ng-template #modalBinesUp let-modal>
 
         <div class="modal-header">
             <h3 class="modal-title">Escenario a editar: {{selectedEscenario}}</h3>
@@ -125,3 +88,6 @@ updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
             </button>   
         </div>
     </ng-template>
+
+
+
