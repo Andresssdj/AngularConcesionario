@@ -1,20 +1,11 @@
-tengo estas funciones y al momento de usar updateeBin me abre mi chexbox y me las muestra marcadas
-los id que ya tiene el objeto un segundo pero luego se quita la marcacion 
+tengo estas funciones y al momento de usar updateeBin me abre mi chexbox y me las muestra marcadas los id que ya tiene el objeto un segundo y luego se quita la marcacion 
 
 
-getBinesTef() {
-  this.binemisorService.requestGetListBinEmisor().subscribe({
-    next: (response: any) => {
-      this.listBinEmisorTEF = response;
-      this.listBinEmisorTEF.forEach(element => {
-        element.checked = false;
-      });
-    },
-    error(response: any) {
-      console.log('Error al obtener la lista de bines en component:', response)
-    }
-  });
-}
+<button matTooltip="Editar" type="button"
+                    class="btn movement text-white" *ngIf="profile == '0' || profile == '2'"
+                       (click)="updateeBin(f.es, f.bi , modalBinesUp)">
+                      <mat-icon class="btn-group size-20 text-cbc" role="group">mode</mat-icon>
+                   </button>
 
 
 updateeBin(es: string, bi: string[], modal: any) {
@@ -23,15 +14,18 @@ updateeBin(es: string, bi: string[], modal: any) {
   if (numero) {
     this.selectedEscenario = numero[0];
   }
+  this.getBinesTef();
   // Realiza la comparación y marca los elementos correspondientes
   this.listBinEmisorTEF.forEach(element => {
     if (bi.includes(element.id)) {
       element.checked = true;
     }
   });
-  
-  
-  updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
+  this.openModal(modal, 'content');
+}
+
+
+updateEscenarioBin( selectedEscenario: string ,selectedIds: string[]){
   const es = selectedEscenario;
   const bines = selectedIds.join(',').replace(/,\s+/g, ',');
   console.log("es",es,"bines",bines)
@@ -46,17 +40,51 @@ updateeBin(es: string, bi: string[], modal: any) {
 }
 
 
-  selectedIds: string [] = [];
-  toggleChackbox(id: string){
-    var index = this.selectedIds.indexOf(id);
-    if (index === -1){
-      this.selectedIds.push(id);
-    } else {
-      this.selectedIds.splice(index, 1);
-    }
-    console.log("ids",this.selectedIds)
-  }
-  
 
-}
+ <ng-template #modalBinesUp let-modal>
 
+        <div class="modal-header">
+            <h3 class="modal-title">Escenario a editar: {{selectedEscenario}}</h3>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+        
+
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport col-sm-12">
+                <table class="table table-striped table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Rango Inicial</th>
+                            <th scope="col">Rango Final</th>
+                            <th scope="col">Label</th>
+                            <th scope="col"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bin of listBinEmisorTEF">
+                            <td>{{ bin.ri }}</td>
+                            <td>{{ bin.rf }}</td>
+                            <td>{{ bin.lb }}</td>
+                            <td>
+                                <mat-checkbox [(ngModel)]="bin.checked" color="primary" (change)="toggleChackbox(bin.id)">
+                                </mat-checkbox>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </cdk-virtual-scroll-viewport>
+        </div>
+
+        <div class="modal-footer">
+            <button class="card card-small btn bg-light" (click)="modal.dismiss()">
+                <span class="p-2">Cerrar</span>
+              </button>
+            
+            <button (click)="updateEscenarioBin(selectedEscenario, selectedIds)" class="card card-small btn btn-primary bg-primary text-light">
+                <span class="p-2">Confirmar</span>
+            </button>   
+        </div>
+    </ng-template>
