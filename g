@@ -1,27 +1,22 @@
-getBinesTef() {
-  this.binemisorService.requestGetListBinEmisor().subscribe({
-    next: (response: any) => {
-      this.listBinEmisorTEF = response;
-      this.listBinEmisorTEF.forEach(element => {
-        element.checked = false;
-        if (this.jsonBinPan != null) {
-          for (let i = 0; i < this.jsonBinPan.length; i++) {
-            if (element.id == this.jsonBinPan[i]['id']) {
-              element.checked = true;
-              break;
-            } 
-          }
-        }
-      });
-      
-      // Llama a openModal aquí, después de que los datos estén listos.
-      this.openModal(modal, 'content');
-    },
-    error(response: any) {
-      console.log('Error al obtener la lista de bines en component:', response);
+updateeBin(es: string, bi: string[], modal: any) {
+  console.log(bi);
+  const numero = es.match(/^\d+(?=\.\s)/);
+  if (numero) {
+    this.selectedEscenario = numero[0];
+  }
+  // Realiza la comparación y marca los elementos correspondientes
+  this.listBinEmisorTEF.forEach(element => {
+    if (bi.includes(element.id)) {
+      element.checked = true;
     }
   });
+
+  setTimeout(() => {
+    this.getBinesTef();
+  }, 0); // Utiliza un pequeño retraso para permitir que se actualicen los estados antes de llamar a getBinesTef
+  this.openModal(modal, 'content');
 }
+
 
 
 
