@@ -1,82 +1,46 @@
-// Divide la cadena 'bi' en un arreglo de strings
-const biArray = bi.split(',');
+tengo este query 
 
-// Realiza la comparación y marca los elementos correspondientes
-this.listBinEmisorTEF.forEach(element => {
-  if (biArray.includes(element.id.toString())) {
-    element.checked = true;
-    // Agrega el ID al arreglo selectedIds
-    this.selectedIds.push(element.id);
-    console.log(element.checked);
-  }
-});
-
-
-
-Argument of type 'string' is not assignable to parameter of type 'number'.
-
-// Divide la cadena 'bi' en un arreglo de strings
-const biArray = bi.split(',');
-
-// Realiza la comparación y marca los elementos correspondientes
-this.listBinEmisorTEF.forEach(element => {
-  if (biArray.includes(element.id.toString())) {
-    element.checked = true;
-    // Agrega el ID al arreglo selectedIds
-    this.selectedIds.push(element.id);
-    console.log(element.checked);
-  }
-});
-
-
-
-Argument of type 'string[]' is not assignable to parameter of type 'string'
-
-
-tengo esta funcion  y bi tiene esto 	[{"rf":"5294049999","ri":"5294040000","id":"340"}]	
-
-updateeBin(es: string, bi: string[], modal: any) {
-  const numero = es.match(/^\d+(?=\.\s)/);
-  if (numero) {
-    this.selectedEscenario = numero[0];
-  }
-
-  // Inicializa selectedIds como un arreglo vacío una sola vez, antes de recorrer los elementos
-  this.selectedIds = [];
-
-  // Restablece el estado de los checkboxes
-  this.listBinEmisorTEF.forEach(element => {
-    element.checked = false;
-  });
-
-  // Realiza la comparación y marca los elementos correspondientes
-  this.listBinEmisorTEF.forEach(element => {
-    if (bi.includes(element.id)) {
-      element.checked = true;
-      // Agrega el ID al arreglo selectedIds
-      this.selectedIds.push(element.id);
-      console.log(element.checked);
+@Query(
+        value = "SELECT * from  BIN_STAGES B order by B.ID_ESCENARIO",
+        nativeQuery = true
+    )
+    Page<BinStages> getBines(Pageable pageable);
+	
+	
+	este servicio
+	
+	public List<BinStagesResponse> listBines(Pageable pageable) {
+        Page <BinStages> listBines = binStagesRepository.getBines(pageable);
+        return !listBines.isEmpty() ? mapperListToResponse(listBines.getContent()) : null;
     }
-  });
-
-  this.openModal(modal, 'content');
-}
-
-
-
-quiero que en esta parte 
-
-  // Realiza la comparación y marca los elementos correspondientes
-  this.listBinEmisorTEF.forEach(element => {
-    if (bi.includes(element.id)) {
-      element.checked = true;
-      // Agrega el ID al arreglo selectedIds
-      this.selectedIds.push(element.id);
-      console.log(element.checked);
+    List<BinStagesResponse> mapperListToResponse(List<BinStages> listEntity) {
+        return listEntity.stream().map(BinStages -> modelMapper.map(BinStages, BinStagesResponse.class)).collect(Collectors.toList());
     }
-  });
-  
-  
-  la corrijas para comparar si el id que tiene bi es === a el id de element.id) y si son iguales me active 
-  
-  element.checked = true;
+	
+	este controlador 
+	
+	 public ResponseEntity<Object> listBinStages(@PageableDefault Pageable pageable){
+        logger.info("----- Obteniendo listado de bines -----");
+        List<BinStagesResponse> response = binStagesService.listBines(pageable);
+        logger.info(MessagesDTO.FIN_HTTP);
+        return ResponseEntity.status(response != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(response != null ? response : Util.jsonMessage(MessagesDTO.SIN_INFORMACION));
+    }
+	
+	
+	
+	y me arroja 
+
+
+  {
+        "es": 4,
+        "bi": "[{\"rf\":\"5288849999\",\"ri\":\"5288840000\",\"id\":\"338\"}]"
+    },
+    {
+        "es": 7,
+        "bi": "[{\"rf\":\"5294049999\",\"ri\":\"5294040000\",\"id\":\"340\"}]"
+    }
+	
+	
+	quiero que lo de bi es vez de que sea un string
+	
+	quede como objetos
