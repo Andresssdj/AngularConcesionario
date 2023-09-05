@@ -35,14 +35,16 @@ this.changeService.requestGetListBin(0).subscribe({
     next: (response: any) => {
         console.log('Response escenarios bines list OK ');
 
-        // Suponiendo que response.bi es una cadena de texto válida
+        // Elimina las barras invertidas de la cadena en response.bi
+        response.bi = response.bi.replace(/\\/g, '');
+
         try {
-            // Convierte la cadena de texto en un objeto JavaScript
+            // Intenta analizar la cadena de texto resultante como JSON
             const biArray = JSON.parse(response.bi);
 
             // Verifica que biArray sea un array de objetos
             if (Array.isArray(biArray)) {
-                this.dataSource.data = biArray;
+                this.dataSource.data = biArray as EscenarioBinDTO[];
             } else {
                 console.log('Error: biArray no es un array de objetos');
             }
@@ -54,4 +56,3 @@ this.changeService.requestGetListBin(0).subscribe({
         console.log('Error al obtener la lista de escenarios bines en component:', response);
     }
 });
-
