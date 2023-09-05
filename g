@@ -1,31 +1,19 @@
-tengo esta funcion y "bi" contiene esto [{"rf":"5294049999","ri":"5294040000","id":"340"}]
+rsponse me response este formamato
 
-quiero que bi se combierta en JSON para realizar una comparacion de id y si son iguales me encienda  element.checked = true;
+bi: "[{\"rf\":\"5294049999\",\"ri\":\"5294040000\",\"id\":\"340\"}]"
+es: "7"
 
+y quiero que bi se combierta en json con los campos 
 
+rf, ri, id 
 
-updateeBin(es: string, bi: string[], modal: any) {
-  console.log("bi 1",bi);
-  const numero = es.match(/^\d+(?=\.\s)/);
-  if (numero) {
-    this.selectedEscenario = numero[0];
-  }
-  // Realiza la comparación y marca los elementos correspondientes
-  this.listBinEmisorTEF.forEach(element => {
-    element.checked = false;
-    //console.log(" ele ",element.checked = false);
-    if (bi.indexOf(element.id)) {
-      console.log("bi 2",bi);
+this.changeService.requestGetListBin(0).subscribe({
+      next: (response: any) => {
 
-      element.checked = false;
-
-
-    }
+          console.log('Response escenarios bines list OK ');
+          this.dataSource.data = response as EscenarioBinDTO[];
+      },
+      error(response: any) {
+          console.log('Error al obtener la lista de escenarios bines en component:', response);
+      }
   });
-
-  this.openModal(modal, 'content');
-}
-
-como combierto esto en un json en typescrip
-
-[{"rf":"5294049999","ri":"5294040000","id":"340"}]
