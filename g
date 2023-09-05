@@ -2,6 +2,36 @@ public List<BinStagesResponse> mapperListToResponse(List<BinStages> listEntity) 
     return listEntity.stream()
         .map(binStages -> {
             BinStagesResponse response = modelMapper.map(binStages, BinStagesResponse.class);
+
+            // Parsea la cadena JSON en objetos
+            JSONArray biArray = new JSONArray(response.getBi());
+            List<BinInfo> binInfoList = new ArrayList<>();
+
+            for (int i = 0; i < biArray.length(); i++) {
+                JSONObject biObject = biArray.getJSONObject(i);
+                BinInfo binInfo = new BinInfo();
+                binInfo.setRf(biObject.getString("rf"));
+                binInfo.setRi(biObject.getString("ri"));
+                binInfo.setId(biObject.getString("id"));
+                binInfoList.add(binInfo);
+            }
+
+            response.setBi(binInfoList);
+            return response;
+        })
+        .collect(Collectors.toList());
+}
+
+
+
+
+
+
+
+public List<BinStagesResponse> mapperListToResponse(List<BinStages> listEntity) {
+    return listEntity.stream()
+        .map(binStages -> {
+            BinStagesResponse response = modelMapper.map(binStages, BinStagesResponse.class);
             // Parsea la cadena JSON en objetos
             List<BinInfo> binInfoList = Arrays.asList(new Gson().fromJson(response.getBi(), BinInfo[].class));
             response.setBi(binInfoList);
