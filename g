@@ -1,3 +1,19 @@
+public List<BinStagesResponse> mapperListToResponse(List<BinStages> listEntity) {
+    return listEntity.stream()
+        .map(binStages -> {
+            BinStagesResponse response = modelMapper.map(binStages, BinStagesResponse.class);
+            // Parsea la cadena JSON en objetos
+            List<BinInfo> binInfoList = Arrays.asList(new Gson().fromJson(response.getBi(), BinInfo[].class));
+            response.setBi(binInfoList);
+            return response;
+        })
+        .collect(Collectors.toList());
+}
+
+
+
+
+
 tengo este query 
 
 @Query(
