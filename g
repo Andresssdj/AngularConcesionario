@@ -1,3 +1,5 @@
+TypeError: Cannot read properties of undefined (reading 'replace')
+
 la respuesta de esta fucion 
 
 this.changeService.requestGetListBin(0).subscribe({
