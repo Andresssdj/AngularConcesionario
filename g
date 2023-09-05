@@ -1,3 +1,6 @@
+Argument of type 'string[]' is not assignable to parameter of type 'string'
+
+
 tengo esta funcion  y bi tiene esto 	[{"rf":"5294049999","ri":"5294040000","id":"340"}]	
 
 updateeBin(es: string, bi: string[], modal: any) {
