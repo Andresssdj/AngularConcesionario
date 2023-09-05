@@ -1,3 +1,5 @@
+Argument of type 'string' is not assignable to parameter of type 'number'.
+
 // Divide la cadena 'bi' en un arreglo de strings
 const biArray = bi.split(',');
 
