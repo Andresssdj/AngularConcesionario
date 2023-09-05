@@ -1,3 +1,18 @@
+// Divide la cadena 'bi' en un arreglo de strings
+const biArray = bi.split(',');
+
+// Realiza la comparación y marca los elementos correspondientes
+this.listBinEmisorTEF.forEach(element => {
+  if (biArray.includes(element.id.toString())) {
+    element.checked = true;
+    // Agrega el ID al arreglo selectedIds
+    this.selectedIds.push(element.id);
+    console.log(element.checked);
+  }
+});
+
+
+
 Argument of type 'string[]' is not assignable to parameter of type 'string'
 
 
