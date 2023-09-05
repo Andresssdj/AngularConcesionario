@@ -14,3 +14,13 @@ for(let i = 0; i < response.length; i++){
             this.dataSource.data = response as EscenarioBinDTO[];
 
           }
+
+
+
+for (let i = 0; i < response.length; i++) {
+  if (response[i].bi && response[i].bi.id) {
+    response[i].bi.id = response[i].bi.id.replace(/["']/g, '');
+  }
+}
+
+// Ahora, response contiene los IDs sin comillas
