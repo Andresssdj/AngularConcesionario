@@ -1,42 +1,19 @@
-updateeBin(es: string, bi: BinDtoTef, modal: any) {
+Tengo este query de oracle 
 
-
-console.log("Bi 1",bi);
-
-  console.log("Bi 1",bi.id);
-
-  const numero = es.match(/^\d+(?=\.\s)/);
-  if (numero) {
-    this.selectedEscenario = numero[0];
-  }
-
-  // Restablece el estado de los checkboxes
-  this.listBinEmisorTEF.forEach(element => {
-    element.checked = false;
-  });
+UPDATE BIN_STAGES bs
+SET bs.BINES = (
+    SELECT '[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ', ') WITHIN GROUP (ORDER BY e.INDICE) || ']'
+    FROM BIN_EMISOR e
+    WHERE e.INDICE IN (
+        SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL))
+        FROM DUAL
+        CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL
+    )
+)
+WHERE bs.ID_ESCENARIO = :ID_ESCENARIO;
 
 
 
-  this.openModal(modal, 'content');
- 
-}
+y esto es lo que me arroja pero quiero quitarle este este espacio "340"}, {"rf" que esta despues de la coma 
 
-
-cuando imprimo console.log("Bi 1",bi);
-
-id: "353"
-rf: "5361709999"
-ri: "5361700000"
-
-y cuando trato de imprimir   console.log("Bi 1",bi.id); me indica indefinido 
-
-
-pero esto bi: BinDtoTef 
-
-export class BinDtoTef {
-    id: string;
-    rf: string;
-    ri: string;
-    lb: string;
-    checked: boolean;
-}
+[{"rf":"5294049999","ri":"5294040000","id":"340"}, {"rf":"5303739999","ri":"5303710000","id":"341"}]
