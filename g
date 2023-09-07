@@ -37,3 +37,10 @@ let arrayBines: any = [];
         this.listBinEmisorTEF = [(new BinDtoTef())]
 		
 		
+if (this.dtoTerminal.variables.estf === '6' || this.dtoTerminal.variables.estf === '7') {
+  this.dtoTerminal.variables.bp = 'El valor que deseas asignar cuando estf sea 6 o 7';
+} else {
+  this.arrayRe.forEach(element => {
+    this.dtoTerminal.variables.bp = element.bi;
+  });
+}
