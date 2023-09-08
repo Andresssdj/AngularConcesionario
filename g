@@ -1,20 +1,15 @@
 let arrayBines: any = [];
 
-if (
-  (this.dtoTerminal.variables.chabc === '1') &&
-  (this.dtoTerminal.variables.estf === '6' || this.dtoTerminal.variables.estf === '7')
-) {
-  // Filtra elementos de this.arrayRe basados en la condición deseada
-  const filteredItems = this.arrayRe.filter(element => {
-    // Verifica si element.bi cumple con las condiciones
-    return (element.bi === '6' || element.bi === '7');
+if (this.dtoTerminal.variables.chabc == '1' && (this.dtoTerminal.variables.estf === '6' || this.dtoTerminal.variables.estf === '7')) {
+  this.arrayRe.forEach(element => {
+    if (this.dtoTerminal.variables.estf === '6' && element.bi === '6') {
+      arrayBines.push(element.bi);
+    } else if (this.dtoTerminal.variables.estf === '7' && element.bi === '7') {
+      arrayBines.push(element.bi);
+    }
+    console.log("ar", arrayBines);
+    console.log("re", this.arrayRe);
   });
-
-  // Agrega los elementos filtrados a arrayBines
-  arrayBines.push(...filteredItems);
-
-  console.log("ar", arrayBines);
-  console.log("re", this.arrayRe);
 }
 
 
