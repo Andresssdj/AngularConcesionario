@@ -14,7 +14,31 @@ String[] terminals = updateDownload.get().getDescription().split(",");
 				
 				
 				
-y quiero implementarlo aqui y que el if quede como otro else
+y quiero implementarlo aqui y que el " if (variable.getValue() == null || variable.getValue().isEmpty()){
+                    logger.info("variable.getValue() esta vacio o es nulo.Saltando a la siguiente terminal");
+                    continue;
+                }" quede como otro else de estos
+				
+				  }else {
+                                terminalFile.setTerminal(linea);
+                                terminalFile.setResponse("No existe o tipo no valido");
+                            }
+
+                        }else {
+                            terminalFile.setTerminal(linea);
+                            terminalFile.setResponse("Terminal incorrecta");
+                        }
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 
 try {
             if(saveFile(uploadDir,fileName,multipartFile)){
