@@ -1,37 +1,22 @@
-escenarioOption = [
-    {value: 1, label: "1. Enviar pan a caja con bines pan definidos"},
-    {value: 2, label: "2. Enviar pan, con bines pan definidos en claro"},
-    {value: 3, label: "3. Enviar pan, sin bines pan"},
-    {value: 4, label: "4. Enviar pan completo con bines pan"},
-    {value: 5, label: "5. No realiza envio de pan"},
-    {value: 6, label: "6. Exito, Enviar pan completo con bines pan"},
-    {value: 7, label: "7. Exito, Enviar pan, con bines pan definidos en claro"}
-  ];
+tengo este for 
 
-
-this.changeService.requestGetListBin(0).subscribe({
-      next: (response: any) => {
-          console.log('Response escenarios bines list OK ');
-          this.dataSource.data = response as EscenarioBinDTO[];
-
-          for(let i = 0; i < response.length; i++){
-            this.formattedData = response[i].bi.toString().replace(/\\/g, '');
-            this.Array = JSON.parse(this.formattedData);
-
-            response[i].bi =  this.Array; 
-            this.dataSource.data = response as EscenarioBinDTO[];
-
-          }
-          // Asignar mensajes adicionales según el ID
-          this.dataSource.data.forEach(item => {
-            this.escenarioOption.forEach(esce =>{
-              if (esce.value.hasOwnProperty(item.es)) {
-                item.es = esce.label[item.es];
+for (String terminal : terminals) {
+                logger.info("Consultando variables de una terminal encontrada");
+                Variable variable = variableService.getVariableTerminalById(Long.parseLong(terminal));
+                logger.info("Mapear cambios puntuales en el json de la terminal");
+                variable.setValue(Util.changesPunctualJson(variable.getValue(), updateDownload.get().getValue()));
+                variableService.updateParametersTerminal(variable);
+                logger.info("Termino de actualizar parámetros, pasamos a validar init");
+                Optional<Terminal> terminalBD = terminalService.searchTerminalById(Long.parseLong(terminal));
+                if ((terminalBD.isPresent()) && (terminalBD.get().getType() == null || terminalBD.get().getType() == 1)){
+                    downloadService.createInit(variable.getTerminal());
+                }
             }
-            });
-          });
-          this.escenariosExistentes = response.map((item: any ) => item.es);
-      }
-
-
-quiero asignarle los mensajes de label  
+			
+			
+			y quiero que aqui 
+			 variable.setValue(Util.changesPunctualJson(variable.getValue(), updateDownload.get().getValue()));
+			 
+			 se haga una validacion y si no existe nada en variagle Value me termine el procese y siga  con el siguiente elemento del for 
+			
+			
