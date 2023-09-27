@@ -1,40 +1,6 @@
+esto me genera archivos
 
-private List<List<String>> createPackagesDownload(String sBase64) {
-    List<List<String>> packages = new ArrayList<>();
-    try {
-        int maxCaracters = maxcaracters;
-        int newMaxCaracters = newmaxcaracters;
-
-        logger.info("Generar paquetes de a " + maxCaracters + " por campo");
-        logger.info("Generar paquetes de " + newMaxCaracters + " por campo");
-
-        int index = 0;
-        List<String> maxCaractersList = new ArrayList<>();
-        logger.info("Generando listado de paquetes con maxcaracters ...");
-        while (index < sBase64.length()) {
-            maxCaractersList.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
-            index += maxCaracters;
-        }
-        packages.add(maxCaractersList);
-
-        index = 0; // Reiniciar el índice para la nueva variable
-        List<String> newMaxCaractersList = new ArrayList<>();
-        logger.info("Generando listado de paquetes con newMaxCaracters ...");
-        while (index < sBase64.length()) {
-            newMaxCaractersList.add(sBase64.substring(index, Math.min(index + newMaxCaracters, sBase64.length())));
-            index += newMaxCaracters;
-        }
-        packages.add(newMaxCaractersList);
-
-    } catch (Exception e) {
-        logger.error("Error al separar por paquetes en service managePackageDownload");
-    }
-    return packages;
-}
-
-
-
-nopublic void generateFiles(Terminal entity, FilesVersions files) {
+public void generateFiles(Terminal entity, FilesVersions files) {
         try {
             logger.info("* Terminal: " + entity.getCodigoTerminal());
             logger.info("* Tipo de terminal : " + entity.getType() + " model: " + entity.getTerminalModel());
@@ -61,7 +27,6 @@ nopublic void generateFiles(Terminal entity, FilesVersions files) {
                             filesManageDTO.setTypeFile(files.getTypeFile());
                             filesManageDTO.setModelTerminal(entity.getTerminalModel());
                             manageDownloadService.managerPackageFiles(filesManageDTO);
-
                             AssignedFiles assignedFiles = new AssignedFiles();
                             assignedFiles.setIdFile(files.getId());
                             assignedFiles.setVersion(files.getContainerVersion());
@@ -82,12 +47,8 @@ nopublic void generateFiles(Terminal entity, FilesVersions files) {
             logger.error("Error al generar los archivos: {}", e);
         }
     }
-
-
-
-esto realiza lo sigueinte 
-
-public void managerPackageFiles(DownloadFilesManageDTO filesManageDTO) {
+	
+	public void managerPackageFiles(DownloadFilesManageDTO filesManageDTO) {
         try {
             String params = filesManageDTO.getValueDownload().replace("=", "");
             logger.info("Obteniendo bytes de file, add en descargas de files");
@@ -103,38 +64,34 @@ public void managerPackageFiles(DownloadFilesManageDTO filesManageDTO) {
         }
 
     }
+	
+	
+	quiero que maxCaracters y newMaxCaracters sean listas independientes para que en el metodo generateFiles al momento de "manageDownloadService.managerPackageFiles(filesManageDTO);" 
+	me cree uno con el tamaño de maxCaracters y otro de newMaxCaracters
+	
+	
+	private List<String> createPackagesDownload(String sBase64, int maxCaracters, int newMaxCaracters) {
+    List<String> strings = new ArrayList<>();
+    try {
+        logger.info("Generar paquetes de " + maxCaracters + " por campo");
+        logger.info("Generar paquetes de " + newMaxCaracters + " por campo");
 
-y tambien esta este
-
-y quiero  modificarlo algo asi pero que se guarde maxcaracters y newmaxcaracters cada uno aparte para que al momendo de asignar los dos archivos y no se anigne con un tamaño y el otro con el otro
-
- private List<String> createPackagesDownload(String sBase64) {
-        List<String> strings = new ArrayList<>();
-        try {
-
-            logger.info("Generar paquetes de a " + maxcaracters + " por campo");
-            logger.info("Generar paquetes de " + newmaxcaracters + " por campo");
-
-            int maxCaracters = maxcaracters;
-            int newMaxCaracters = newmaxcaracters;
-            int index = 0;
-            logger.info("Generando listado de paquetes ...");
-            while (index < sBase64.length()) {
-                strings.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
-                index += maxCaracters;
-            }
-            index = 0; // Reiniciar el índice para la nueva variable
-            logger.info("Generando listado de paquetes con newMaxCaracters ...");
-            while (index < sBase64.length()) {
-                strings.add(sBase64.substring(index, Math.min(index + newMaxCaracters, sBase64.length())));
-                index += newMaxCaracters;
-            }
-
-        } catch (Exception e) {
-            logger.error("Error al separar por paquetes en service managePackageDownload");
+        int index = 0;
+        logger.info("Generando listado de paquetes con maxCaracters ...");
+        while (index < sBase64.length()) {
+            strings.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
+            index += maxCaracters;
         }
-        return strings;
+
+        index = 0; // Reiniciar el índice para la nueva variable
+        logger.info("Generando listado de paquetes con newMaxCaracters ...");
+        while (index < sBase64.length()) {
+            strings.add(sBase64.substring(index, Math.min(index + newMaxCaracters, sBase64.length())));
+            index += newMaxCaracters;
+        }
+
+    } catch (Exception e) {
+        logger.error("Error al separar por paquetes en service managePackageDownload");
     }
-
-
-
+    return strings;
+}
