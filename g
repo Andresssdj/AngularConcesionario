@@ -46,3 +46,80 @@ public void generateFiles(Terminal entity, FilesVersions files) {
             logger.error("Error al generar los archivos: {}", e);
         }
     }
+
+
+
+esto realiza lo sigueinte 
+
+public void managerPackageFiles(DownloadFilesManageDTO filesManageDTO) {
+        try {
+            String params = filesManageDTO.getValueDownload().replace("=", "");
+            logger.info("Obteniendo bytes de file, add en descargas de files");
+            byte[] arrayBytes = params.getBytes(StandardCharsets.UTF_8);
+            int cantBytes = arrayBytes.length * 6 / 8;
+            List<String> values = this.createPackagesDownload(params);
+            int partsize = cantBytes / values.size();
+            if (!values.isEmpty()) {
+                this.registerInDownloadFiles(values, filesManageDTO.getIdTerminal(), partsize, cantBytes, filesManageDTO.getVersion(), filesManageDTO.getDescription(), filesManageDTO.getTypeFile(), filesManageDTO.getModelTerminal());
+            }
+        } catch (Exception var7) {
+            logger.info("Error en el manejo del archivo para descargar ");
+        }
+
+    }
+
+y tambien esta este
+
+
+private List<String> createPackagesDownload(String sBase64) {
+        List<String> strings = new ArrayList();
+
+        try {
+            logger.info("Generar paquetes de a " + this.maxcaracters + " por campo");
+            int maxCaracters = this.maxcaracters;
+            int index = 0;
+            logger.info("Generando listado de paquetes ...");
+
+            while(index < sBase64.length()) {
+                strings.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
+                index += maxCaracters;
+            }
+        } catch (Exception var5) {
+            logger.error("Error al separar por paquetes en service managePackageDownload");
+        }
+
+        return strings;
+    }
+
+y quiero  modificarlo algo asi peor no que se guarte maxcaracters y newmaxcaracters cada uno aparte para que al momendo de asignar los dos archivos y no se anigne con un tamaño y el otro con el otro
+
+ private List<String> createPackagesDownload(String sBase64) {
+        List<String> strings = new ArrayList<>();
+        try {
+
+            logger.info("Generar paquetes de a " + maxcaracters + " por campo");
+            logger.info("Generar paquetes de " + newmaxcaracters + " por campo");
+
+            int maxCaracters = maxcaracters;
+            int newMaxCaracters = newmaxcaracters;
+            int index = 0;
+            logger.info("Generando listado de paquetes ...");
+            while (index < sBase64.length()) {
+                strings.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
+                index += maxCaracters;
+            }
+            index = 0; // Reiniciar el índice para la nueva variable
+            logger.info("Generando listado de paquetes con newMaxCaracters ...");
+            while (index < sBase64.length()) {
+                strings.add(sBase64.substring(index, Math.min(index + newMaxCaracters, sBase64.length())));
+                index += newMaxCaracters;
+            }
+
+        } catch (Exception e) {
+            logger.error("Error al separar por paquetes en service managePackageDownload");
+        }
+        return strings;
+    }
+
+
+
