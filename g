@@ -1,47 +1,21 @@
-tengo este codigo
 
+que esta haciendo esto 
 
-<div class="col-sm-12">
-                        <button class="card card-small btn bg-cbc float-right" [disabled]="loading" (click)="updateParams()">
-                           <div > <span [class.spinner]="loading" class="p-2 text-white">Actualizar</span> </div>
-                        </button>
-                    </div>
+private List<String> createPackagesDownload(String sBase64) {
+        List<String> strings = new ArrayList<>();
+        try {
 
-updateParams() {
-    // -- bines tef 
-    this.loading = true;
-    let arrayBines: any = [];
-    if (this.dtoParametrosUpdate.chabc == '1' && this.dtoParametrosUpdate.estf != '0' && this.dtoParametrosUpdate.estf != '3') {
-      console.log('Habilitado a caja, definiendo bines');
-      this.listBinEmisorTEF.forEach(bin => {
-        if (bin.checked) {
-          let jsonBines: any =
-          {
-            "id": bin.id,
-            "ri": `${bin.ri}`,
-            "rf": `${bin.rf}`
-          }
-          arrayBines.push(jsonBines);
+            logger.info("Generar paquetes de a " + maxcaracters + " por campo");
+            int maxCaracters = maxcaracters;
+            int index = 0;
+            logger.info("Generando listado de paquetes ...");
+            while (index < sBase64.length()) {
+                strings.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
+                index += maxCaracters;
+            }
+
+        } catch (Exception e) {
+            logger.error("Error al separar por paquetes en service managePackageDownload");
         }
-      });
-      if (arrayBines[0]) {
-        this.dtoParametrosUpdate.bp = arrayBines;
-      }
+        return strings;
     }
-
-    var parametrosUpdate = this.managerJsonService.removeCleanKeysJson(this.dtoParametrosUpdate);
-    
-    if (this.message == 'Grupo') {
-      this.approbalGroup(parametrosUpdate);
-    }else if(this.message == 'Carga_Archivo'){
-      this.approbalTerminalsFile(parametrosUpdate);
-    }else{
-      console.log('aca');
-    }
-    
-  }
-  
-  
-  
-  pero el bopon de carga se queda activo, donde lo puedo desactivar
-  
