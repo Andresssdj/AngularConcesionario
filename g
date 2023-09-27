@@ -1,4 +1,40 @@
-public void generateFiles(Terminal entity, FilesVersions files) {
+
+private List<List<String>> createPackagesDownload(String sBase64) {
+    List<List<String>> packages = new ArrayList<>();
+    try {
+        int maxCaracters = maxcaracters;
+        int newMaxCaracters = newmaxcaracters;
+
+        logger.info("Generar paquetes de a " + maxCaracters + " por campo");
+        logger.info("Generar paquetes de " + newMaxCaracters + " por campo");
+
+        int index = 0;
+        List<String> maxCaractersList = new ArrayList<>();
+        logger.info("Generando listado de paquetes con maxcaracters ...");
+        while (index < sBase64.length()) {
+            maxCaractersList.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
+            index += maxCaracters;
+        }
+        packages.add(maxCaractersList);
+
+        index = 0; // Reiniciar el índice para la nueva variable
+        List<String> newMaxCaractersList = new ArrayList<>();
+        logger.info("Generando listado de paquetes con newMaxCaracters ...");
+        while (index < sBase64.length()) {
+            newMaxCaractersList.add(sBase64.substring(index, Math.min(index + newMaxCaracters, sBase64.length())));
+            index += newMaxCaracters;
+        }
+        packages.add(newMaxCaractersList);
+
+    } catch (Exception e) {
+        logger.error("Error al separar por paquetes en service managePackageDownload");
+    }
+    return packages;
+}
+
+
+
+nopublic void generateFiles(Terminal entity, FilesVersions files) {
         try {
             logger.info("* Terminal: " + entity.getCodigoTerminal());
             logger.info("* Tipo de terminal : " + entity.getType() + " model: " + entity.getTerminalModel());
