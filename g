@@ -70,28 +70,7 @@ public void managerPackageFiles(DownloadFilesManageDTO filesManageDTO) {
 
 y tambien esta este
 
-
-private List<String> createPackagesDownload(String sBase64) {
-        List<String> strings = new ArrayList();
-
-        try {
-            logger.info("Generar paquetes de a " + this.maxcaracters + " por campo");
-            int maxCaracters = this.maxcaracters;
-            int index = 0;
-            logger.info("Generando listado de paquetes ...");
-
-            while(index < sBase64.length()) {
-                strings.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
-                index += maxCaracters;
-            }
-        } catch (Exception var5) {
-            logger.error("Error al separar por paquetes en service managePackageDownload");
-        }
-
-        return strings;
-    }
-
-y quiero  modificarlo algo asi peor no que se guarte maxcaracters y newmaxcaracters cada uno aparte para que al momendo de asignar los dos archivos y no se anigne con un tamaño y el otro con el otro
+y quiero  modificarlo algo asi pero que se guarde maxcaracters y newmaxcaracters cada uno aparte para que al momendo de asignar los dos archivos y no se anigne con un tamaño y el otro con el otro
 
  private List<String> createPackagesDownload(String sBase64) {
         List<String> strings = new ArrayList<>();
