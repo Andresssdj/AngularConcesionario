@@ -1,112 +1,37 @@
-private List<Download> registerInDownloadInits(List<String>[] stringArrays, long terminalID, int partsize, byte[] arrayBytes, boolean newTerminal) {
-    List<Download> downloads = new ArrayList<>();
+editame este tambien
 
-    try {
-        for (List<String> strings : stringArrays) {
-            Integer iddocumento = getIdDocumentDisponibleInit(terminalID);
-            logger.info("Registrando paquetes loading ... ");
-            int contador = 0;
-            Date date = new Date();
+public DownloadResponse manageDownloadParams(long terminalID, String params, int caso, int tipofile, String version, String description, boolean newTerminal) {
 
-            for (int i = 0; i < strings.size(); i++) {
-                String base64Part = strings.get(i);
-                Download download = new Download();
-                download.setBase64(base64Part);
-                download.setParts((i + 1) + "/" + strings.size());
-                download.setTerminal(terminalID);
-                download.setTYPE(BigDecimal.ZERO);
-                download.setStatus(newTerminal ? BigDecimal.ONE : BigDecimal.ZERO);
-                download.setPartSize("" + partsize);
-                download.setVersion("");
-                download.setDescription("");
-                download.setTotalSize(arrayBytes.length + "");
-                download.setDeflateCount(arrayBytes.length + "");
-                download.setIdDocumento(iddocumento);
-                download.setCreatedDate(date);
-                download = downloadRepository.save(download);
-                downloads.add(download);
-                contador++;
-            }
-            logger.info("Se registraron " + contador + " paquetes con paquete: " + iddocumento + " el " + new Date());
-        }
-    } catch (Exception e) {
-        logger.error("Error en registro de paquetes para inicialización");
-    }
-
-    return downloads;
-}
-
-
-tengo este codigo de java
-
- private List<String>[] createPackagesDownload(String sBase64) {
-        List<String> array1= new ArrayList<>();
-        List<String> array2= new ArrayList<>();
-        try {
-
-            logger.info("Generar paquetes de a " + maxcaracters + " por campo");
-            logger.info("Generar paquetes de " + newmaxcaracters + " por campo");
-
-            int maxCaracters = maxcaracters;
-            int newMaxCaracters = newmaxcaracters;
-            int index = 0;
-            logger.info("Generando listado de paquetes ...");
-            while (index < sBase64.length()) {
-                array1.add(sBase64.substring(index, Math.min(index + maxCaracters, sBase64.length())));
-                index += maxCaracters;
-            }
-            index = 0; // Reiniciar el índice para la nueva variable
-            logger.info("Generando listado de paquetes con newMaxCaracters ...");
-            while (index < sBase64.length()) {
-                array2.add(sBase64.substring(index, Math.min(index + newMaxCaracters, sBase64.length())));
-                index += newMaxCaracters;
-            }
-
-        } catch (Exception e) {
-            logger.error("Error al separar por paquetes en service managePackageDownload");
-        }
-
-        List<String>[] strings = new List[2];
-        strings[0]= array1;
-        strings[1]= array2;
-       return strings;
-    }
-
-
-y quiero que me haga esto para los dos arreglos de strings 
-
-private Download registerInDownloadInits(List<String> strings, long terminalID, int partsize, byte[] arrayBytes, boolean newTerminal) {
         Download download = null;
         try {
-            // Inicializaciones manejar en numeros par
-            Integer iddocumento = getIdDocumentDisponibleInit(terminalID);
+            logger.info("Manejando descargas ... ");
+            int cantBytes = 0;
+            int partsize = 0;
+            byte[] arrayBytes;
+            List<String>[] strings;
 
-            logger.info("Registrando paquetes loading ... ");
-            int contador = 0;
-            Date date = new Date();
-            for (int i = 0; i < strings.size(); i++) {
-                String base64Part = strings.get(i);
-                download = new Download();
-                download.setBase64(base64Part);
-                download.setParts((i + 1) + "/" + strings.size());
-                download.setTerminal(terminalID);
-                download.setTYPE(BigDecimal.ZERO);
-                download.setStatus(newTerminal ? BigDecimal.ONE : BigDecimal.ZERO);
-                download.setPartSize("" + partsize);
-                download.setVersion("");
-                download.setDescription("");
-                download.setTotalSize(arrayBytes.length + "");
-                download.setDeflateCount(arrayBytes.length + "");
-                download.setIdDocumento(iddocumento);
-                download.setCreatedDate(date);
-                download = downloadRepository.save(download);
-                contador++;
+            if (caso == 1) {
+                logger.info("Obteniendo bytes del init, add en descargas de init");
+                arrayBytes = UtilManageFilesZip.comprimirFile(params.getBytes(StandardCharsets.UTF_8), "InitData.json");
+                String sBase64 = Base64.getEncoder().encodeToString(arrayBytes);
+                sBase64 = sBase64.replace("=", "");
+                strings = createPackagesDownload(sBase64);
+                partsize = arrayBytes.length / strings.size();
 
+                download = registerInDownloadInits(strings, terminalID, partsize, arrayBytes, newTerminal);
+            } else {
+                params = params.replace("=", "");
+                logger.info("Obteniendo bytes de file, add en descargas de files");
+                tipofile = caso == 00 ? 0 : tipofile;
+                arrayBytes = params.getBytes(StandardCharsets.UTF_8);
+                cantBytes = (arrayBytes.length * 6) / 8;
+                strings = createPackagesDownload(params);
+                partsize = cantBytes / strings.size();
+                download = registerInDownloadFiles(strings, terminalID, partsize, cantBytes, version, description, tipofile, 0);
             }
-            logger.info("Se registraron " + contador + " paquetes con paquete: " + iddocumento + " el " + new Date());
-        } catch (Exception e) {
-            logger.error("Error en registro de paquetes para inicialización");
-        }
-        return download;
-    }
 
+        } catch (Exception e) {
+            logger.error("Error en el service manageDownload ", e);
+        }
+        return download != null ? mapperToResponse(download) : null;
+    }
