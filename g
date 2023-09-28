@@ -1,57 +1,35 @@
-como hago para que me quede en dos strings[0] strings[1] y no me los junte
+public DownloadResponse manageDownloadParams(long terminalID, String params, int caso, int tipofile, String version, String description, boolean newTerminal) {
 
-
-private Download registerInDownloadFiles(List<String>[] strings, long terminalID, int partsize, int cantBytes, String version, String description, int tipofile, int terminalModel) {
-        DownloadFiles download = null;
+        Download download = null;
         try {
-            // Archicos manejar en numeros impar
-            Integer iddocumento = getIdDocumentDisponibleFiles(terminalID);
+            logger.info("Manejando descargas ... ");
+            int cantBytes = 0;
+            int partsize = 0;
+            byte[] arrayBytes;
+            List<String>[] strings;
 
-            logger.info("Registrando paquetes loading ... ");
-            int contador = 0;
-            Date date = new Date();
-            for (int i = 0; i < strings[1].size(); i++) {
-                String base64Part = strings[1].get(i);
-                download = new DownloadFiles();
-                download.setBase64(base64Part);
-                download.setParts((i + 1) + "/" + strings[1].size());
-                download.setTerminal(terminalID);
-                download.setTYPE(new BigDecimal(tipofile));
-                download.setStatus(BigDecimal.ZERO);
-                download.setPartSize("" + partsize);
-                download.setVersion(version);
-                download.setDescription(description);
-                download.setTotalSize(Integer.toString(cantBytes));
-                download.setDeflateCount(Integer.toString(cantBytes));
-                download.setIdDocumento(iddocumento);
-                download.setCreatedDate(date);
-                download.setModelTerminal((long) terminalModel);
-                download = downloadFilesRepository.save(download);
-                contador++;
+            if (caso == 1) {
+                logger.info("Obteniendo bytes del init, add en descargas de init");
+                arrayBytes = UtilManageFilesZip.comprimirFile(params.getBytes(StandardCharsets.UTF_8), "InitData.json");
+                String sBase64 = Base64.getEncoder().encodeToString(arrayBytes);
+                sBase64 = sBase64.replace("=", "");
+                strings = createPackagesDownload(sBase64);
+                partsize = arrayBytes.length / strings.size();
+
+                download = registerInDownloadInits(strings, terminalID, partsize, arrayBytes, newTerminal);
+            } else {
+                params = params.replace("=", "");
+                logger.info("Obteniendo bytes de file, add en descargas de files");
+                tipofile = caso == 00 ? 0 : tipofile;
+                arrayBytes = params.getBytes(StandardCharsets.UTF_8);
+                cantBytes = (arrayBytes.length * 6) / 8;
+                strings = createPackagesDownload(params);
+                partsize = cantBytes / strings.size();
+                download = registerInDownloadFiles(strings, terminalID, partsize, cantBytes, version, description, tipofile, 0);
             }
 
-            for (int i = 0; i < strings[0].size(); i++) {
-                String base64Part = strings[0].get(i);
-                download = new DownloadFiles();
-                download.setBase64(base64Part);
-                download.setParts((i + 1) + "/" + strings[0].size());
-                download.setTerminal(terminalID);
-                download.setTYPE(new BigDecimal(tipofile));
-                download.setStatus(BigDecimal.ZERO);
-                download.setPartSize("" + partsize);
-                download.setVersion(version);
-                download.setDescription(description);
-                download.setTotalSize(Integer.toString(cantBytes));
-                download.setDeflateCount(Integer.toString(cantBytes));
-                download.setIdDocumento(iddocumento);
-                download.setCreatedDate(date);
-                download.setModelTerminal((long) terminalModel);
-                download = downloadFilesRepository.save(download);
-                contador++;
-            }
-            logger.info("Se registraron " + contador + " paquetes con paquete: " + iddocumento + " el " + new Date());
         } catch (Exception e) {
-            logger.error("Error en registro de paquetes para inicialización");
+            logger.error("Error en el service manageDownload ", e);
         }
-        return download != null ? mapperToDownloadFilesToDownload(download) : null;
+        return download != null ? mapperToResponse(download) : null;
     }
