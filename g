@@ -1,3 +1,44 @@
+private List<Download> registerInDownloadInits(List<String>[] stringArrays, long terminalID, int partsize, byte[] arrayBytes, boolean newTerminal) {
+    List<Download> downloads = new ArrayList<>();
+
+    try {
+        for (List<String> strings : stringArrays) {
+            Integer iddocumento = getIdDocumentDisponibleInit(terminalID);
+            logger.info("Registrando paquetes loading ... ");
+            int contador = 0;
+            Date date = new Date();
+
+            for (int i = 0; i < strings.size(); i++) {
+                String base64Part = strings.get(i);
+                Download download = new Download();
+                download.setBase64(base64Part);
+                download.setParts((i + 1) + "/" + strings.size());
+                download.setTerminal(terminalID);
+                download.setTYPE(BigDecimal.ZERO);
+                download.setStatus(newTerminal ? BigDecimal.ONE : BigDecimal.ZERO);
+                download.setPartSize("" + partsize);
+                download.setVersion("");
+                download.setDescription("");
+                download.setTotalSize(arrayBytes.length + "");
+                download.setDeflateCount(arrayBytes.length + "");
+                download.setIdDocumento(iddocumento);
+                download.setCreatedDate(date);
+                download = downloadRepository.save(download);
+                downloads.add(download);
+                contador++;
+            }
+            logger.info("Se registraron " + contador + " paquetes con paquete: " + iddocumento + " el " + new Date());
+        }
+    } catch (Exception e) {
+        logger.error("Error en registro de paquetes para inicialización");
+    }
+
+    return downloads;
+}
+
+
+
+
 ahora corrige este para que se haga con los dos 
 
 public DownloadResponse manageDownloadParams(long terminalID, String params, int caso, int tipofile, String version, String description, boolean newTerminal) {
