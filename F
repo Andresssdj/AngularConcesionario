@@ -1,121 +1,115 @@
-org.springframework.dao.InvalidDataAccessApiUsageException: org.hibernate.QueryException: Unmatched braces for alias path [UPDATE BIN_STAGES bs SET bs.BINES = (SELECT REPLACE('[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ',') WITHIN GROUP (ORDER BY e.INDICE) || ']', '}, {"', '},{"') FROM BIN_EMISOR e WHERE e.INDICE IN (SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL)) WHERE bs.ID_ESCENARIO = :ID_ESCENARIO]; nested exception is java.lang.IllegalArgumentException: org.hibernate.QueryException: Unmatched braces for alias path [UPDATE BIN_STAGES bs SET bs.BINES = (SELECT REPLACE('[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ',') WITHIN GROUP (ORDER BY e.INDICE) || ']', '}, {"', '},{"') FROM BIN_EMISOR e WHERE e.INDICE IN (SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL)) WHERE bs.ID_ESCENARIO = :ID_ESCENARIO]
-	at org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:374) ~[spring-orm-5.3.9.jar:5.3.9]
-	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:235) ~[spring-orm-5.3.9.jar:5.3.9]
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:551) ~[spring-orm-5.3.9.jar:5.3.9]
-	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:152) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:145) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215) ~[spring-aop-5.3.9.jar:5.3.9]
-	at com.sun.proxy.$Proxy121.updateBines(Unknown Source) ~[na:na]
-	at com.credibanco.services.BinStagesService.updateBiness(BinStagesService.java:47) ~[classes/:na]
-	at com.credibanco.controller.BinStagesController.updateBinesForEscenario(BinStagesController.java:63) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197) ~[spring-web-5.3.9.jar:5.3.9]
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141) ~[spring-web-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1064) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:920) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:520) ~[jakarta.servlet-api-4.0.4.jar:4.0.4]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.9.jar:5.3.9]
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:584) ~[jakarta.servlet-api-4.0.4.jar:4.0.4]
-	at io.undertow.servlet.handlers.ServletHandler.handleRequest(ServletHandler.java:74) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:129) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.9.jar:5.3.9]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.9.jar:5.3.9]
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.9.jar:5.3.9]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.9.jar:5.3.9]
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.9.jar:5.3.9]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.9.jar:5.3.9]
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at org.keycloak.adapters.undertow.UndertowAuthenticatedActionsHandler.handleRequest(UndertowAuthenticatedActionsHandler.java:66) ~[spring-boot-container-bundle-11.0.2.jar:11.0.2]
-	at org.keycloak.adapters.undertow.UndertowAuthenticatedActionsHandler.handleRequest(UndertowAuthenticatedActionsHandler.java:66) ~[spring-boot-container-bundle-11.0.2.jar:11.0.2]
-	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:117) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.server.handlers.DisableCacheHandler.handleRequest(DisableCacheHandler.java:33) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.security.handlers.AuthenticationConstraintHandler.handleRequest(AuthenticationConstraintHandler.java:53) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.security.ServletSecurityConstraintHandler.handleRequest(ServletSecurityConstraintHandler.java:59) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at org.keycloak.adapters.undertow.ServletPreAuthActionsHandler.handleRequest(ServletPreAuthActionsHandler.java:69) ~[spring-boot-container-bundle-11.0.2.jar:11.0.2]
-	at org.keycloak.adapters.undertow.ServletPreAuthActionsHandler.handleRequest(ServletPreAuthActionsHandler.java:69) ~[spring-boot-container-bundle-11.0.2.jar:11.0.2]
-	at io.undertow.servlet.handlers.SendErrorPageHandler.handleRequest(SendErrorPageHandler.java:52) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:280) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:79) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:134) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:131) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:260) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:79) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:100) ~[undertow-servlet-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:387) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:852) ~[undertow-core-2.2.10.Final.jar:2.2.10.Final]
-	at org.jboss.threads.ContextClassLoaderSavingRunnable.run(ContextClassLoaderSavingRunnable.java:35) ~[jboss-threads-3.1.0.Final.jar:3.1.0.Final]
-	at org.jboss.threads.EnhancedQueueExecutor.safeRun(EnhancedQueueExecutor.java:2019) ~[jboss-threads-3.1.0.Final.jar:3.1.0.Final]
-	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.doRunTask(EnhancedQueueExecutor.java:1558) ~[jboss-threads-3.1.0.Final.jar:3.1.0.Final]
-	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1449) ~[jboss-threads-3.1.0.Final.jar:3.1.0.Final]
-	at org.xnio.XnioWorker$WorkerThreadFactory$1$1.run(XnioWorker.java:1280) ~[xnio-api-3.8.4.Final.jar:3.8.4.Final]
-	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
-Caused by: java.lang.IllegalArgumentException: org.hibernate.QueryException: Unmatched braces for alias path [UPDATE BIN_STAGES bs SET bs.BINES = (SELECT REPLACE('[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ',') WITHIN GROUP (ORDER BY e.INDICE) || ']', '}, {"', '},{"') FROM BIN_EMISOR e WHERE e.INDICE IN (SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL)) WHERE bs.ID_ESCENARIO = :ID_ESCENARIO]
-	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:138) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:181) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.query.internal.AbstractProducedQuery.executeUpdate(AbstractProducedQuery.java:1692) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.springframework.data.jpa.repository.query.JpaQueryExecution$ModifyingExecution.doExecute(JpaQueryExecution.java:239) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.data.jpa.repository.query.JpaQueryExecution.execute(JpaQueryExecution.java:88) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.doExecute(AbstractJpaQuery.java:155) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:143) ~[spring-data-jpa-2.5.4.jar:2.5.4]
-	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:137) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:121) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:159) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:138) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:80) ~[spring-data-commons-2.5.4.jar:2.5.4]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119) ~[spring-tx-5.3.9.jar:5.3.9]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.9.jar:5.3.9]
-	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137) ~[spring-tx-5.3.9.jar:5.3.9]
-	... 80 common frames omitted
-Caused by: org.hibernate.QueryException: Unmatched braces for alias path [UPDATE BIN_STAGES bs SET bs.BINES = (SELECT REPLACE('[' || LISTAGG('{"rf":"' || e.RANGO_FINAL || '","ri":"' || e.RANGO_INICIAL || '","id":"' || e.INDICE || '"}', ',') WITHIN GROUP (ORDER BY e.INDICE) || ']', '}, {"', '},{"') FROM BIN_EMISOR e WHERE e.INDICE IN (SELECT TO_NUMBER(REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY REGEXP_SUBSTR(:INDICES, '[^,]+', 1, LEVEL) IS NOT NULL)) WHERE bs.ID_ESCENARIO = :ID_ESCENARIO]
-	at org.hibernate.loader.custom.sql.SQLQueryParser.substituteBrackets(SQLQueryParser.java:101) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.loader.custom.sql.SQLQueryParser.process(SQLQueryParser.java:72) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.loader.custom.sql.SQLCustomQuery.<init>(SQLCustomQuery.java:120) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.engine.query.internal.NativeQueryInterpreterStandardImpl.createQueryPlan(NativeQueryInterpreterStandardImpl.java:44) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.engine.query.spi.QueryPlanCache.getNativeSQLQueryPlan(QueryPlanCache.java:233) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.internal.AbstractSharedSessionContract.getNativeQueryPlan(AbstractSharedSessionContract.java:617) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.internal.SessionImpl.executeNativeUpdate(SessionImpl.java:1501) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.query.internal.NativeQueryImpl.doExecuteUpdate(NativeQueryImpl.java:298) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	at org.hibernate.query.internal.AbstractProducedQuery.executeUpdate(AbstractProducedQuery.java:1683) ~[hibernate-core-5.4.32.Final.jar:5.4.32.Final]
-	... 96 common frames omitted
+ <div class="col-lg-12">
+                                    <section class="example-section">
+                                        <span class="example-list-section">
+                                            <ul>
+                                                <li *ngFor="let boxBD of listBoxBD">
+                                                    <button class="btn size-20" (click)="toggleVisibilityWithButton(boxBD)" matTooltip="Ver bolsillos">
+                                                        <mat-icon class="size-13 text-dark" role="group">arrow_forward_ios</mat-icon>
+                                                      </button>
+                                                    <mat-checkbox color="primary"
+                                                        (change)="setPocket(boxBD,$event.checked)"
+                                                        [(ngModel)]="boxBD.checked">
+                                                        {{boxBD.box}}
+                                                    </mat-checkbox>
+                                                    <div *ngIf="boxBD.showItems">
+                                                       <ul class="list-unstyled d-flex flex-wrap">
+                                                        <li *ngFor="let pocket of boxBD.poBxs" class="form-group col-lg-4">
+                                                            <mat-checkbox color="primary" class="col-12"
+                                                             [(ngModel)]="pocket.checked">
+                                                                {{pocket.name}}
+                                                            </mat-checkbox>
+                                                        </li>
+                                                       </ul> 
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </span>
+                                    </section>
 
-2023-09-06 12:00:51.432  INFO 21548 --- [  XNIO-1 task-1] c.c.controller.BinStagesController       : ----- fin http -----
+                                </div>
+								
+								
+								
+								
+								
+								
+								
+								
+y esto 
+
+ setPocket(box: BoxBinPocket, completed: boolean){
+    if (completed) {
+      box.poBxs.forEach((item) => {
+        item.checked = true;
+      });
+    }else{
+      box.poBxs.forEach((item) => {
+        item.checked = false;
+      });
+    }
+  }
+
+  setCajComp(){
+    this.listBoxBD.forEach(box => {
+      if(box.checked){
+        box.poBxs.forEach(poBx =>{
+          if (poBx.checked) {
+            this.pocketBox.poBx = poBx.name;
+            this.pocketBox.cdeP = poBx.code;
+            this.pocketBox.pTy = poBx.pocketType;
+            this.pocketBox.acy = poBx.acronym;
+            this.pocketSelect.push(this.pocketBox);
+            this.pocketBox = new PocketBD();
+          }
+        });
+      }
+      if (this.pocketSelect.length > 0) {
+        this.cajCompActual.box = box.box;
+        this.cajCompActual.bix = box.bix;
+        this.cajCompActual.poBxs = this.pocketSelect;
+        this.cajComp.push(this.cajCompActual);
+        this.pocketSelect = [];
+        this.cajCompActual = new BoxBinPocketBD();
+      }
+    });
+  }
+
+  
+  toggleVisibilityWithButton(boxBD: any): void {
+    console.log("boxBD",boxBD);
+    boxBD.showItems = !boxBD.showItems;
+  }
+  getListPockets(){    
+    this.boxBinPocketService.requestGetBox().subscribe({
+      next: (response: any) => {
+        console.log('Response box list OK ');
+        this.listBoxBD = response;
+      }, error(response: any) {
+        console.log('Error al obtener listado de cajas de compensacion:', response)
+      }
+    });
+    
+  }
+
+  tabChangedParams = (tabChangeEvent: MatTabChangeEvent): void => {
+    if(tabChangeEvent.index == 3){
+      console.log("Recorriendo bolsillos");
+      this.listBoxBD.forEach(box => {
+        box.poBxs.forEach(poBx =>{
+          this.dtoTerminal.variables.caj_comp.forEach(boxTerminal => {
+            boxTerminal.poBxs.forEach(poBxTerminal =>{
+              if(box.box == boxTerminal.box && box.bix == boxTerminal.bix){
+                if (poBx.name == poBxTerminal.poBx) {
+                  poBx.checked = true;
+                  box.checked = true;
+                  console.log("Bolsillo: " + poBx.name + " caja: " + box.box);
+                }
+              }
+            });
+          })
+        });
+      });
+    }
+	
+	
+	tengo un error al mostrar los checkbox se llenan mal
