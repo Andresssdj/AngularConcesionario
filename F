@@ -1,115 +1,40 @@
- <div class="col-lg-12">
-                                    <section class="example-section">
-                                        <span class="example-list-section">
-                                            <ul>
-                                                <li *ngFor="let boxBD of listBoxBD">
-                                                    <button class="btn size-20" (click)="toggleVisibilityWithButton(boxBD)" matTooltip="Ver bolsillos">
-                                                        <mat-icon class="size-13 text-dark" role="group">arrow_forward_ios</mat-icon>
-                                                      </button>
-                                                    <mat-checkbox color="primary"
-                                                        (change)="setPocket(boxBD,$event.checked)"
-                                                        [(ngModel)]="boxBD.checked">
-                                                        {{boxBD.box}}
-                                                    </mat-checkbox>
-                                                    <div *ngIf="boxBD.showItems">
-                                                       <ul class="list-unstyled d-flex flex-wrap">
-                                                        <li *ngFor="let pocket of boxBD.poBxs" class="form-group col-lg-4">
-                                                            <mat-checkbox color="primary" class="col-12"
-                                                             [(ngModel)]="pocket.checked">
-                                                                {{pocket.name}}
-                                                            </mat-checkbox>
-                                                        </li>
-                                                       </ul> 
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </span>
-                                    </section>
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
-                                </div>
-								
-								
-								
-								
-								
-								
-								
-								
-y esto 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
- setPocket(box: BoxBinPocket, completed: boolean){
-    if (completed) {
-      box.poBxs.forEach((item) => {
-        item.checked = true;
-      });
-    }else{
-      box.poBxs.forEach((item) => {
-        item.checked = false;
-      });
-    }
-  }
+public class GoAnywhereDownloader {
+    public static void main(String[] args) {
+        String url = "https://tuservidor.com/goanywhere/archivo.zip"; // Reemplaza con la URL del archivo que deseas descargar
+        String username = "tuUsuario"; // Reemplaza con tu nombre de usuario de GoAnywhere
+        String password = "tuContraseña"; // Reemplaza con tu contraseña de GoAnywhere
+        String filePath = "archivo.zip"; // Ruta donde se guardará el archivo descargado
 
-  setCajComp(){
-    this.listBoxBD.forEach(box => {
-      if(box.checked){
-        box.poBxs.forEach(poBx =>{
-          if (poBx.checked) {
-            this.pocketBox.poBx = poBx.name;
-            this.pocketBox.cdeP = poBx.code;
-            this.pocketBox.pTy = poBx.pocketType;
-            this.pocketBox.acy = poBx.acronym;
-            this.pocketSelect.push(this.pocketBox);
-            this.pocketBox = new PocketBD();
-          }
-        });
-      }
-      if (this.pocketSelect.length > 0) {
-        this.cajCompActual.box = box.box;
-        this.cajCompActual.bix = box.bix;
-        this.cajCompActual.poBxs = this.pocketSelect;
-        this.cajComp.push(this.cajCompActual);
-        this.pocketSelect = [];
-        this.cajCompActual = new BoxBinPocketBD();
-      }
-    });
-  }
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes()));
 
-  
-  toggleVisibilityWithButton(boxBD: any): void {
-    console.log("boxBD",boxBD);
-    boxBD.showItems = !boxBD.showItems;
-  }
-  getListPockets(){    
-    this.boxBinPocketService.requestGetBox().subscribe({
-      next: (response: any) => {
-        console.log('Response box list OK ');
-        this.listBoxBD = response;
-      }, error(response: any) {
-        console.log('Error al obtener listado de cajas de compensacion:', response)
-      }
-    });
-    
-  }
-
-  tabChangedParams = (tabChangeEvent: MatTabChangeEvent): void => {
-    if(tabChangeEvent.index == 3){
-      console.log("Recorriendo bolsillos");
-      this.listBoxBD.forEach(box => {
-        box.poBxs.forEach(poBx =>{
-          this.dtoTerminal.variables.caj_comp.forEach(boxTerminal => {
-            boxTerminal.poBxs.forEach(poBxTerminal =>{
-              if(box.box == boxTerminal.box && box.bix == boxTerminal.bix){
-                if (poBx.name == poBxTerminal.poBx) {
-                  poBx.checked = true;
-                  box.checked = true;
-                  console.log("Bolsillo: " + poBx.name + " caja: " + box.box);
+            try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    try (InputStream inputStream = response.getEntity().getContent();
+                         FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        System.out.println("Archivo descargado correctamente");
+                    }
+                } else {
+                    System.out.println("Error al descargar el archivo: " + response.getStatusLine().getReasonPhrase());
                 }
-              }
-            });
-          })
-        });
-      });
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-	
-	
-	tengo un error al mostrar los checkbox se llenan mal
+}
